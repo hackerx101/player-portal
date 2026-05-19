@@ -1,1031 +1,309 @@
- ```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NFSMEC - Middle Elite Combine Sports Portal</title>
+  <title>NFSMEC - Middle Elite Combine Portal</title>
   
-  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Font Awesome for Sporty & Modern Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght=300;400;600;700;800&family=Space+Grotesk:wght=500;700&display=swap" rel="stylesheet">
 
   <style>
-    body {
-      font-family: 'Outfit', sans-serif;
-      background-color: #0b0c10;
-      color: #f5f5f7;
-    }
-    .font-display {
-      font-family: 'Space Grotesk', sans-serif;
-    }
-    /* Smooth Transitions */
-    .fade-in {
-      animation: fadeIn 0.3s ease-in-out forwards;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    /* Premium Design System */
-    .bg-combine-gold {
-      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-    }
-    .text-combine-gold {
-      color: #f59e0b;
-    }
-    .border-combine-gold {
-      border-color: #f59e0b;
-    }
-    .glass-card {
-      background: rgba(22, 22, 26, 0.8);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-    /* Hide scrollbars elegantly */
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: rgba(0,0,0,0.15);
-    }
-    ::-webkit-scrollbar-thumb {
-      background: rgba(245, 158, 11, 0.25);
-      border-radius: 999px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: rgba(245, 158, 11, 0.6);
-    }
+    body { font-family: 'Outfit', sans-serif; background-color: #0b0c10; color: #f5f5f7; }
+    .font-display { font-family: 'Space Grotesk', sans-serif; }
+    .fade-in { animation: fadeIn 0.3s ease-in-out forwards; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .bg-combine-gold { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
+    .text-combine-gold { color: #f59e0b; }
+    .border-combine-gold { border-color: #f59e0b; }
+    .glass-card { background: rgba(30, 30, 35, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
+    ::-webkit-scrollbar-thumb { background: rgba(245, 158, 11, 0.3); border-radius: 999px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(245, 158, 11, 0.6); }
   </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between overflow-x-hidden">
 
-  <!-- Notification Toast Container -->
   <div id="notification-container" class="fixed top-4 right-4 z-50 flex flex-col gap-2 max-w-sm w-full"></div>
 
-  <!-- Loading Screen Overlay -->
-  <div id="global-loader" class="fixed inset-0 bg-[#07080c] z-50 flex flex-col items-center justify-center transition-opacity duration-300">
+  <div id="global-loader" class="fixed inset-0 bg-black/90 z-50 flex flex-col items-center justify-center transition-opacity duration-300">
     <div class="relative w-20 h-20">
-      <div class="absolute inset-0 rounded-full border-4 border-amber-500/10"></div>
+      <div class="absolute inset-0 rounded-full border-4 border-amber-500/20"></div>
       <div class="absolute inset-0 rounded-full border-4 border-t-amber-500 animate-spin"></div>
     </div>
-    <p class="mt-4 text-amber-500 font-display font-bold tracking-widest text-sm uppercase">Synchronizing Athlete Nodes...</p>
+    <p class="mt-4 text-amber-500 font-display font-bold tracking-widest text-sm uppercase">NFSMEC Core Syncing...</p>
   </div>
 
-  <!-- Banned/Suspended Overlay Screen (Stuck screen if set_temp_ban or is_suspended is true) -->
-  <div id="view-suspended" class="fixed inset-0 bg-[#0d0202] z-40 flex flex-col justify-between hidden p-6 overflow-y-auto">
-    <!-- Header with Logout option -->
-    <div class="flex justify-between items-center border-b border-rose-500/10 pb-4">
-      <div class="flex items-center gap-2">
-        <i class="fa-solid fa-triangle-exclamation text-rose-500 text-xl animate-pulse"></i>
-        <h1 class="text-white font-display font-bold uppercase tracking-wider text-sm">Account Suspended</h1>
-      </div>
-      <!-- Hamburger Option Menu inside suspended screen to let them logout safely -->
-      <div class="relative">
-        <button onclick="toggleSuspendedMenu()" class="text-gray-400 hover:text-white bg-white/5 px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-2">
-          <span>Options</span>
-          <i class="fa-solid fa-bars"></i>
-        </button>
-        <div id="suspended-dropdown" class="absolute right-0 mt-2 w-48 bg-zinc-950 border border-rose-500/20 rounded-xl shadow-2xl hidden py-1">
-          <button onclick="triggerSuspendedLogout()" class="w-full text-left px-4 py-2 text-xs text-rose-400 hover:bg-rose-500/10 font-bold flex items-center gap-2">
-            <i class="fa-solid fa-sign-out-alt"></i> Sign Out from Locker
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Suspension Content & AI Appeal -->
-    <div class="max-w-md mx-auto my-auto w-full space-y-6 py-8">
-      <div class="text-center">
-        <div class="w-16 h-16 bg-rose-500/10 border border-rose-500/30 text-rose-500 rounded-full flex items-center justify-center mx-auto mb-4">
-          <i class="fa-solid fa-ban text-2xl"></i>
-        </div>
-        <h2 class="text-2xl font-display font-extrabold text-white">Combine Status: Suspended</h2>
-        <p class="text-rose-400 text-xs mt-1 font-mono uppercase tracking-wider" id="suspension-status-label">TEMP_BAN ACTIVE</p>
-      </div>
-
-      <div class="bg-rose-950/20 border border-rose-500/20 rounded-2xl p-5 space-y-3">
-        <h3 class="text-xs font-bold text-white uppercase tracking-wider border-b border-rose-500/10 pb-2">Violation File Details</h3>
-        <div>
-          <span class="text-[9px] uppercase text-gray-500 block">Restricted Athlete Username</span>
-          <input type="text" id="suspended-username" readonly class="w-full bg-black/40 border border-white/5 rounded-lg py-1.5 px-3 text-gray-400 text-xs font-mono focus:outline-none" value="@username">
-        </div>
-        <div>
-          <span class="text-[9px] uppercase text-gray-500 block">Ban Duration Remaining</span>
-          <p class="text-xs text-white font-bold" id="ban-time-remaining">Pending system refresh...</p>
-        </div>
-        <div>
-          <span class="text-[9px] uppercase text-gray-500 block">Primary Reason / AI Assessment</span>
-          <p id="suspension-reason" class="text-xs text-rose-300 font-semibold bg-rose-950/40 p-2.5 rounded-lg border border-rose-500/10 mt-1">
-            Violent Threat / Threat of physical harm reported and confirmed by automated filters.
-          </p>
-        </div>
-      </div>
-
-      <!-- Appeal Form -->
-      <form id="appeal-form" class="bg-zinc-900 border border-white/5 rounded-2xl p-5 space-y-3">
-        <h3 class="text-xs font-bold text-white uppercase tracking-wider">Submit Appeal to AI Arbiter</h3>
-        <p class="text-[10px] text-gray-400">Our automated combine supervisor processes appeals instantly based on remorse, threat seriousness, and previous history.</p>
-        <div>
-          <label class="block text-[9px] uppercase text-gray-400 mb-1">Explain your side of the situation:</label>
-          <textarea id="appeal-text" required rows="3" placeholder="Please clarify why your account should be restored..." 
-            class="w-full bg-black border border-white/10 rounded-xl p-3 text-white text-xs focus:outline-none focus:border-rose-500 transition-all resize-none"></textarea>
-        </div>
-        <button type="submit" class="w-full bg-rose-500 hover:bg-rose-600 text-white font-display font-bold py-2.5 rounded-xl text-xs transition-all flex items-center justify-center gap-2">
-          <span>Transmit Appeal</span>
-          <i class="fa-solid fa-paper-plane"></i>
-        </button>
-      </form>
-    </div>
-
-    <div class="text-center py-4 border-t border-rose-500/10">
-      <p class="text-[10px] text-gray-500">NFSMEC Elite Committee Automated Safety Protocols • Ver 4.0</p>
-    </div>
-  </div>
-
-  <!-- Header Section -->
-  <header class="w-full bg-black/85 border-b border-white/5 py-4 px-6 flex items-center justify-between sticky top-0 z-30 backdrop-blur-md">
+  <header class="w-full bg-black/80 border-b border-white/5 py-4 px-6 flex items-center justify-between sticky top-0 z-40 backdrop-blur-md">
     <div class="flex items-center gap-3">
       <div class="w-10 h-10 bg-combine-gold rounded-xl flex items-center justify-center shadow-lg shadow-amber-500/20">
         <i class="fa-solid fa-trophy text-black text-xl"></i>
       </div>
       <div>
         <h1 class="font-display font-bold text-lg tracking-wider text-white uppercase leading-none">NFSMEC</h1>
-        <p class="text-[10px] text-amber-500 font-semibold tracking-widest uppercase mt-1">Combine Sports Portal</p>
+        <p class="text-[10px] text-amber-500 font-semibold tracking-widest uppercase mt-1">Middle Elite Combine</p>
       </div>
     </div>
     <div id="user-badge" class="hidden flex items-center gap-3 bg-white/5 py-1.5 px-3 rounded-full border border-white/10">
-      <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+      <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></div>
       <span id="badge-name" class="text-xs font-semibold text-gray-300">Athlete</span>
     </div>
   </header>
 
-  <!-- Main Container -->
   <main class="flex-grow flex flex-col w-full max-w-5xl mx-auto px-4 py-6 mb-24">
 
-    <!-- ============================================== -->
-    <!-- SIGNUP PAGE                                    -->
-    <!-- ============================================== -->
+    <!-- SIGNUP VIEW -->
     <div id="view-signup" class="view-panel w-full max-w-lg mx-auto glass-card rounded-2xl p-6 md:p-8 shadow-2xl fade-in hidden">
       <div class="text-center mb-6">
-        <span class="text-xs font-bold uppercase tracking-widest text-amber-500 bg-amber-500/10 px-3 py-1 rounded-full">Athlete Registration</span>
-        <h2 class="text-2xl font-display font-bold text-white mt-3">Join Combine Roster</h2>
-        <p class="text-gray-400 text-sm mt-1">Create your professional profile and receive an automated 10-digit ID.</p>
+        <span class="text-xs font-bold uppercase tracking-widest text-amber-500 bg-amber-500/10 px-3 py-1 rounded-full">New Athlete Enrollment</span>
+        <h2 class="text-2xl font-display font-bold text-white mt-3">Register For Combine</h2>
       </div>
-
       <form id="signup-form" class="space-y-4">
         <div>
           <label class="block text-xs font-semibold uppercase text-gray-400 mb-1">Full Player Name</label>
           <div class="relative">
             <i class="fa-solid fa-user absolute left-3 top-3.5 text-gray-500 text-sm"></i>
-            <input type="text" id="signup-fullname" required placeholder="e.g. Jaxson Miller" 
-              class="w-full bg-black/40 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-white text-sm focus:outline-none focus:border-amber-500 transition-all">
+            <input type="text" id="signup-fullname" required placeholder="e.g. Jaxson Miller" class="w-full bg-black/40 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-white text-sm focus:outline-none focus:border-amber-500">
           </div>
         </div>
-
         <div class="grid grid-cols-2 gap-4">
           <div>
             <label class="block text-xs font-semibold uppercase text-gray-400 mb-1">Username</label>
-            <div class="relative">
-              <i class="fa-solid fa-at absolute left-3 top-3.5 text-gray-500 text-sm"></i>
-              <input type="text" id="signup-username" required placeholder="jaxson7" 
-                class="w-full bg-black/40 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-white text-sm focus:outline-none focus:border-amber-500 transition-all">
-            </div>
+            <input type="text" id="signup-username" required placeholder="jaxson7" class="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white text-sm focus:outline-none focus:border-amber-500">
           </div>
           <div>
             <label class="block text-xs font-semibold uppercase text-gray-400 mb-1">Date of Birth</label>
-            <input type="date" id="signup-dob" required 
-              class="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white text-sm focus:outline-none focus:border-amber-500 transition-all">
+            <input type="date" id="signup-dob" required class="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white text-sm focus:outline-none focus:border-amber-500">
           </div>
         </div>
-
         <div>
-          <label class="block text-xs font-semibold uppercase text-gray-400 mb-1">Email Address</label>
-          <div class="relative">
-            <i class="fa-solid fa-envelope absolute left-3 top-3.5 text-gray-500 text-sm"></i>
-            <input type="email" id="signup-email" required placeholder="athlete@combine.com" 
-              class="w-full bg-black/40 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-white text-sm focus:outline-none focus:border-amber-500 transition-all">
-          </div>
+          <label class="block text-xs font-semibold uppercase text-gray-400 mb-1">Email</label>
+          <input type="email" id="signup-email" required placeholder="athlete@combine.com" class="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white text-sm focus:outline-none focus:border-amber-500">
         </div>
-
         <div>
-          <label class="block text-xs font-semibold uppercase text-gray-400 mb-1">Set Account Password</label>
-          <div class="relative">
-            <i class="fa-solid fa-lock absolute left-3 top-3.5 text-gray-500 text-sm"></i>
-            <input type="password" id="signup-password" required placeholder="••••••••" 
-              class="w-full bg-black/40 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-white text-sm focus:outline-none focus:border-amber-500 transition-all">
-          </div>
+          <label class="block text-xs font-semibold uppercase text-gray-400 mb-1">Password</label>
+          <input type="password" id="signup-password" required placeholder="••••••••" class="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white text-sm focus:outline-none focus:border-amber-500">
         </div>
-
         <div>
-          <label class="block text-xs font-semibold uppercase text-gray-400 mb-1">Player Bio / Key Stats</label>
-          <textarea id="signup-bio" rows="2" placeholder="Position, high school class, outstanding attributes..." 
-            class="w-full bg-black/40 border border-white/10 rounded-xl p-3 text-white text-sm focus:outline-none focus:border-amber-500 transition-all resize-none"></textarea>
+          <label class="block text-xs font-semibold uppercase text-gray-400 mb-1">Bio / Key Stats</label>
+          <textarea id="signup-bio" rows="2" placeholder="Position, attributes..." class="w-full bg-black/40 border border-white/10 rounded-xl p-3 text-white text-sm focus:outline-none focus:border-amber-500 resize-none"></textarea>
         </div>
-
-        <button type="submit" class="w-full bg-combine-gold text-black font-display font-bold py-3.5 rounded-xl hover:opacity-95 active:scale-[0.99] transition-all flex items-center justify-center gap-2">
-          <span>Create Profile & Generate ID</span>
-          <i class="fa-solid fa-arrow-right"></i>
+        <button type="submit" class="w-full bg-combine-gold text-black font-display font-bold py-3 rounded-xl flex items-center justify-center gap-2">
+          <span>Create Profile</span><i class="fa-solid fa-arrow-right"></i>
         </button>
       </form>
-
-      <div class="mt-6 text-center border-t border-white/5 pt-4">
-        <p class="text-sm text-gray-400">Already registered?</p>
-        <button onclick="switchView('view-login')" class="mt-1 text-sm text-amber-500 font-semibold hover:underline">
-          Access Portal with Registration ID <i class="fa-solid fa-angle-right text-xs"></i>
-        </button>
-      </div>
+      <div class="mt-4 text-center"><button onclick="switchView('view-login')" class="text-sm text-amber-500 hover:underline">Log In with Reg ID</button></div>
     </div>
 
-
-    <!-- ============================================== -->
-    <!-- LOGIN PAGE                                     -->
-    <!-- ============================================== -->
+    <!-- LOGIN VIEW -->
     <div id="view-login" class="view-panel w-full max-w-lg mx-auto glass-card rounded-2xl p-6 md:p-8 shadow-2xl fade-in hidden">
       <div class="text-center mb-6">
-        <span class="text-xs font-bold uppercase tracking-widest text-amber-500 bg-amber-500/10 px-3 py-1 rounded-full">Combine Locker Entry</span>
-        <h2 class="text-2xl font-display font-bold text-white mt-3">Athlete Credentials</h2>
-        <p class="text-gray-400 text-sm mt-1">Authenticate to access combine rankings, global chat, and profile editing.</p>
+        <h2 class="text-2xl font-display font-bold text-white">Athlete Log In</h2>
       </div>
-
       <form id="login-form" class="space-y-4">
         <div>
           <label class="block text-xs font-semibold uppercase text-gray-400 mb-1">10-Digit Registration Number</label>
-          <div class="relative">
-            <i class="fa-solid fa-id-card absolute left-3 top-3.5 text-gray-500 text-sm"></i>
-            <input type="text" id="login-reg-num" required placeholder="e.g. 1009-48293" 
-              class="w-full bg-black/40 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-white text-sm focus:outline-none focus:border-amber-500 transition-all">
-          </div>
+          <input type="text" id="login-reg-num" required placeholder="e.g. 1009-48293" class="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white text-sm focus:outline-none focus:border-amber-500">
         </div>
-
         <div>
           <label class="block text-xs font-semibold uppercase text-gray-400 mb-1">Date of Birth</label>
-          <input type="date" id="login-dob" required 
-            class="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white text-sm focus:outline-none focus:border-amber-500 transition-all">
+          <input type="date" id="login-dob" required class="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white text-sm focus:outline-none focus:border-amber-500">
         </div>
-
         <div>
-          <label class="block text-xs font-semibold uppercase text-gray-400 mb-1">Account Password</label>
-          <div class="relative">
-            <i class="fa-solid fa-lock absolute left-3 top-3.5 text-gray-500 text-sm"></i>
-            <input type="password" id="login-password" required placeholder="••••••••" 
-              class="w-full bg-black/40 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-white text-sm focus:outline-none focus:border-amber-500 transition-all">
-          </div>
+          <label class="block text-xs font-semibold uppercase text-gray-400 mb-1">Password</label>
+          <input type="password" id="login-password" required placeholder="••••••••" class="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 text-white text-sm focus:outline-none focus:border-amber-500">
         </div>
-
-        <button type="submit" class="w-full bg-combine-gold text-black font-display font-bold py-3.5 rounded-xl hover:opacity-95 active:scale-[0.99] transition-all flex items-center justify-center gap-2">
-          <span>Authorize Entry</span>
-          <i class="fa-solid fa-key"></i>
-        </button>
+        <button type="submit" class="w-full bg-combine-gold text-black font-display font-bold py-3 rounded-xl">Authorize Entry</button>
       </form>
-
-      <div class="mt-6 text-center border-t border-white/5 pt-4">
-        <p class="text-sm text-gray-400">First time participating at NFSMEC?</p>
-        <button onclick="switchView('view-signup')" class="mt-1 text-sm text-amber-500 font-semibold hover:underline">
-          Enroll Now & Generate Reg ID <i class="fa-solid fa-angle-right text-xs"></i>
-        </button>
-      </div>
+      <div class="mt-4 text-center"><button onclick="switchView('view-signup')" class="text-sm text-amber-500 hover:underline">Enroll Here</button></div>
     </div>
 
-
-    <!-- ============================================== -->
-    <!-- HOME DASHBOARD VIEW                            -->
-    <!-- ============================================== -->
+    <!-- HOME DASHBOARD VIEW -->
     <div id="view-home" class="view-panel w-full space-y-6 fade-in hidden">
-      <!-- Welcome Header & Recruiter Feedback Widget -->
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
-        <div class="md:col-span-7 glass-card rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between gap-4">
-          <div class="absolute -right-10 -bottom-10 opacity-5 pointer-events-none">
-            <i class="fa-solid fa-football text-[120px] text-amber-500"></i>
-          </div>
-          <div>
-            <div class="flex items-center gap-2 text-amber-500 font-bold uppercase tracking-widest text-[10px]">
-              <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
-              NFSMEC Middle Elite Arena
-            </div>
-            <h2 class="text-2xl font-display font-extrabold text-white mt-1">
-              Welcome, <span id="welcome-player-name" class="text-combine-gold">Athlete</span>!
-            </h2>
-            <p class="text-xs text-gray-400 mt-1">Your ID: <span id="welcome-player-id" class="font-mono text-white tracking-wider">Loading...</span></p>
-          </div>
-          <div class="flex items-center gap-2 self-start">
-            <div class="text-left">
-              <p class="text-[9px] text-gray-400 uppercase tracking-widest">Active Profile Sync</p>
-              <p class="text-xs font-semibold text-emerald-400">Live Connection Secured</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Recruiter Feedback Widget -->
-        <div class="md:col-span-5 glass-card rounded-2xl p-6 border-l-4 border-l-amber-500 flex flex-col justify-between">
-          <div>
-            <div class="flex justify-between items-center">
-              <h3 class="text-xs font-display font-bold text-amber-500 uppercase tracking-wider">Recruiter Feedback</h3>
-              <span class="text-[9px] uppercase font-mono bg-amber-500/15 text-amber-400 px-2 py-0.5 rounded">Scouting Report</span>
-            </div>
-            <!-- Live feedback content -->
-            <div id="recruiter-feedback-content" class="mt-3 text-xs text-gray-300 italic min-h-[50px] leading-relaxed">
-              "Loading certified talent evaluations..."
-            </div>
-          </div>
-          <p class="text-[9px] text-gray-500 mt-2 text-right uppercase tracking-widest">— Verified NFSMEC Recruiter Feed</p>
+      <div class="glass-card rounded-2xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-2xl md:text-3xl font-display font-extrabold text-white">Welcome, <span id="welcome-player-name" class="text-combine-gold">Athlete</span>!</h2>
+          <p class="text-xs text-gray-400 mt-1">Your ID: <span id="welcome-player-id" class="font-mono text-white">Loading...</span></p>
         </div>
       </div>
 
-      <!-- Main Layout: Grid -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        
-        <!-- Left Pane: Combine Players with filter & refresh options (Col-span 5) -->
-        <div class="lg:col-span-5 space-y-4">
-          <div class="glass-card rounded-2xl p-4 flex flex-col h-[560px]">
-            <div class="mb-4 space-y-3">
-              <div class="flex justify-between items-center">
-                <h3 class="text-sm font-display font-bold text-white uppercase tracking-wider">Combine Roster</h3>
-                
-                <!-- Filter Dropdown & Refresh tools -->
-                <div class="flex items-center gap-2">
-                  <select id="roster-limit-filter" class="bg-black/80 border border-white/10 rounded-lg text-[10px] text-amber-500 font-semibold px-2 py-1 focus:outline-none focus:border-amber-500">
-                    <option value="3">Show 3</option>
-                    <option value="5" selected>Show 5</option>
-                    <option value="10">Show 10</option>
-                    <option value="20">Show 20</option>
-                    <option value="50">Show 50</option>
-                    <option value="all">Show All</option>
-                  </select>
-                  <button id="btn-roster-refresh" onclick="triggerRosterRefresh()" class="w-7 h-7 bg-white/5 hover:bg-white/10 text-white rounded-lg flex items-center justify-center transition-all" title="Shuffle Athletes">
-                    <i class="fa-solid fa-arrows-rotate text-xs"></i>
-                  </button>
-                </div>
-              </div>
-
-              <!-- Search Bar -->
-              <div class="relative">
-                <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-gray-500 text-xs"></i>
-                <input type="text" id="player-search" placeholder="Search athletes, roles, or states..." 
-                  class="w-full bg-black/50 border border-white/10 rounded-xl py-2 pl-9 pr-4 text-white text-xs focus:outline-none focus:border-amber-500 transition-all">
-              </div>
-            </div>
-
-            <!-- Roster List -->
-            <div id="player-roster-list" class="flex-grow overflow-y-auto space-y-2 pr-1">
-              <!-- Dynamically Populated -->
-              <div class="flex items-center justify-center py-12 text-gray-500 text-xs">
-                <i class="fa-solid fa-spinner animate-spin mr-2"></i> Syncing Combine roster...
-              </div>
-            </div>
+        <div class="lg:col-span-5">
+          <div class="glass-card rounded-2xl p-4 flex flex-col h-[550px]">
+            <input type="text" id="player-search" placeholder="Search roster..." class="w-full bg-black/50 border border-white/10 rounded-xl py-2 px-4 text-white text-xs mb-3">
+            <div id="player-roster-list" class="flex-grow overflow-y-auto space-y-2"></div>
           </div>
         </div>
-
-        <!-- Right Pane: Live Telemetry Global Chat (Col-span 7) -->
-        <div class="lg:col-span-7 space-y-4">
-          <div class="glass-card rounded-2xl p-4 flex flex-col h-[560px]">
-            <!-- Chat Header & Control Switches -->
-            <div class="pb-3 border-b border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-              <div>
-                <h3 class="text-sm font-display font-bold text-white uppercase tracking-wider">Live Intel Feed</h3>
-                <p class="text-[10px] text-gray-400">Tap messages to delete, or report violations to AI Moderation</p>
-              </div>
-              <!-- Real-time Control Option -->
-              <div class="flex items-center gap-3">
-                <label class="flex items-center gap-2 cursor-pointer select-none">
-                  <div class="relative">
-                    <input type="checkbox" id="sync-messages-checkbox" checked class="sr-only peer">
-                    <div class="w-8 h-4 bg-gray-600 rounded-full peer peer-focus:ring-0 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-amber-500"></div>
-                  </div>
-                  <span class="text-[10px] font-semibold text-gray-300">Sync Live Feed</span>
-                </label>
-              </div>
+        <div class="lg:col-span-7">
+          <div class="glass-card rounded-2xl p-4 flex flex-col h-[550px]">
+            <div class="pb-2 border-b border-white/5 flex justify-between items-center">
+              <h3 class="text-sm font-display font-bold text-white uppercase">Live Intel Feed (Tap to delete)</h3>
+              <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="sync-messages-checkbox" checked class="accent-amber-500 text-xs"> <span class="text-[11px] text-gray-300">Sync Live Feed</span></label>
             </div>
-
-            <!-- Messages Window -->
-            <div id="live-chat-messages" class="flex-grow overflow-y-auto space-y-3 py-4 pr-1">
-              <!-- Dynamically Filled -->
-              <div class="flex flex-col items-center justify-center py-24 text-gray-500 text-xs">
-                <i class="fa-solid fa-comments text-2xl mb-2 text-white/10"></i>
-                No messages recorded. Be the first to shoutout!
-              </div>
+            <div id="live-chat-messages" class="flex-grow overflow-y-auto space-y-3 py-4"></div>
+            <div id="spam-warning" class="hidden bg-rose-500/10 border border-rose-500/20 rounded-xl p-3 mb-2 flex justify-between items-center">
+              <span class="text-xs font-bold text-rose-400">Rate Limit Applied!</span>
+              <span id="countdown-timer" class="text-xs font-mono font-bold text-rose-400">10:00</span>
             </div>
-
-            <!-- Anti-Spam Cooldown Indicator -->
-            <div id="spam-warning" class="hidden bg-rose-500/10 border border-rose-500/20 rounded-xl p-3 mb-2 flex items-center gap-3">
-              <div class="w-8 h-8 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 shrink-0">
-                <i class="fa-solid fa-triangle-exclamation animate-pulse"></i>
-              </div>
-              <div class="flex-grow">
-                <p class="text-xs font-bold text-rose-400">Transmit Limit Breached!</p>
-                <p class="text-[10px] text-gray-400">You've reached maximum send rate. Transmit disabled for 10 minutes.</p>
-              </div>
-              <div class="text-right shrink-0">
-                <span id="countdown-timer" class="text-xs font-mono font-bold text-rose-400">10:00</span>
-              </div>
-            </div>
-
-            <!-- Message Input Area -->
             <form id="chat-input-form" class="flex gap-2 items-center pt-2 border-t border-white/5">
-              <input type="text" id="chat-msg-text" required placeholder="Type combine reports, statistics, or updates..." 
-                class="flex-grow bg-black/40 border border-white/10 rounded-xl py-2.5 px-4 text-white text-xs focus:outline-none focus:border-amber-500 transition-all">
-              <button type="submit" id="btn-send-msg" class="w-11 h-11 bg-combine-gold text-black rounded-xl hover:opacity-90 active:scale-[0.98] transition-all flex items-center justify-center">
-                <i class="fa-solid fa-paper-plane text-sm"></i>
-              </button>
+              <input type="text" id="chat-msg-text" required placeholder="Type message..." class="flex-grow bg-black/40 border border-white/10 rounded-xl py-2.5 px-4 text-white text-xs">
+              <button type="submit" id="btn-send-msg" class="w-11 h-11 bg-combine-gold text-black rounded-xl flex items-center justify-center"><i class="fa-solid fa-paper-plane text-sm"></i></button>
             </form>
           </div>
         </div>
-
       </div>
     </div>
+<!-- ADDITION TO SETTINGS VIEW (Inside id="view-setting") -->
+<div class="border-t border-white/5 pt-4 mt-4 space-y-4">
+  <h4 class="text-xs font-display font-bold text-amber-500 uppercase tracking-wider">Privacy & Account Safety</h4>
+  
+  <!-- Private Account Switch -->
+  <div class="flex items-center justify-between bg-black/30 p-3 rounded-xl border border-white/5">
+    <div>
+      <p class="text-xs font-semibold text-white">Private Profile Mode</p>
+      <p class="text-[10px] text-gray-400 mt-0.5">Hide your cards from the global roster directory search.</p>
+    </div>
+    <label class="relative inline-flex items-center cursor-pointer">
+      <input type="checkbox" id="settings-private-toggle" class="sr-only peer">
+      <div class="w-9 h-5 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-amber-500"></div>
+    </label>
+  </div>
+</div>
 
+<!-- MODAL: REPORT & ACTION SHEET -->
+<div id="report-user-modal" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 hidden animate-in fade-in">
+  <div class="glass-card w-full max-w-sm rounded-2xl p-6 relative">
+    <button onclick="closeReportModal()" class="absolute right-4 top-4 text-gray-400 hover:text-white">
+      <i class="fa-solid fa-times"></i>
+    </button>
+    
+    <div class="text-center mb-4">
+      <h3 class="text-base font-display font-bold text-white">Player Actions</h3>
+      <p class="text-xs text-gray-400 mt-1" id="report-target-label">Flag or restrict user transmission.</p>
+    </div>
 
-    <!-- ============================================== -->
-    <!-- SOCIAL MEDIA ATHLETE PROFILE VIEW              -->
-    <!-- ============================================== -->
-    <div id="view-profile" class="view-panel w-full max-w-2xl mx-auto space-y-6 fade-in hidden">
-      <!-- Back to Dashboard -->
-      <button onclick="navigationTo('view-home')" class="text-xs text-amber-500 font-bold hover:underline flex items-center gap-2">
-        <i class="fa-solid fa-arrow-left"></i> Return to Main Grid
+    <div class="space-y-3">
+      <!-- Block Actions -->
+      <button onclick="executeBlockUser()" class="w-full bg-white/5 border border-white/10 hover:bg-rose-500/10 hover:text-rose-400 text-white font-bold py-2.5 px-4 rounded-xl text-xs transition-all flex items-center gap-3">
+        <i class="fa-solid fa-ban text-amber-500"></i>
+        <span>Block Athlete Feed</span>
       </button>
 
-      <!-- Profile Container Card -->
-      <div class="glass-card rounded-2xl overflow-hidden shadow-2xl relative">
-        <div class="h-32 bg-gradient-to-r from-amber-600 to-amber-900 relative">
-          <!-- Follow button / Badge overlay -->
-          <div class="absolute right-4 bottom-4 flex gap-2">
-            <!-- Follow Action buttons -->
-            <button id="btn-profile-follow" onclick="triggerProfileFollowAction()" class="bg-combine-gold hover:opacity-90 text-black font-bold text-xs px-4 py-1.5 rounded-full shadow-lg transition-all flex items-center gap-1.5">
-              <i class="fa-solid fa-user-plus"></i> <span id="follow-btn-label">Follow Athlete</span>
-            </button>
-          </div>
-        </div>
-
-        <div class="p-6 relative">
-          <!-- Profile Avatar overlap -->
-          <div class="w-24 h-24 rounded-full border-4 border-[#0b0c10] bg-[#1e1e24] flex items-center justify-center text-3xl font-bold font-display text-amber-500 absolute -top-12 left-6 overflow-hidden">
-            <i class="fa-solid fa-user text-gray-500 pt-3"></i>
-          </div>
-
-          <div class="mt-14 space-y-4">
-            <div class="flex justify-between items-start">
-              <div>
-                <h2 id="profile-p-name" class="text-2xl font-display font-extrabold text-white">Full Athlete Name</h2>
-                <div class="flex items-center gap-2 mt-0.5">
-                  <p id="profile-p-username" class="text-sm text-amber-500 font-semibold">@username</p>
-                  <span id="profile-p-reg" class="text-[10px] font-mono bg-white/5 border border-white/10 text-gray-400 px-2 py-0.5 rounded">1009-XXXXX</span>
-                </div>
-              </div>
-              <div id="profile-p-privacy-badge" class="text-right">
-                <!-- Public / Private Status dynamic badge -->
-                <span class="text-[9px] uppercase font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">Public Profile</span>
-              </div>
-            </div>
-
-            <!-- Main stats checklist -->
-            <div class="grid grid-cols-3 gap-4 border-y border-white/5 py-3">
-              <div class="text-center">
-                <span class="text-[10px] uppercase font-bold text-gray-500">Combine Rating</span>
-                <p class="text-sm font-bold text-white mt-0.5">4.5 ⭐</p>
-              </div>
-              <div class="text-center">
-                <span class="text-[10px] uppercase font-bold text-gray-500">Followers</span>
-                <p id="profile-p-follower-count" class="text-sm font-bold text-white mt-0.5">0</p>
-              </div>
-              <div class="text-center">
-                <span class="text-[10px] uppercase font-bold text-gray-500">Account status</span>
-                <p id="profile-p-status-badge" class="text-sm font-bold text-emerald-400 mt-0.5">Good Standing</p>
-              </div>
-            </div>
-
-            <!-- Profile Bio -->
-            <div>
-              <span class="text-[10px] uppercase font-bold text-gray-500 tracking-wider">Athlete Bio & Stats</span>
-              <p id="profile-p-bio" class="text-xs text-gray-300 mt-1 leading-relaxed bg-black/40 p-3 rounded-xl border border-white/5">
-                Loading bio data...
-              </p>
-            </div>
-
-            <!-- Private Lock Notice Section -->
-            <div id="profile-private-lock-message" class="hidden bg-amber-950/20 border border-amber-500/20 rounded-2xl p-6 text-center space-y-3">
-              <i class="fa-solid fa-lock text-3xl text-amber-500 animate-pulse"></i>
-              <h3 class="text-sm font-display font-bold text-white">This Athlete's Profile is Private</h3>
-              <p class="text-xs text-gray-400 max-w-sm mx-auto">Please submit a Follow Request to unlock access to their bio details, statistics, and scouting reports.</p>
-              
-              <!-- Follow Request Action -->
-              <button id="btn-request-follow" onclick="triggerProfileFollowAction()" class="bg-combine-gold text-black text-xs font-bold py-2 px-6 rounded-xl hover:opacity-90 transition-all mx-auto">
-                Transmit Follow Request
-              </button>
-            </div>
-
-            <!-- Social Media Posts Segment -->
-            <div id="profile-posts-section" class="pt-2">
-              <h3 class="text-xs uppercase tracking-widest font-bold text-amber-500 mb-3 flex items-center gap-1.5">
-                <i class="fa-solid fa-hashtag"></i> Athlete Posts
-              </h3>
-              
-              <!-- User has no post yet -->
-              <div class="bg-black/30 border border-white/5 rounded-xl p-8 text-center text-gray-500 text-xs flex flex-col items-center justify-center">
-                <i class="fa-solid fa-image-portrait text-3xl text-white/10 mb-2"></i>
-                <p class="font-semibold text-gray-400">This user has no posts yet</p>
-                <p class="text-[10px] text-gray-500 mt-0.5">Scouting drills and Combine highlights will be logged here.</p>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    <!-- ============================================== -->
-    <!-- REPORT MESSAGE SCREEN                          -->
-    <!-- ============================================== -->
-    <div id="view-report-screen" class="view-panel w-full max-w-xl mx-auto space-y-6 fade-in hidden">
-      <button onclick="navigationTo('view-home')" class="text-xs text-amber-500 font-bold hover:underline flex items-center gap-2">
-        <i class="fa-solid fa-arrow-left"></i> Cancel and Return
-      </button>
-
-      <div class="glass-card rounded-2xl p-6 md:p-8 space-y-6">
-        <div>
-          <span class="text-xs font-bold uppercase tracking-widest text-rose-500 bg-rose-500/10 px-3 py-1 rounded-full">Automated Content Arbiter</span>
-          <h2 class="text-2xl font-display font-bold text-white mt-3">Report Transmission Violation</h2>
-          <p class="text-gray-400 text-xs mt-1">Submit reports directly to the automated compliance agent. All submissions are cross-checked.</p>
-        </div>
-
-        <!-- Target Message Card Details -->
-        <div class="bg-rose-950/10 border border-rose-500/20 rounded-2xl p-4 space-y-2">
-          <div class="flex justify-between items-center text-[10px] text-gray-400 border-b border-rose-500/10 pb-2">
-            <span>MESSAGE ID: <strong id="report-message-id" class="font-mono text-white">12-Digit-ID</strong></span>
-            <span>POSTED BY: <strong id="report-message-author" class="text-amber-500">@username</strong></span>
-          </div>
-          <p id="report-message-text" class="text-xs text-gray-200 italic leading-relaxed pt-1">
-            "Exact content of reported message..."
-          </p>
-        </div>
-
-        <!-- 12-Option List -->
-        <form id="report-submission-form" class="space-y-4">
-          <div>
-            <label class="block text-xs font-semibold uppercase text-gray-400 mb-2">Select Primary Reason (Select One)</label>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
-              <label class="flex items-center gap-2 p-2 bg-black/40 border border-white/5 rounded-lg cursor-pointer hover:bg-white/5">
-                <input type="radio" name="report_reason" value="Violent Threat / Threat of physical harm" checked class="accent-amber-500">
-                <span>Violent Physical Threat</span>
-              </label>
-              <label class="flex items-center gap-2 p-2 bg-black/40 border border-white/5 rounded-lg cursor-pointer hover:bg-white/5">
-                <input type="radio" name="report_reason" value="Harassment or Bullying" class="accent-amber-500">
-                <span>Bullying & Harassment</span>
-              </label>
-              <label class="flex items-center gap-2 p-2 bg-black/40 border border-white/5 rounded-lg cursor-pointer hover:bg-white/5">
-                <input type="radio" name="report_reason" value="Hate Speech" class="accent-amber-500">
-                <span>Hate Speech / Discrimination</span>
-              </label>
-              <label class="flex items-center gap-2 p-2 bg-black/40 border border-white/5 rounded-lg cursor-pointer hover:bg-white/5">
-                <input type="radio" name="report_reason" value="Spam / Manipulation" class="accent-amber-500">
-                <span>Spam & System Manipulation</span>
-              </label>
-              <label class="flex items-center gap-2 p-2 bg-black/40 border border-white/5 rounded-lg cursor-pointer hover:bg-white/5">
-                <input type="radio" name="report_reason" value="Sexual Content" class="accent-amber-500">
-                <span>Inappropriate Sexual Content</span>
-              </label>
-              <label class="flex items-center gap-2 p-2 bg-black/40 border border-white/5 rounded-lg cursor-pointer hover:bg-white/5">
-                <input type="radio" name="report_reason" value="Impersonation / False ID" class="accent-amber-500">
-                <span>Athlete Impersonation</span>
-              </label>
-              <label class="flex items-center gap-2 p-2 bg-black/40 border border-white/5 rounded-lg cursor-pointer hover:bg-white/5">
-                <input type="radio" name="report_reason" value="Self-Harm or Suicide content" class="accent-amber-500">
-                <span>Self-Harm or Harm Risk</span>
-              </label>
-              <label class="flex items-center gap-2 p-2 bg-black/40 border border-white/5 rounded-lg cursor-pointer hover:bg-white/5">
-                <input type="radio" name="report_reason" value="Intellectual Property Infringement" class="accent-amber-500">
-                <span>IP Infringement</span>
-              </label>
-              <label class="flex items-center gap-2 p-2 bg-black/40 border border-white/5 rounded-lg cursor-pointer hover:bg-white/5">
-                <input type="radio" name="report_reason" value="Inappropriate Profile Media" class="accent-amber-500">
-                <span>Offensive Media / Graphic Content</span>
-              </label>
-              <label class="flex items-center gap-2 p-2 bg-black/40 border border-white/5 rounded-lg cursor-pointer hover:bg-white/5">
-                <input type="radio" name="report_reason" value="Off-Topic Combine interference" class="accent-amber-500">
-                <span>Off-Topic Combine Interference</span>
-              </label>
-              <label class="flex items-center gap-2 p-2 bg-black/40 border border-white/5 rounded-lg cursor-pointer hover:bg-white/5">
-                <input type="radio" name="report_reason" value="Substance abuse promotion" class="accent-amber-500">
-                <span>Prohibited Substance Promotion</span>
-              </label>
-              <label class="flex items-center gap-2 p-2 bg-black/40 border border-white/5 rounded-lg cursor-pointer hover:bg-white/5">
-                <input type="radio" name="report_reason" value="Other System Violation" class="accent-amber-500">
-                <span>Other Guidelines Breach</span>
-              </label>
-            </div>
-          </div>
-
-          <button type="submit" class="w-full bg-rose-500 text-white font-display font-bold py-3 rounded-xl text-xs transition-all flex items-center justify-center gap-2">
-            <span>Commit Report to AI System</span>
-            <i class="fa-solid fa-shield"></i>
-          </button>
-        </form>
-
-        <!-- Dynamic STEP View showing AI determination state -->
-        <div id="report-step-view" class="hidden border-t border-white/5 pt-6 space-y-4">
-          <h3 class="text-xs uppercase font-bold text-white tracking-widest">AI Inspection Log</h3>
-          
-          <div class="space-y-4 relative pl-6 border-l border-white/10 ml-3">
-            <!-- Step 1: Pending Verification -->
-            <div class="relative">
-              <span id="step-dot-1" class="absolute -left-[30px] top-0.5 w-4.5 h-4.5 rounded-full bg-amber-500 border-4 border-black flex items-center justify-center"></span>
-              <p class="text-xs font-bold text-white">Step 1: Automated Dispatch & Parsing</p>
-              <p class="text-[10px] text-gray-400">Report parsed. Running semantic safety scoring...</p>
-            </div>
-
-            <!-- Step 2: Live Outcome status -->
-            <div class="relative pt-2">
-              <span id="step-dot-2" class="absolute -left-[30px] top-2 w-4.5 h-4.5 rounded-full bg-zinc-700 border-4 border-black flex items-center justify-center"></span>
-              <p class="text-xs font-bold text-white">Step 2: AI Determination & Mitigation</p>
-              <p id="report-outcome-message" class="text-[10px] text-gray-500">Waiting for review completion...</p>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-
-    <!-- ============================================== -->
-    <!-- WALLET VIEW                                    -->
-    <!-- ============================================== -->
-    <div id="view-wallet" class="view-panel w-full space-y-6 fade-in hidden">
-      <div class="max-w-2xl mx-auto glass-card rounded-2xl p-6 relative overflow-hidden">
-        <div class="absolute right-0 top-0 w-48 h-48 bg-amber-500/5 rounded-full blur-2xl"></div>
-        <div class="flex justify-between items-start">
-          <div>
-            <span class="text-xs font-bold uppercase tracking-widest text-amber-500 bg-amber-500/10 px-3 py-1 rounded-full">Combine Wallet</span>
-            <h2 class="text-2xl font-display font-bold text-white mt-3">Athlete Funds & Token Pass</h2>
-            <p class="text-gray-400 text-xs">Verify your combine pass, premium registrations, or prize payouts.</p>
-          </div>
-          <i class="fa-solid fa-wallet text-3xl text-amber-500"></i>
-        </div>
-
-        <!-- Wallet Card UI -->
-        <div class="bg-gradient-to-tr from-amber-500 via-amber-600 to-amber-700 rounded-2xl p-6 text-black mt-6 shadow-xl shadow-amber-500/10">
-          <div class="flex justify-between items-center">
-            <span class="text-xs uppercase tracking-widest font-extrabold text-amber-100">NFSMEC Official Pass Balance</span>
-            <i class="fa-solid fa-circle-check text-xl text-amber-100"></i>
-          </div>
-          <div class="mt-4">
-            <h3 class="text-4xl font-display font-black tracking-tight">$350.<span class="text-2xl">00</span></h3>
-            <p class="text-[10px] uppercase font-bold tracking-wider text-amber-950 mt-1">NFS Athletic Allocation Grant</p>
-          </div>
-          <div class="flex justify-between items-end mt-8 pt-4 border-t border-amber-400/30">
-            <div>
-              <p class="text-[9px] uppercase font-bold text-amber-950">Combine Pass Status</p>
-              <p class="text-xs font-bold text-amber-100">verified Active Elite</p>
-            </div>
-            <div class="text-right">
-              <p class="text-[9px] uppercase font-bold text-amber-950">ID Serial</p>
-              <p class="text-xs font-mono font-bold text-amber-100" id="wallet-serial">1009-XXXXX</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Transactions -->
-        <div class="mt-8 space-y-3">
-          <h3 class="text-sm font-display font-bold text-white uppercase tracking-wider">Combine Ledger History</h3>
-          
-          <div class="space-y-2">
-            <div class="flex items-center justify-between bg-black/30 border border-white/5 p-3 rounded-xl">
-              <div class="flex items-center gap-3">
-                <div class="w-9 h-9 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-lg flex items-center justify-center">
-                  <i class="fa-solid fa-arrow-trend-up text-xs"></i>
-                </div>
-                <div>
-                  <p class="text-xs font-bold text-white">Combine Athlete Grant Allocation</p>
-                  <p class="text-[10px] text-gray-500">NFSMEC Elite Committee</p>
-                </div>
-              </div>
-              <p class="text-xs font-bold text-emerald-400">+$350.00</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    <!-- ============================================== -->
-    <!-- LIVE STREAM & COMBINE METRICS VIEW             -->
-    <!-- ============================================== -->
-    <div id="view-live" class="view-panel w-full space-y-6 fade-in hidden">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        
-        <!-- Live Leaderboard (Col-span 7) -->
-        <div class="lg:col-span-7 space-y-4">
-          <div class="glass-card rounded-2xl p-6">
-            <div class="flex items-center justify-between mb-4">
-              <div>
-                <span class="text-xs font-bold uppercase tracking-widest text-amber-500 bg-amber-500/10 px-3 py-1 rounded-full">Top Scorers</span>
-                <h2 class="text-xl font-display font-bold text-white mt-3">Combine Speed & Jump Leaderboard</h2>
-              </div>
-              <i class="fa-solid fa-bolt text-xl text-amber-500"></i>
-            </div>
-
-            <div class="space-y-2 mt-4 font-display">
-              <div class="flex items-center justify-between bg-white/5 p-3 rounded-xl border border-white/10">
-                <div class="flex items-center gap-3">
-                  <span class="text-xs font-bold text-amber-500 font-mono">#01</span>
-                  <div>
-                    <p class="text-xs font-bold text-white text-left">Bryson "Rocket" Carter</p>
-                    <p class="text-[9px] text-gray-400 text-left">40YD: 4.41s | Vertical: 41.5 in</p>
-                  </div>
-                </div>
-                <div class="text-right">
-                  <span class="text-xs font-mono font-bold text-emerald-400">Elite Rank</span>
-                </div>
-              </div>
-
-              <div class="flex items-center justify-between bg-white/5 p-3 rounded-xl border border-white/5">
-                <div class="flex items-center gap-3">
-                  <span class="text-xs font-bold text-gray-400 font-mono">#02</span>
-                  <div>
-                    <p class="text-xs font-bold text-white text-left">Kameron Hill</p>
-                    <p class="text-[9px] text-gray-400 text-left">40YD: 4.49s | Vertical: 39.0 in</p>
-                  </div>
-                </div>
-                <div class="text-right">
-                  <span class="text-xs font-mono font-bold text-amber-500">98th Pctl</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Broadcast Feed (Col-span 5) -->
-        <div class="lg:col-span-5 space-y-4">
-          <div class="glass-card rounded-2xl p-6">
-            <h3 class="text-sm font-display font-bold text-white uppercase tracking-wider mb-2">Live Combine Broadcast</h3>
-            <p class="text-xs text-gray-400 mb-4">Official live-stream from the field, scouting metrics, and coach insights.</p>
-            
-            <div class="relative rounded-xl overflow-hidden bg-black border border-white/10 aspect-video flex flex-col items-center justify-center">
-              <div class="absolute inset-0 bg-cover bg-center opacity-40 filter blur-[1px]" style="background-image: url('https://images.unsplash.com/photo-1587280501635-68a0e82cd5ff?q=80&w=600&auto=format&fit=crop');"></div>
-              <div class="relative z-10 flex flex-col items-center">
-                <div class="w-12 h-12 rounded-full bg-amber-500 flex items-center justify-center text-black cursor-pointer hover:scale-105 transition-all animate-pulse">
-                  <i class="fa-solid fa-play ml-1"></i>
-                </div>
-                <span class="text-[10px] uppercase font-bold text-amber-500 tracking-wider mt-2 bg-black/80 px-2 py-0.5 rounded">Standby Broadcast</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-
-    <!-- ============================================== -->
-    <!-- SETTING / COMPLIANCE VIEW                      -->
-    <!-- ============================================== -->
-    <div id="view-setting" class="view-panel w-full space-y-6 fade-in hidden">
-      <div class="max-w-xl mx-auto glass-card rounded-2xl p-6 md:p-8 space-y-6">
-        
-        <!-- Tab Subheaders -->
-        <div class="flex justify-between items-center border-b border-white/5 pb-4">
-          <div>
-            <span class="text-xs font-bold uppercase tracking-widest text-amber-500 bg-amber-500/10 px-3 py-1 rounded-full">Locker Customizations</span>
-            <h2 class="text-2xl font-display font-bold text-white mt-3">Athlete Portal Settings</h2>
-          </div>
-        </div>
-
-        <!-- Follow Requests Pending Approvals Sub-View -->
-        <div class="space-y-3 pt-2">
-          <h3 class="text-xs uppercase tracking-widest font-bold text-amber-500 flex items-center gap-2">
-            <i class="fa-solid fa-users-viewfinder"></i> Pending Follow Requests
-          </h3>
-          <p class="text-[10px] text-gray-400">Incoming requests to unlock your private profile details.</p>
-          <div id="pending-requests-container" class="space-y-2">
-            <!-- Dynamically Loaded Requests -->
-            <p class="text-xs text-gray-500 italic bg-black/40 p-3 rounded-xl border border-white/5">No pending requests to approve.</p>
-          </div>
-        </div>
-
-        <!-- Profile Visibility Config -->
-        <div class="space-y-3 pt-4 border-t border-white/5">
-          <h3 class="text-xs uppercase tracking-widest font-bold text-amber-500 flex items-center gap-2">
-            <i class="fa-solid fa-shield-halved"></i> Profile Privacy & Visibility
-          </h3>
-          <div class="flex items-center justify-between p-3 bg-white/5 border border-white/5 rounded-xl">
-            <div>
-              <p class="text-xs font-bold text-white">Private Profile Mode</p>
-              <p class="text-[9px] text-gray-400">Only approved followers can view your bio & posts.</p>
-            </div>
-            <label class="flex items-center gap-2 cursor-pointer select-none">
-              <div class="relative">
-                <input type="checkbox" id="profile-privacy-toggle" class="sr-only peer">
-                <div class="w-8 h-4 bg-gray-600 rounded-full peer peer-focus:ring-0 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-amber-500"></div>
-              </div>
-            </label>
-          </div>
-        </div>
-
-        <!-- Account Status Violation Checklist -->
-        <div class="space-y-3 pt-4 border-t border-white/5 bg-zinc-900/40 p-4 rounded-xl border border-white/5">
-          <h3 class="text-xs uppercase tracking-widest font-bold text-amber-500 flex items-center gap-2">
-            <i class="fa-solid fa-user-shield"></i> Account Safety Status
-          </h3>
-          <div id="violations-tracker-view" class="space-y-3">
-            <!-- Dynamically Rendered Account Status or Guidelines Warning list -->
-            <div class="flex items-center gap-2.5 text-xs text-emerald-400 font-semibold">
-              <i class="fa-solid fa-circle-check text-base"></i>
-              <span>Thank you for following the combine guidelines! ✔️</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Edit Profile Panel -->
-        <form id="update-profile-form" class="space-y-4 pt-4 border-t border-white/5">
-          <h3 class="text-xs uppercase tracking-widest font-bold text-amber-500 flex items-center gap-2">
-            <i class="fa-solid fa-signature"></i> Customize Player Handle
-          </h3>
-          <div>
-            <label class="block text-xs font-semibold text-gray-400 mb-1">Update Player Username</label>
-            <div class="relative">
-              <i class="fa-solid fa-at absolute left-3 top-3 text-gray-500 text-xs"></i>
-              <input type="text" id="settings-username" required placeholder="newhandle" 
-                class="w-full bg-black/40 border border-white/10 rounded-xl py-2.5 pl-9 pr-4 text-white text-xs focus:outline-none focus:border-amber-500 transition-all">
-            </div>
-          </div>
-
-          <button type="submit" class="w-full bg-combine-gold text-black font-display font-bold py-2.5 rounded-xl hover:opacity-95 text-xs transition-all flex items-center justify-center gap-2">
-            <span>Commit Profile Changes</span>
-            <i class="fa-solid fa-check"></i>
-          </button>
-        </form>
-
-        <!-- Notification & Payment Methods -->
-        <div class="space-y-4 pt-6 border-t border-white/5">
-          <h3 class="text-xs uppercase tracking-widest font-bold text-amber-500 flex items-center gap-2">
-            <i class="fa-solid fa-bell"></i> Preferences & Billing
-          </h3>
-
-          <!-- Opt-in for Notification -->
-          <div class="flex items-center justify-between p-3 bg-white/5 border border-white/5 rounded-xl">
-            <div>
-              <p class="text-xs font-bold text-white">Opt-In for Combine SMS Notifications</p>
-              <p class="text-[9px] text-gray-400">Receive draft and scout call updates instantly.</p>
-            </div>
-            <label class="flex items-center gap-2 cursor-pointer select-none">
-              <div class="relative">
-                <input type="checkbox" id="sms-notify" checked class="sr-only peer">
-                <div class="w-8 h-4 bg-gray-600 rounded-full peer peer-focus:ring-0 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-amber-500"></div>
-              </div>
-            </label>
-          </div>
-
-          <!-- Add Payment Method -->
-          <button onclick="openPaymentModal()" class="w-full bg-white/5 border border-white/10 text-white font-bold py-3 px-4 rounded-xl hover:bg-white/10 text-xs transition-all flex items-center justify-between">
-            <span class="flex items-center gap-2">
-              <i class="fa-solid fa-credit-card text-amber-500"></i>
-              Add / Update Payment Method
-            </span>
-            <i class="fa-solid fa-chevron-right text-gray-500"></i>
-          </button>
-        </div>
-
-        <!-- Sign Out Action -->
-        <button id="btn-logout" class="w-full bg-rose-500/10 border border-rose-500/20 text-rose-400 hover:bg-rose-500/20 font-bold py-3 rounded-xl text-xs transition-all flex items-center justify-center gap-2 mt-6">
-          <i class="fa-solid fa-sign-out"></i>
-          <span>Deauthorize & Sign Out</span>
+      <!-- Report Form fields -->
+      <div class="border-t border-white/5 pt-3">
+        <label class="block text-[10px] uppercase font-bold text-gray-400 mb-1">Reason for Infraction Report</label>
+        <select id="report-reason-select" class="w-full bg-black/60 border border-white/10 rounded-xl py-2 px-3 text-white text-xs focus:outline-none focus:border-amber-500">
+          <option value="spam">Spamming / Flooding Feed</option>
+          <option value="harassment">Targeted Harassment</option>
+          <option value="intel">Falsifying Combine Intel</option>
+        </select>
+        <button onclick="submitPlayerReport()" class="w-full bg-amber-500 text-black font-bold py-2.5 px-4 rounded-xl text-xs mt-2 transition-all">
+          Submit Flag to System AI
         </button>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- SYSTEM SUSPENSION & AI APPEAL DASHBOARD OVERLAY -->
+<div id="suspension-overlay" class="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4 hidden">
+  <div class="glass-card w-full max-w-md rounded-2xl p-6 border border-rose-500/30 shadow-2xl text-center">
+    <div class="w-16 h-16 bg-rose-500/10 text-rose-500 rounded-full flex items-center justify-center mx-auto mb-4 border border-rose-500/20">
+      <i class="fa-solid fa-triangle-exclamation text-2xl"></i>
+    </div>
+    <h2 class="text-xl font-display font-bold text-white">Transmission Suspended</h2>
+    <p class="text-xs text-gray-400 mt-2">Your profile handles have been flagged by automatic moderation networks for policy violations.</p>
+    
+    <div class="bg-black/40 p-3 rounded-xl my-4 text-left border border-white/5">
+      <span class="text-[10px] font-mono uppercase text-rose-400 block font-bold">System Status Code:</span>
+      <p class="text-xs text-gray-200 mt-0.5" id="suspension-reason-text">Pending manual evaluation queue.</p>
+    </div>
+
+    <!-- AI Appeal Form -->
+    <div id="appeal-form-box" class="space-y-3 text-left">
+      <label class="block text-[10px] font-bold text-gray-400 uppercase">File Instant AI Arbitration Appeal</label>
+      <textarea id="appeal-text-input" rows="3" placeholder="Provide context or correct system error statements..." class="w-full bg-black/60 border border-white/10 rounded-xl p-3 text-white text-xs focus:outline-none focus:border-amber-500 resize-none"></textarea>
+      <button onclick="submitAIAppeal()" class="w-full bg-combine-gold text-black font-display font-bold py-3 rounded-xl text-xs">
+        Transmit System Appeal Packet
+      </button>
+    </div>
+    <button onclick="window.location.reload()" class="text-xs text-gray-500 hover:text-white underline mt-4 block mx-auto">Check Connection Status</button>
+  </div>
+</div>
+
+    <!-- WALLET VIEW -->
+    <div id="view-wallet" class="view-panel w-full max-w-2xl mx-auto glass-card rounded-2xl p-6 space-y-6 fade-in hidden">
+      <div class="bg-gradient-to-tr from-amber-500 to-amber-700 rounded-2xl p-6 text-black">
+        <h3 class="text-4xl font-display font-black">$350.00</h3>
+        <p class="text-xs font-mono mt-4" id="wallet-serial">1009-XXXXX</p>
+      </div>
+    </div>
+
+    <!-- LIVE VIEW -->
+    <div id="view-live" class="view-panel w-full glass-card rounded-2xl p-6 fade-in hidden">
+      <h2 class="text-xl font-display font-bold text-white">Combine Metrics</h2>
+    </div>
+
+    <!-- SETTINGS VIEW -->
+    <div id="view-setting" class="view-panel w-full max-w-xl mx-auto glass-card rounded-2xl p-6 space-y-6 fade-in hidden">
+      <form id="update-profile-form" class="space-y-4">
+        <label class="block text-xs font-semibold text-gray-400">Update Handles</label>
+        <input type="text" id="settings-username" required class="w-full bg-black/40 border border-white/10 rounded-xl py-2 px-4 text-white text-xs">
+        <button type="submit" class="w-full bg-combine-gold text-black font-display font-bold py-2 rounded-xl text-xs">Save Settings</button>
+      </form>
+      <button id="btn-logout" class="w-full bg-rose-500/10 border border-rose-500/20 text-rose-400 py-3 rounded-xl text-xs mt-4">Sign Out</button>
     </div>
 
   </main>
 
+  <!-- MODAL: BIOGRAPHY VIEW -->
+  <div id="player-modal" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 hidden">
+    <div class="glass-card w-full max-w-md rounded-2xl p-6 relative">
+      <button onclick="closePlayerModal()" class="absolute right-4 top-4 text-gray-400"><i class="fa-solid fa-times"></i></button>
+      <h3 class="text-lg font-display font-bold text-white" id="modal-player-name">---</h3>
+      <p class="text-xs text-amber-500 mb-4" id="modal-player-username">---</p>
+      <p class="text-xs text-gray-300 font-mono" id="modal-reg-id">---</p>
+      <p class="text-xs text-gray-300 bg-black/40 p-3 rounded-xl mt-2" id="modal-bio">---</p>
+    </div>
+  </div>
 
-  <!-- ============================================== -->
-  <!-- MESSAGE ACTION SHEETS / REPORTING / DELETION MODAL -->
-  <!-- ============================================== -->
-  <div id="msg-delete-modal" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 hidden animate-in fade-in">
-    <div class="glass-card w-full max-w-sm rounded-2xl p-6 shadow-2xl relative">
-      <button onclick="closeMsgDeleteModal()" class="absolute right-4 top-4 text-gray-400 hover:text-white">
-        <i class="fa-solid fa-times text-lg"></i>
-      </button>
-
-      <div class="text-center mb-6">
-        <div class="w-12 h-12 bg-amber-500/10 border border-amber-500/20 text-amber-500 rounded-full flex items-center justify-center mx-auto mb-3">
-          <i class="fa-solid fa-gears text-lg"></i>
-        </div>
+  <!-- MODAL: MESSAGE DELETION CONTROL SHEET -->
+  <div id="msg-delete-modal" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 hidden">
+    <div class="glass-card w-full max-w-sm rounded-2xl p-6 relative">
+      <button onclick="closeMsgDeleteModal()" class="absolute right-4 top-4 text-gray-400"><i class="fa-solid fa-times"></i></button>
+      <div class="text-center mb-4">
         <h3 class="text-base font-display font-bold text-white">Manage Transmission</h3>
-        <p class="text-xs text-gray-400 mt-1">Select deletion method or trigger safe reports on this combined broadcast.</p>
+        <p class="text-xs text-gray-400">Select deletion scope for this item.</p>
       </div>
-
       <div class="space-y-3">
-        <!-- Delete for myself -->
-        <button onclick="deleteMsgLocally()" class="w-full bg-white/5 border border-white/10 hover:bg-white/10 text-white font-bold py-3 px-4 rounded-xl text-xs transition-all flex items-center justify-between">
-          <span class="flex items-center gap-2">
-            <i class="fa-solid fa-eye-slash text-amber-500"></i>
-            Delete for myself
-          </span>
-          <span class="text-[9px] text-gray-500 uppercase font-mono">Local-only</span>
+        <button onclick="deleteMsgLocally()" class="w-full bg-white/5 border border-white/10 text-white font-bold py-2.5 px-4 rounded-xl text-xs flex justify-between">
+          <span><i class="fa-solid fa-eye-slash text-amber-500 mr-2"></i>Delete for myself</span>
+          <span class="text-[9px] text-gray-500 uppercase font-mono">Local View</span>
         </button>
-
-        <!-- Delete for everyone (Conditional check in JS) -->
-        <button id="btn-delete-everyone" onclick="deleteMsgForEveryone()" class="w-full bg-rose-500/10 border border-rose-500/20 hover:bg-rose-500/20 text-rose-400 font-bold py-3 px-4 rounded-xl text-xs transition-all flex items-center justify-between">
-          <span class="flex items-center gap-2">
-            <i class="fa-solid fa-dumpster-fire"></i>
-            Delete for everyone
-          </span>
+        <button id="btn-delete-everyone" onclick="deleteMsgForEveryone()" class="w-full bg-rose-500/10 border border-rose-500/20 text-rose-400 font-bold py-2.5 px-4 rounded-xl text-xs flex justify-between">
+          <span><i class="fa-solid fa-dumpster-fire mr-2"></i>Delete for everyone</span>
           <span class="text-[9px] text-rose-400 uppercase font-mono">Firestore</span>
         </button>
-
-        <!-- Report Message Option -->
-        <button onclick="triggerMsgReport()" class="w-full bg-rose-500/10 border border-rose-500/20 hover:bg-rose-500/20 text-rose-400 font-bold py-3 px-4 rounded-xl text-xs transition-all flex items-center justify-between">
-          <span class="flex items-center gap-2">
-            <i class="fa-solid fa-triangle-exclamation"></i>
-            Report Message to AI Mod
-          </span>
-          <span class="text-[9px] text-rose-400 uppercase font-mono">Guidelines</span>
-        </button>
       </div>
     </div>
   </div>
 
-
-  <!-- ============================================== -->
-  <!-- PAYMENT MODAL                                  -->
-  <!-- ============================================== -->
-  <div id="payment-modal" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 hidden animate-in fade-in">
-    <div class="glass-card w-full max-w-md rounded-2xl p-6 shadow-2xl relative">
-      <button onclick="closePaymentModal()" class="absolute right-4 top-4 text-gray-400 hover:text-white">
-        <i class="fa-solid fa-times text-lg"></i>
-      </button>
-
-      <div class="flex items-center gap-3 mb-4">
-        <i class="fa-solid fa-credit-card text-amber-500 text-xl"></i>
-        <h3 class="text-base font-display font-bold text-white">Add Payment Credentials</h3>
-      </div>
-
-      <form id="payment-form" class="space-y-4">
-        <div>
-          <label class="block text-[10px] font-semibold uppercase text-gray-400 mb-1">Cardholder Name</label>
-          <input type="text" required placeholder="Jaxson Miller" class="w-full bg-black/40 border border-white/10 rounded-xl py-2 px-3 text-white text-xs focus:outline-none focus:border-amber-500">
-        </div>
-
-        <div>
-          <label class="block text-[10px] font-semibold uppercase text-gray-400 mb-1">Card Number</label>
-          <input type="text" required placeholder="4000 1234 5678 9010" class="w-full bg-black/40 border border-white/10 rounded-xl py-2 px-3 text-white text-xs focus:outline-none focus:border-amber-500">
-        </div>
-
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <label class="block text-[10px] font-semibold uppercase text-gray-400 mb-1">Expiration</label>
-            <input type="text" required placeholder="MM/YY" class="w-full bg-black/40 border border-white/10 rounded-xl py-2 px-3 text-white text-xs focus:outline-none focus:border-amber-500">
-          </div>
-          <div>
-            <label class="block text-[10px] font-semibold uppercase text-gray-400 mb-1">CVV</label>
-            <input type="password" required placeholder="•••" class="w-full bg-black/40 border border-white/10 rounded-xl py-2 px-3 text-white text-xs focus:outline-none focus:border-amber-500">
-          </div>
-        </div>
-
-        <button type="submit" class="w-full bg-combine-gold text-black text-xs font-bold py-2.5 rounded-xl hover:opacity-90 transition-all mt-2">
-          Save Method
-        </button>
-      </form>
-    </div>
-  </div>
-
-
-  <!-- ============================================== -->
-  <!-- NAVIGATION BOTTOM BAR                          -->
-  <!-- ============================================== -->
-  <nav id="app-nav" class="hidden fixed bottom-0 left-0 right-0 bg-black/95 border-t border-white/10 py-3 px-4 md:px-8 z-30 backdrop-blur-md">
-    <div class="max-w-2xl mx-auto flex justify-between items-center gap-1">
-      <button onclick="navigationTo('view-home')" class="nav-btn flex flex-col items-center gap-1 px-3 py-1 text-amber-500" data-view="view-home">
-        <i class="fa-solid fa-house text-lg"></i>
-        <span class="text-[9px] font-semibold uppercase tracking-wider">Home</span>
-      </button>
-
-      <button onclick="navigationTo('view-wallet')" class="nav-btn flex flex-col items-center gap-1 px-3 py-1 text-gray-400 hover:text-white" data-view="view-wallet">
-        <i class="fa-solid fa-wallet text-lg"></i>
-        <span class="text-[9px] font-semibold uppercase tracking-wider">Wallet</span>
-      </button>
-
-      <button onclick="navigationTo('view-live')" class="nav-btn flex flex-col items-center gap-1 px-3 py-1 text-gray-400 hover:text-white" data-view="view-live">
-        <i class="fa-solid fa-bolt text-lg"></i>
-        <span class="text-[9px] font-semibold uppercase tracking-wider">Live</span>
-      </button>
-
-      <button onclick="navigationTo('view-setting')" class="nav-btn flex flex-col items-center gap-1 px-3 py-1 text-gray-400 hover:text-white" data-view="view-setting">
-        <i class="fa-solid fa-gear text-lg"></i>
-        <span class="text-[9px] font-semibold uppercase tracking-wider">Settings</span>
-      </button>
+  <nav id="app-nav" class="hidden fixed bottom-0 left-0 right-0 bg-black/95 border-t border-white/10 py-3 px-4 z-40">
+    <div class="max-w-2xl mx-auto flex justify-between items-center">
+      <button onclick="navigationTo('view-home')" class="nav-btn text-amber-500 flex flex-col items-center" data-view="view-home"><i class="fa-solid fa-house"></i><span class="text-[9px]">Home</span></button>
+      <button onclick="navigationTo('view-wallet')" class="nav-btn text-gray-400 flex flex-col items-center" data-view="view-wallet"><i class="fa-solid fa-wallet"></i><span class="text-[9px]">Wallet</span></button>
+      <button onclick="navigationTo('view-live')" class="nav-btn text-gray-400 flex flex-col items-center" data-view="view-live"><i class="fa-solid fa-bolt"></i><span class="text-[9px]">Live</span></button>
+      <button onclick="navigationTo('view-setting')" class="nav-btn text-gray-400 flex flex-col items-center" data-view="view-setting"><i class="fa-solid fa-gear"></i><span class="text-[9px]">Settings</span></button>
     </div>
   </nav>
-
-  <!-- Firebase Scripts modules with reliable JS Delivr/Static CDNs -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithCustomToken, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, updateDoc, deleteDoc, addDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    // Standard Configuration mapping
     const firebaseConfig = {
       apiKey: "AIzaSyDPPRKWgwTrCdPnwzx-omOT0b6SKqOSBfg",
       authDomain: "nfsmec-bd2f4.firebaseapp.com",
@@ -1036,535 +314,133 @@
       appId: "1:53788359921:web:4595e33a5baf46f2f9fd50"
     };
 
-    // Global variables mapping
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
-    const appId = typeof __app_id !== 'undefined' ? __app_id : 'nfsmec-bd2f4';
+    const appId = "nfsmec-bd2f4";
 
-    // Application state logs
     let currentUserProfile = null;
     let allPlayersList = [];
     let currentRawMessages = [];
-    let activeMessageTarget = null;
-    let targetProfileUser = null; // Profile we are currently viewing
     let isLiveSyncEnabled = true;
+    let messageUnsubscribe = null;
+    let rosterUnsubscribe = null;
 
-    // Follow rules tracker
-    let myFollowingSet = new Set();
-    let myFollowRequestsPendingSet = new Set();
-    let followRequestsReceived = [];
-
-    // Local filter state
-    let rosterLimit = 5;
-    let isShuffled = false;
-    let shuffledIndices = [];
-
-    // Local cached arrays for local message removal
     let locallyDeletedIds = new Set();
+    let activeMessageTarget = null; 
 
-    // Safety checks & violations
-    let warningCount = 0;
-    let orangeStrikes = [];
-    let restrictionTimer = null;
-    let followRestrictedUntil = null;
-
-    // Anti-spam timers
     let recentMessagesTimestamps = [];
     let isSpamLimited = false;
     let limitRemainingTime = 600;
     let timerInterval = null;
 
-    // Live Unsubscribe subscriptions
-    let authUnsubscribe = null;
-    let messagesUnsubscribe = null;
-    let rosterUnsubscribe = null;
-    let followUnsubscribe = null;
-    let recruiterFeedbackUnsubscribe = null;
-
-    // UI Notifier helper
     window.showToast = function(message, type = 'info') {
       const container = document.getElementById('notification-container');
       const toast = document.createElement('div');
       toast.className = `p-4 rounded-xl text-xs font-semibold flex items-center justify-between shadow-xl border ${
-        type === 'error' ? 'bg-rose-950/95 text-rose-300 border-rose-500/20' :
-        type === 'success' ? 'bg-emerald-950/95 text-emerald-300 border-emerald-500/20' :
-        'bg-zinc-900/95 text-amber-400 border-amber-500/20'
+        type === 'error' ? 'bg-rose-950/95 text-rose-300 border-rose-500/20' : 'bg-zinc-900/95 text-amber-400 border-amber-500/20'
       } fade-in`;
-      
-      const icon = type === 'error' ? 'fa-triangle-exclamation' : type === 'success' ? 'fa-circle-check' : 'fa-bell';
-      toast.innerHTML = `
-        <div class="flex items-center gap-2">
-          <i class="fa-solid ${icon}"></i>
-          <span>${message}</span>
-        </div>
-        <button class="ml-4 text-white/50 hover:text-white" onclick="this.parentElement.remove()"><i class="fa-solid fa-xmark"></i></button>
-      `;
+      toast.innerHTML = `<span>${message}</span>`;
       container.appendChild(toast);
-      setTimeout(() => toast.remove(), 4500);
+      setTimeout(() => toast.remove(), 4000);
     };
 
     function toggleLoader(show) {
-      const loader = document.getElementById('global-loader');
-      if (show) {
-        loader.classList.remove('opacity-0', 'pointer-events-none');
-      } else {
-        loader.classList.add('opacity-0', 'pointer-events-none');
-      }
+      document.getElementById('global-loader').classList.toggle('opacity-0', !show);
+      document.getElementById('global-loader').classList.toggle('pointer-events-none', !show);
     }
 
-    // Toggle navigation panels
     window.switchView = function(viewId) {
-      document.querySelectorAll('.view-panel').forEach(panel => panel.classList.add('hidden'));
+      document.querySelectorAll('.view-panel').forEach(p => p.classList.add('hidden'));
       document.getElementById(viewId).classList.remove('hidden');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     window.navigationTo = function(viewId) {
       switchView(viewId);
       document.querySelectorAll('.nav-btn').forEach(btn => {
-        if (btn.getAttribute('data-view') === viewId) {
-          btn.classList.add('text-amber-500');
-          btn.classList.remove('text-gray-400', 'hover:text-white');
-        } else {
-          btn.classList.remove('text-amber-500');
-          btn.classList.add('text-gray-400', 'hover:text-white');
-        }
+        const match = btn.getAttribute('data-view') === viewId;
+        btn.classList.toggle('text-amber-500', match);
+        btn.classList.toggle('text-gray-400', !match);
       });
     };
 
-    // Profile detail modal activation - switches to Social Media view now
-    window.openPlayerProfile = async function(uid) {
-      toggleLoader(true);
-      try {
-        const playerDoc = await getDoc(doc(db, 'artifacts', appId, 'public', 'data', 'profiles', uid));
-        if (!playerDoc.exists()) {
-          showToast("Player details not found.", "error");
-          return;
-        }
-
-        const p = playerDoc.data();
-        targetProfileUser = p;
-
-        // Populate basic social metrics
-        document.getElementById('profile-p-name').textContent = p.player_name || 'Anonymous';
-        document.getElementById('profile-p-username').textContent = `@${p.player_username || 'unknown'}`;
-        document.getElementById('profile-p-reg').textContent = p.registration_number || '1009-XXXXX';
-        
-        // Handle Privacy Status Checks
-        const isPrivate = p.is_profile_private === true || p.is_profile_public === false;
-        const profilePrivacyBadge = document.getElementById('profile-p-privacy-badge');
-        const privateLockMessage = document.getElementById('profile-private-lock-message');
-        const profilePostsSection = document.getElementById('profile-posts-section');
-        const profileBioBlock = document.getElementById('profile-p-bio');
-
-        if (isPrivate) {
-          profilePrivacyBadge.innerHTML = `<span class="text-[9px] uppercase font-bold text-amber-500 bg-amber-500/10 px-2.5 py-1 rounded-full border border-amber-500/20"><i class="fa-solid fa-lock text-[8px] mr-1"></i>Private Profile</span>`;
-        } else {
-          profilePrivacyBadge.innerHTML = `<span class="text-[9px] uppercase font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">Public Profile</span>`;
-        }
-
-        // Check relationship (is following, pending, or self)
-        const isMe = uid === auth.currentUser?.uid;
-        const following = myFollowingSet.has(uid);
-        const requested = myFollowRequestsPendingSet.has(uid);
-
-        const followBtn = document.getElementById('btn-profile-follow');
-        const reqBtn = document.getElementById('btn-request-follow');
-
-        if (isMe) {
-          followBtn.classList.add('hidden');
-          privateLockMessage.classList.add('hidden');
-          profilePostsSection.classList.remove('hidden');
-          profileBioBlock.textContent = p.profile_bio || 'No athlete resume or performance stats updated yet.';
-        } else {
-          followBtn.classList.remove('hidden');
-          
-          if (following) {
-            followBtn.innerHTML = `<i class="fa-solid fa-user-check"></i> <span>Following</span>`;
-            followBtn.className = "bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs px-4 py-1.5 rounded-full shadow-lg transition-all flex items-center gap-1.5";
-            
-            privateLockMessage.classList.add('hidden');
-            profilePostsSection.classList.remove('hidden');
-            profileBioBlock.textContent = p.profile_bio || 'No athlete resume or performance stats updated yet.';
-          } else if (requested) {
-            followBtn.innerHTML = `<i class="fa-solid fa-hourglass-half"></i> <span>Requested</span>`;
-            followBtn.className = "bg-zinc-700 text-gray-300 font-bold text-xs px-4 py-1.5 rounded-full shadow-lg transition-all flex items-center gap-1.5 cursor-not-allowed";
-            
-            if (isPrivate) {
-              privateLockMessage.classList.remove('hidden');
-              reqBtn.textContent = "Request Pending Approval";
-              reqBtn.disabled = true;
-              profilePostsSection.classList.add('hidden');
-              profileBioBlock.textContent = "✨ Content Locked ✨";
-            } else {
-              privateLockMessage.classList.add('hidden');
-              profilePostsSection.classList.remove('hidden');
-              profileBioBlock.textContent = p.profile_bio || 'No athlete resume or performance stats updated yet.';
-            }
-          } else {
-            // Normal state
-            followBtn.innerHTML = `<i class="fa-solid fa-user-plus"></i> <span>Follow Athlete</span>`;
-            followBtn.className = "bg-combine-gold hover:opacity-90 text-black font-bold text-xs px-4 py-1.5 rounded-full shadow-lg transition-all flex items-center gap-1.5";
-            
-            if (isPrivate) {
-              privateLockMessage.classList.remove('hidden');
-              reqBtn.textContent = "Transmit Follow Request";
-              reqBtn.disabled = false;
-              profilePostsSection.classList.add('hidden');
-              profileBioBlock.textContent = "✨ Content Locked ✨";
-            } else {
-              privateLockMessage.classList.add('hidden');
-              profilePostsSection.classList.remove('hidden');
-              profileBioBlock.textContent = p.profile_bio || 'No athlete resume or performance stats updated yet.';
-            }
-          }
-        }
-
-        // Count followers
-        const count = await getFollowersCount(uid);
-        document.getElementById('profile-p-follower-count').textContent = count;
-
-        // Set status
-        const statusBadge = document.getElementById('profile-p-status-badge');
-        if (p.is_suspended === true) {
-          statusBadge.textContent = "Suspended";
-          statusBadge.className = "text-sm font-bold text-rose-500 mt-0.5";
-        } else {
-          statusBadge.textContent = "Active Good Standing";
-          statusBadge.className = "text-sm font-bold text-emerald-400 mt-0.5";
-        }
-
-        switchView('view-profile');
-      } catch (err) {
-        showToast(err.message, "error");
-      } finally {
-        toggleLoader(false);
-      }
-    };
-
-    // Calculate Followers Count (RULE 2: query basic and filter in JS memory)
-    async function getFollowersCount(targetUid) {
-      try {
-        const followsRef = collection(db, 'artifacts', appId, 'public', 'data', 'follows');
-        const snapshot = await new Promise((resolve, reject) => {
-          onSnapshot(followsRef, resolve, reject);
-        });
-        let count = 0;
-        snapshot.forEach(doc => {
-          if (doc.data().following_uid === targetUid) count++;
-        });
-        return count;
-      } catch (err) {
-        return 0;
-      }
-    }
-
-    // Follow Athlete Logic
-    window.triggerProfileFollowAction = async function() {
-      if (!auth.currentUser || !targetProfileUser) return;
-
-      // Check double-strike minor violation penalty (follow ban for 1 hour)
-      if (followRestrictedUntil && new Date() < followRestrictedUntil) {
-        const diff = Math.ceil((followRestrictedUntil - new Date()) / 60000);
-        showToast(`Follow action blocked! Follow ban active for another ${diff} minute(s).`, "error");
-        return;
-      }
-
-      toggleLoader(true);
-      const targetUid = targetProfileUser.uid;
-      const isPrivate = targetProfileUser.is_profile_private === true || targetProfileUser.is_profile_public === false;
-
-      try {
-        if (isPrivate) {
-          // Send Follow Request (Target: public/data/follow_requests)
-          const reqId = `${auth.currentUser.uid}_${targetUid}`;
-          const requestRef = doc(db, 'artifacts', appId, 'public', 'data', 'follow_requests', reqId);
-          
-          await setDoc(requestRef, {
-            request_id: reqId,
-            sender_uid: auth.currentUser.uid,
-            sender_name: currentUserProfile.player_name || 'Anonymous',
-            sender_username: currentUserProfile.player_username || 'unknown',
-            receiver_uid: targetUid,
-            status: "pending",
-            timestamp: new Date().toISOString()
-          });
-
-          myFollowRequestsPendingSet.add(targetUid);
-          showToast("Follow Request sent successfully! Pending athlete approval.", "success");
-        } else {
-          // Direct follow (Target: public/data/follows)
-          const followId = `${auth.currentUser.uid}_${targetUid}`;
-          const followRef = doc(db, 'artifacts', appId, 'public', 'data', 'follows', followId);
-          
-          await setDoc(followRef, {
-            follow_id: followId,
-            follower_uid: auth.currentUser.uid,
-            following_uid: targetUid,
-            timestamp: new Date().toISOString()
-          });
-
-          myFollowingSet.add(targetUid);
-          showToast(`Successfully following @${targetProfileUser.player_username}!`, "success");
-        }
-
-        // Re-open/refresh view state
-        openPlayerProfile(targetUid);
-      } catch (err) {
-        showToast(err.message, "error");
-      } finally {
-        toggleLoader(false);
-      }
-    };
-
-    // Settings Profile Visibility switch trigger
-    document.getElementById('profile-privacy-toggle').addEventListener('change', async (e) => {
-      if (!auth.currentUser) return;
-      const isPrivate = e.target.checked;
-      toggleLoader(true);
-      try {
-        const profileRef = doc(db, 'artifacts', appId, 'public', 'data', 'profiles', auth.currentUser.uid);
-        await updateDoc(profileRef, {
-          is_profile_private: isPrivate,
-          is_profile_public: !isPrivate
-        });
-        showToast(isPrivate ? "Profile set to Private." : "Profile set to Public.", "success");
-      } catch (err) {
-        showToast(err.message, "error");
-      } finally {
-        toggleLoader(false);
-      }
-    });
-
-    // Sign Up Submission
     document.getElementById('signup-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       toggleLoader(true);
-
-      const fullname = document.getElementById('signup-fullname').value.trim();
-      const username = document.getElementById('signup-username').value.trim();
-      const dob = document.getElementById('signup-dob').value;
-      const email = document.getElementById('signup-email').value.trim();
-      const password = document.getElementById('signup-password').value;
-      const bio = document.getElementById('signup-bio').value.trim();
-
       try {
-        const cred = await createUserWithEmailAndPassword(auth, email, password);
-        const user = cred.user;
-        const registrationId = generateRegistrationId();
-
-        const profileRef = doc(db, 'artifacts', appId, 'public', 'data', 'profiles', user.uid);
-        const profileData = {
-          CreatedAt: false,
-          date_birth: dob,
-          is_account_deleted: false,
+        const cred = await createUserWithEmailAndPassword(auth, document.getElementById('signup-email').value.trim(), document.getElementById('signup-password').value);
+        const regId = `1009-${Math.floor(10000 + Math.random() * 90000)}`;
+        await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'profiles', cred.user.uid), {
+          date_birth: document.getElementById('signup-dob').value,
           is_player: true,
-          is_profile_private: false,
-          is_profile_public: true,
-          is_suspended: false,
-          passkey: password,
-          player_name: fullname,
-          player_username: username,
-          profile_bio: bio,
-          registration_number: registrationId,
-          uid: user.uid,
-          username: username,
-          email_address: email,
-          warning_count: 0,
-          orange_strikes: []
-        };
-
-        await setDoc(profileRef, profileData);
-        showToast("Athlete Account Generated! Profile ID: " + registrationId, "success");
-        document.getElementById('signup-form').reset();
-      } catch (err) {
-        showToast(err.message, "error");
-      } finally {
-        toggleLoader(false);
-      }
+          passkey: document.getElementById('signup-password').value,
+          player_name: document.getElementById('signup-fullname').value.trim(),
+          player_username: document.getElementById('signup-username').value.trim(),
+          profile_bio: document.getElementById('signup-bio').value.trim(),
+          registration_number: regId,
+          uid: cred.user.uid,
+          username: document.getElementById('signup-username').value.trim(),
+          email_address: document.getElementById('signup-email').value.trim()
+        });
+        showToast("Profile Configured!", "success");
+      } catch (err) { showToast(err.message, "error"); }
+      toggleLoader(false);
     });
 
-    // Login Form Submission
     document.getElementById('login-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       toggleLoader(true);
-
-      const regNumInput = document.getElementById('login-reg-num').value.trim();
-      const dobInput = document.getElementById('login-dob').value;
-      const passkeyInput = document.getElementById('login-password').value;
-
       try {
         const profilesRef = collection(db, 'artifacts', appId, 'public', 'data', 'profiles');
-        let targetProfile = null;
-        
-        const snapshot = await new Promise((resolve, reject) => {
-          onSnapshot(profilesRef, resolve, reject);
-        });
-
+        let target = null;
+        const snapshot = await new Promise((res, rej) => onSnapshot(profilesRef, res, rej));
         snapshot.forEach(doc => {
           const d = doc.data();
-          if (
-            d.registration_number === regNumInput &&
-            d.date_birth === dobInput &&
-            d.passkey === passkeyInput
-          ) {
-            targetProfile = d;
+          if (d.registration_number === document.getElementById('login-reg-num').value.trim() && d.passkey === document.getElementById('login-password').value) {
+            target = d;
           }
         });
-
-        if (!targetProfile) {
-          throw new Error("Invalid Registration Key, Date of Birth or Password.");
-        }
-
-        await signInWithEmailAndPassword(auth, targetProfile.email_address, passkeyInput);
-        showToast("Access Granted. Syncing locker...", "success");
-        document.getElementById('login-form').reset();
-      } catch (err) {
-        showToast(err.message, "error");
-      } finally {
-        toggleLoader(false);
-      }
+        if (!target) throw new Error("Credentials unmatched.");
+        await signInWithEmailAndPassword(auth, target.email_address, target.passkey);
+      } catch (err) { showToast(err.message, "error"); }
+      toggleLoader(false);
     });
 
-    // Settings Profile Update
-    document.getElementById('update-profile-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      if (!auth.currentUser) return;
-
-      const newUsername = document.getElementById('settings-username').value.trim();
-      toggleLoader(true);
-
-      try {
-        const profileRef = doc(db, 'artifacts', appId, 'public', 'data', 'profiles', auth.currentUser.uid);
-        await updateDoc(profileRef, {
-          username: newUsername,
-          player_username: newUsername
-        });
-        showToast("Locker handle updated!", "success");
-      } catch (err) {
-        showToast(err.message, "error");
-      } finally {
-        toggleLoader(false);
-      }
-    });
-
-    // Sign Out
-    document.getElementById('btn-logout').addEventListener('click', async () => {
-      toggleLoader(true);
-      try {
-        await signOut(auth);
-        showToast("Athlete signed out.", "success");
-      } catch (err) {
-        showToast(err.message, "error");
-      } finally {
-        toggleLoader(false);
-      }
-    });
-
-    // Suspended Logout trigger
-    window.triggerSuspendedLogout = async function() {
-      toggleLoader(true);
-      try {
-        await signOut(auth);
-        document.getElementById('view-suspended').classList.add('hidden');
-        showToast("Suspended Locker signed out.", "success");
-      } catch (err) {
-        showToast(err.message, "error");
-      } finally {
-        toggleLoader(false);
-      }
-    };
-
-    window.toggleSuspendedMenu = function() {
-      const dd = document.getElementById('suspended-dropdown');
-      dd.classList.toggle('hidden');
-    };
-
-    // Chat live sync listener
-    function setupMessagesSync(userId) {
-      if (messagesUnsubscribe) messagesUnsubscribe();
-
-      const messagesRef = collection(db, 'artifacts', appId, 'public', 'data', 'live_messages');
-      
-      messagesUnsubscribe = onSnapshot(messagesRef, (snapshot) => {
+    function setupMessagesSync() {
+      if (messageUnsubscribe) messageUnsubscribe();
+      messageUnsubscribe = onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'live_messages'), (snap) => {
         if (!isLiveSyncEnabled) return;
-
-        let messages = [];
-        snapshot.forEach(doc => {
-          messages.push({ id: doc.id, ...doc.data() });
-        });
-
-        messages.sort((a,b) => new Date(a.time_stamp) - new Date(b.time_stamp));
-        currentRawMessages = messages;
-
-        renderMessages(messages);
-      }, (err) => {
-        console.error("Messages sync error", err);
+        let msgs = [];
+        snap.forEach(doc => msgs.push({ id: doc.id, ...doc.data() }));
+        msgs.sort((a,b) => new Date(a.time_stamp) - new Date(b.time_stamp));
+        currentRawMessages = msgs;
+        renderMessages(msgs);
       });
     }
 
     function renderMessages(messages) {
       const container = document.getElementById('live-chat-messages');
-      const filteredMessages = messages.filter(msg => !locallyDeletedIds.has(msg.id));
-
-      if (filteredMessages.length === 0) {
-        container.innerHTML = `
-          <div class="flex flex-col items-center justify-center py-24 text-gray-500 text-xs text-center px-4">
-            <i class="fa-solid fa-comments text-2xl mb-2 text-white/10"></i>
-            No active transmissions in Global Arena.
-          </div>
-        `;
+      const filtered = messages.filter(msg => !locallyDeletedIds.has(msg.id));
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="text-center text-xs text-gray-500 py-12">No active messages.</div>`;
         return;
       }
-
-      container.innerHTML = filteredMessages.map(msg => {
+      container.innerHTML = filtered.map(msg => {
         const isMe = msg.uid === auth.currentUser?.uid;
-        const timeFormatted = msg.time_stamp ? new Date(msg.time_stamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
-        
-        // Mocking stable 12-digit message ID for display
-        const displayId = msg.id.length >= 12 ? msg.id.substring(0, 12).toUpperCase() : (msg.id + "123456789").substring(0, 12).toUpperCase();
-
         return `
-          <div class="flex flex-col ${isMe ? 'items-end' : 'items-start'} animate-in fade-in">
-            <div onclick="window.triggerMsgActions('${msg.id}', '${msg.uid}', \`${encodeURIComponent(msg.message)}\`)" 
-              class="max-w-[85%] rounded-2xl px-4 py-2.5 cursor-pointer hover:ring-2 hover:ring-amber-500/40 active:scale-[0.98] transition-all ${
-                isMe ? 'bg-amber-500 text-black rounded-tr-none' : 'bg-white/10 text-white rounded-tl-none border border-white/5'
-              }">
-              <div class="flex items-center gap-1.5 mb-1 text-[9px] font-bold ${isMe ? 'text-black/70' : 'text-amber-500'}">
-                <span>${msg.player_name}</span>
-                <span>•</span>
-                <span>@${msg.player_username}</span>
-              </div>
-              <p class="text-xs break-words leading-relaxed">${msg.message || ''}</p>
-              <div class="text-[8px] text-right mt-1 opacity-70 flex items-center justify-end gap-1">
-                <i class="fa-solid fa-ellipsis-h text-[7px] mr-1"></i>
-                <span class="font-mono text-[7px] opacity-50">ID: ${displayId}</span>
-                <span>•</span>
-                ${timeFormatted}
-              </div>
+          <div class="flex flex-col ${isMe ? 'items-end' : 'items-start'}">
+            <div onclick="window.triggerMsgActions('${msg.id}', '${msg.uid}')" class="max-w-[85%] rounded-2xl px-4 py-2 cursor-pointer border ${isMe ? 'bg-amber-500 text-black' : 'bg-white/10 text-white'}">
+              <p class="text-[10px] font-bold opacity-80">@${msg.player_username}</p>
+              <p class="text-xs mt-0.5">${msg.message}</p>
             </div>
-          </div>
-        `;
+          </div>`;
       }).join('');
-
       container.scrollTop = container.scrollHeight;
     }
 
-    // Message action toggle sheets
-    window.triggerMsgActions = function(msgId, senderUid, encodedMsg) {
-      const rawMsg = decodeURIComponent(encodedMsg);
-      activeMessageTarget = { id: msgId, uid: senderUid, text: rawMsg };
-      
-      const isMyMessage = senderUid === auth.currentUser?.uid;
-      const deleteEveryoneBtn = document.getElementById('btn-delete-everyone');
-
-      if (isMyMessage) {
-        deleteEveryoneBtn.classList.remove('hidden');
-      } else {
-        deleteEveryoneBtn.classList.add('hidden');
-      }
-
+    window.triggerMsgActions = function(msgId, senderUid) {
+      activeMessageTarget = { id: msgId, uid: senderUid };
+      document.getElementById('btn-delete-everyone').classList.toggle('hidden', senderUid !== auth.currentUser?.uid);
       document.getElementById('msg-delete-modal').classList.remove('hidden');
     };
 
@@ -1575,247 +451,67 @@
     window.deleteMsgLocally = function() {
       if (!activeMessageTarget) return;
       locallyDeletedIds.add(activeMessageTarget.id);
-      showToast("Message removed locally from your view.", "info");
       renderMessages(currentRawMessages);
       closeMsgDeleteModal();
+      showToast("Hidden from your display.");
     };
 
     window.deleteMsgForEveryone = async function() {
       if (!activeMessageTarget) return;
       toggleLoader(true);
       try {
-        const msgRef = doc(db, 'artifacts', appId, 'public', 'data', 'live_messages', activeMessageTarget.id);
-        await deleteDoc(msgRef);
-        showToast("Message deleted from Firestore for everyone.", "success");
-      } catch (err) {
-        showToast(err.message, "error");
-      } finally {
-        toggleLoader(false);
-        closeMsgDeleteModal();
-      }
-    };
-
-    // Transition to Report view
-    window.triggerMsgReport = function() {
-      if (!activeMessageTarget) return;
+        await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'live_messages', activeMessageTarget.id));
+        showToast("Removed for everyone.");
+      } catch (err) { showToast(err.message, "error"); }
+      toggleLoader(false);
       closeMsgDeleteModal();
-
-      const displayId = activeMessageTarget.id.length >= 12 ? activeMessageTarget.id.substring(0, 12).toUpperCase() : (activeMessageTarget.id + "123456789").substring(0, 12).toUpperCase();
-      const author = allPlayersList.find(p => p.uid === activeMessageTarget.uid);
-      const authorUsername = author ? author.player_username : 'unknown';
-
-      document.getElementById('report-message-id').textContent = displayId;
-      document.getElementById('report-message-author').textContent = `@${authorUsername}`;
-      document.getElementById('report-message-text').textContent = `"${activeMessageTarget.text}"`;
-
-      // Reset Step View
-      document.getElementById('report-step-view').classList.add('hidden');
-
-      switchView('view-report-screen');
     };
 
-    // Report submission logic with local Simulated AI guidelines module
-    document.getElementById('report-submission-form').addEventListener('submit', async (e) => {
+    document.getElementById('chat-input-form').addEventListener('submit', async (e) => {
       e.preventDefault();
-      if (!activeMessageTarget) return;
-
-      toggleLoader(true);
-      const selectedReason = document.querySelector('input[name="report_reason"]:checked').value;
-      const reportedMessageText = activeMessageTarget.text;
-      const offenderUid = activeMessageTarget.uid;
-
+      const txt = document.getElementById('chat-msg-text').value.trim();
+      document.getElementById('chat-msg-text').value = '';
       try {
-        // Record report in Firestore (Target path constraint RULE 1)
-        const reportId = `report_${Date.now()}`;
-        const reportRef = doc(db, 'artifacts', appId, 'public', 'data', 'reports', reportId);
-        
-        const reportPayload = {
-          report_id: reportId,
-          reported_message_id: activeMessageTarget.id,
-          reported_message_content: reportedMessageText,
-          reporter_uid: auth.currentUser.uid,
-          offender_uid: offenderUid,
-          reason: selectedReason,
-          status: "pending",
-          timestamp: new Date().toISOString()
-        };
-
-        await setDoc(reportRef, reportPayload);
-
-        // Turn on step tracking views
-        document.getElementById('report-step-view').classList.remove('hidden');
-        
-        // Step 1 checkmark loading animations
-        const stepDot1 = document.getElementById('step-dot-1');
-        const stepDot2 = document.getElementById('step-dot-2');
-        const outcomeMessage = document.getElementById('report-outcome-message');
-
-        stepDot1.className = "absolute -left-[30px] top-0.5 w-4.5 h-4.5 rounded-full bg-emerald-500 border-4 border-black flex items-center justify-center";
-        
-        // Simulating the prompt AI Guidelines parsing logic:
-        // Free speech allowed (e.g. saying "fuck" won't cause warning).
-        // Bullying / Harassment (e.g. references to mom, name calling) -> Warnings.
-        // Physical threats (stab, violent acts) -> orange Striking warning triangles.
-        setTimeout(async () => {
-          let aiVerdict = "clean";
-          let explanation = "";
-
-          const lowerText = reportedMessageText.toLowerCase();
-
-          // Free Speech exceptions
-          const hasCommonSwear = lowerText.includes("fuck") || lowerText.includes("shit");
-          
-          // Bullying checks
-          const hasBullying = lowerText.includes("mom") || lowerText.includes("trash") || lowerText.includes("loser") || lowerText.includes("suck") || lowerText.includes("bitch") || lowerText.includes("garbage");
-          
-          // Physical violence
-          const hasPhysicalViolence = lowerText.includes("stab") || lowerText.includes("kill") || lowerText.includes("murder") || lowerText.includes("shoot") || lowerText.includes("beat you");
-
-          if (hasPhysicalViolence) {
-            aiVerdict = "strike";
-            explanation = "AI Detection Confirmed: Serious Physical/Violent Threat. Account flagged with an Orange Triangle Strike.";
-          } else if (hasBullying) {
-            aiVerdict = "warning";
-            explanation = "AI Detection Confirmed: Bullying and Harassment. WARNING issued to offender.";
-          } else if (hasCommonSwear) {
-            aiVerdict = "free_speech";
-            explanation = "AI Decision: Permitted free speech. Swearing triggers no combine guidelines infractions. No action taken.";
-          } else {
-            aiVerdict = "clean";
-            explanation = "AI Verification Complete: Transmission does not violate combine guidelines. However, you are free to restrict or mute this athlete.";
-          }
-
-          // Complete step 2
-          stepDot2.className = "absolute -left-[30px] top-2 w-4.5 h-4.5 rounded-full bg-emerald-500 border-4 border-black flex items-center justify-center";
-          outcomeMessage.className = "text-xs font-bold text-amber-500 mt-1";
-          outcomeMessage.textContent = explanation;
-
-          // Commit penalties to database for offender
-          if (aiVerdict === "warning" || aiVerdict === "strike") {
-            const offenderRef = doc(db, 'artifacts', appId, 'public', 'data', 'profiles', offenderUid);
-            const offenderSnap = await getDoc(offenderRef);
-            if (offenderSnap.exists()) {
-              const oData = offenderSnap.data();
-              let curWarnings = oData.warning_count || 0;
-              let curStrikes = oData.orange_strikes || [];
-
-              if (aiVerdict === "warning") {
-                curWarnings++;
-              } else if (aiVerdict === "strike") {
-                curStrikes.push(`Violent Threat Detected on message: "${reportedMessageText}"`);
-              }
-
-              const updatePayload = {
-                warning_count: curWarnings,
-                orange_strikes: curStrikes
-              };
-
-              // Penalty 1: If double-strike (2 Strikes) or double violent threats: set_temp_ban active
-              if (curStrikes.length >= 2) {
-                updatePayload.is_suspended = true;
-                updatePayload.ban_reason = "TEMP_BAN: Double Violent Strike Violations (AI Automated Audit)";
-                updatePayload.banned_until = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(); // 24-hour Ban
-              } 
-              // Penalty 2: If twice minor warnings: follow restriction ban for 1 hour
-              else if (curWarnings >= 2) {
-                updatePayload.follow_restricted_until = new Date(Date.now() + 60 * 60 * 1000).toISOString(); // 1 hour Follow Ban
-              }
-
-              await updateDoc(offenderRef, updatePayload);
-            }
-          }
-
-          showToast("AI Compliance scanning complete. Logging audit report.", "success");
-        }, 1500);
-
-      } catch (err) {
-        showToast(err.message, "error");
-      } finally {
-        toggleLoader(false);
-      }
+        await setDoc(doc(collection(db, 'artifacts', appId, 'public', 'data', 'live_messages')), {
+          player_username: currentUserProfile.player_username,
+          time_stamp: new Date().toISOString(),
+          uid: auth.currentUser.uid,
+          message: txt
+        });
+      } catch (err) { showToast(err.message, "error"); }
     });
 
-    // Appeal Submission AI processing
-    document.getElementById('appeal-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      if (!auth.currentUser) return;
-
-      toggleLoader(true);
-      const explanation = document.getElementById('appeal-text').value.trim();
-
-      try {
-        const userRef = doc(db, 'artifacts', appId, 'public', 'data', 'profiles', auth.currentUser.uid);
-        
-        // Run Simulated AI Arbiter evaluation
-        setTimeout(async () => {
-          let outcomeText = "";
-          let approved = false;
-
-          const lowerExp = explanation.toLowerCase();
-          
-          // AI looks for keywords of apology/cooperation or serious explanations to restore account
-          if (lowerExp.length < 15) {
-            outcomeText = "Rejected. Explanation is too short or lacks accountability.";
-          } else if (lowerExp.includes("sorry") || lowerExp.includes("apologize") || lowerExp.includes("mistake") || lowerExp.includes("accident")) {
-            approved = true;
-            outcomeText = "Approved. AI System accepted apology. Restoring combine access. Good luck on the field!";
-          } else {
-            outcomeText = "Appeal evaluated and rejected. The physical violent threat ban stands.";
-          }
-
-          if (approved) {
-            await updateDoc(userRef, {
-              is_suspended: false,
-              orange_strikes: [], // Clear strikes
-              warning_count: 0
-            });
-            showToast(outcomeText, "success");
-            document.getElementById('view-suspended').classList.add('hidden');
-            navigationTo('view-home');
-          } else {
-            showToast(outcomeText, "error");
-          }
-          toggleLoader(false);
-        }, 2000);
-
-      } catch (err) {
-        showToast(err.message, "error");
-        toggleLoader(false);
-      }
+    document.getElementById('sync-messages-checkbox').addEventListener('change', (e) => {
+      isLiveSyncEnabled = e.target.checked;
+      if (isLiveSyncEnabled) setupMessagesSync();
     });
 
-    // Handle incoming Follow Requests approvals in Settings
-    window.processFollowRequest = async function(requestId, approve) {
-      toggleLoader(true);
-      try {
-        const requestRef = doc(db, 'artifacts', appId, 'public', 'data', 'follow_requests', requestId);
-        const reqSnap = await getDoc(requestRef);
-        
-        if (!reqSnap.exists()) return;
-        const reqData = reqSnap.data();
-
-        if (approve) {
-          // Add to public/follows
-          const followId = `${reqData.sender_uid}_${auth.currentUser.uid}`;
-          const followRef = doc(db, 'artifacts', appId, 'public', 'data', 'follows', followId);
-          
-          await setDoc(followRef, {
-            follow_id: followId,
-            follower_uid: reqData.sender_uid,
-            following_uid: auth.currentUser.uid,
-            timestamp: new Date().toISOString()
-          });
-
-          await updateDoc(requestRef, { status: "approved" });
-          showToast("Follow Request Approved!", "success");
-        } else {
-          await deleteDoc(requestRef);
-          showToast("Follow Request Denied.", "info");
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const snap = await getDoc(doc(db, 'artifacts', appId, 'public', 'data', 'profiles', user.uid));
+        if (snap.exists()) {
+          currentUserProfile = snap.data();
+          document.getElementById('welcome-player-name').textContent = currentUserProfile.player_name;
+          document.getElementById('welcome-player-id').textContent = currentUserProfile.registration_number;
+          document.getElementById('badge-name').textContent = currentUserProfile.player_name;
+          document.getElementById('user-badge').classList.remove('hidden');
+          document.getElementById('app-nav').classList.remove('hidden');
+          setupMessagesSync();
+          navigationTo('view-home');
         }
+      } else {
+        switchView('view-login');
+      }
+      toggleLoader(false);
+    });
 
-        // Force-refresh received requests list
-        fetchPendingReceivedRequests();
-      } catch (err) {
-        showToast(err.message, "error");
+    document.getElementById('btn-logout').addEventListener('click', () => signOut(auth));
+  </script>
 
-```
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      window.closePlayerModal = () => document.getElementById('player-modal').classList.add('hidden');
+    });
+  </script>
+</body>
+</html>
