@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -75,7 +75,7 @@
     <p class="mt-4 text-amber-500 font-display font-bold tracking-widest text-sm uppercase">Synchronizing Athlete Nodes...</p>
   </div>
 
-  <!-- Banned/Suspended Overlay Screen (Stuck screen if set_temp_ban or is_suspended is true) -->
+  <!-- Banned/Suspended Overlay Screen -->
   <div id="view-suspended" class="fixed inset-0 bg-[#0d0202] z-40 flex flex-col justify-between hidden p-6 overflow-y-auto">
     <!-- Header with Logout option -->
     <div class="flex justify-between items-center border-b border-rose-500/10 pb-4">
@@ -83,7 +83,6 @@
         <i class="fa-solid fa-triangle-exclamation text-rose-500 text-xl animate-pulse"></i>
         <h1 class="text-white font-display font-bold uppercase tracking-wider text-sm">Account Suspended</h1>
       </div>
-      <!-- Hamburger Option Menu inside suspended screen to let them logout safely -->
       <div class="relative">
         <button onclick="toggleSuspendedMenu()" class="text-gray-400 hover:text-white bg-white/5 px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-2">
           <span>Options</span>
@@ -166,9 +165,7 @@
   <!-- Main Container -->
   <main class="flex-grow flex flex-col w-full max-w-5xl mx-auto px-4 py-6 mb-24">
 
-    <!-- ============================================== -->
-    <!-- SIGNUP PAGE                                    -->
-    <!-- ============================================== -->
+    <!-- SIGNUP PAGE -->
     <div id="view-signup" class="view-panel w-full max-w-lg mx-auto glass-card rounded-2xl p-6 md:p-8 shadow-2xl fade-in hidden">
       <div class="text-center mb-6">
         <span class="text-xs font-bold uppercase tracking-widest text-amber-500 bg-amber-500/10 px-3 py-1 rounded-full">Athlete Registration</span>
@@ -241,9 +238,7 @@
     </div>
 
 
-    <!-- ============================================== -->
-    <!-- LOGIN PAGE                                     -->
-    <!-- ============================================== -->
+    <!-- LOGIN PAGE -->
     <div id="view-login" class="view-panel w-full max-w-lg mx-auto glass-card rounded-2xl p-6 md:p-8 shadow-2xl fade-in hidden">
       <div class="text-center mb-6">
         <span class="text-xs font-bold uppercase tracking-widest text-amber-500 bg-amber-500/10 px-3 py-1 rounded-full">Combine Locker Entry</span>
@@ -291,11 +286,8 @@
     </div>
 
 
-    <!-- ============================================== -->
-    <!-- HOME DASHBOARD VIEW                            -->
-    <!-- ============================================== -->
+    <!-- HOME DASHBOARD VIEW -->
     <div id="view-home" class="view-panel w-full space-y-6 fade-in hidden">
-      <!-- Welcome Header & Recruiter Feedback Widget -->
       <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
         <div class="md:col-span-7 glass-card rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between gap-4">
           <div class="absolute -right-10 -bottom-10 opacity-5 pointer-events-none">
@@ -319,14 +311,12 @@
           </div>
         </div>
 
-        <!-- Recruiter Feedback Widget -->
         <div class="md:col-span-5 glass-card rounded-2xl p-6 border-l-4 border-l-amber-500 flex flex-col justify-between">
           <div>
             <div class="flex justify-between items-center">
               <h3 class="text-xs font-display font-bold text-amber-500 uppercase tracking-wider">Recruiter Feedback</h3>
               <span class="text-[9px] uppercase font-mono bg-amber-500/15 text-amber-400 px-2 py-0.5 rounded">Scouting Report</span>
             </div>
-            <!-- Live feedback content -->
             <div id="recruiter-feedback-content" class="mt-3 text-xs text-gray-300 italic min-h-[50px] leading-relaxed">
               "Loading certified talent evaluations..."
             </div>
@@ -335,17 +325,12 @@
         </div>
       </div>
 
-      <!-- Main Layout: Grid -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        
-        <!-- Left Pane: Combine Players with filter & refresh options (Col-span 5) -->
         <div class="lg:col-span-5 space-y-4">
           <div class="glass-card rounded-2xl p-4 flex flex-col h-[560px]">
             <div class="mb-4 space-y-3">
               <div class="flex justify-between items-center">
                 <h3 class="text-sm font-display font-bold text-white uppercase tracking-wider">Combine Roster</h3>
-                
-                <!-- Filter Dropdown & Refresh tools -->
                 <div class="flex items-center gap-2">
                   <select id="roster-limit-filter" class="bg-black/80 border border-white/10 rounded-lg text-[10px] text-amber-500 font-semibold px-2 py-1 focus:outline-none focus:border-amber-500">
                     <option value="3">Show 3</option>
@@ -361,7 +346,6 @@
                 </div>
               </div>
 
-              <!-- Search Bar -->
               <div class="relative">
                 <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-gray-500 text-xs"></i>
                 <input type="text" id="player-search" placeholder="Search athletes, roles, or states..." 
@@ -369,9 +353,7 @@
               </div>
             </div>
 
-            <!-- Roster List -->
             <div id="player-roster-list" class="flex-grow overflow-y-auto space-y-2 pr-1">
-              <!-- Dynamically Populated -->
               <div class="flex items-center justify-center py-12 text-gray-500 text-xs">
                 <i class="fa-solid fa-spinner animate-spin mr-2"></i> Syncing Combine roster...
               </div>
@@ -379,16 +361,13 @@
           </div>
         </div>
 
-        <!-- Right Pane: Live Telemetry Global Chat (Col-span 7) -->
         <div class="lg:col-span-7 space-y-4">
           <div class="glass-card rounded-2xl p-4 flex flex-col h-[560px]">
-            <!-- Chat Header & Control Switches -->
             <div class="pb-3 border-b border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <div>
                 <h3 class="text-sm font-display font-bold text-white uppercase tracking-wider">Live Intel Feed</h3>
                 <p class="text-[10px] text-gray-400">Tap messages to delete, or report violations to AI Moderation</p>
               </div>
-              <!-- Real-time Control Option -->
               <div class="flex items-center gap-3">
                 <label class="flex items-center gap-2 cursor-pointer select-none">
                   <div class="relative">
@@ -400,16 +379,13 @@
               </div>
             </div>
 
-            <!-- Messages Window -->
             <div id="live-chat-messages" class="flex-grow overflow-y-auto space-y-3 py-4 pr-1">
-              <!-- Dynamically Filled -->
               <div class="flex flex-col items-center justify-center py-24 text-gray-500 text-xs">
                 <i class="fa-solid fa-comments text-2xl mb-2 text-white/10"></i>
                 No messages recorded. Be the first to shoutout!
               </div>
             </div>
 
-            <!-- Anti-Spam Cooldown Indicator -->
             <div id="spam-warning" class="hidden bg-rose-500/10 border border-rose-500/20 rounded-xl p-3 mb-2 flex items-center gap-3">
               <div class="w-8 h-8 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 shrink-0">
                 <i class="fa-solid fa-triangle-exclamation animate-pulse"></i>
@@ -423,7 +399,6 @@
               </div>
             </div>
 
-            <!-- Message Input Area -->
             <form id="chat-input-form" class="flex gap-2 items-center pt-2 border-t border-white/5">
               <input type="text" id="chat-msg-text" required placeholder="Type combine reports, statistics, or updates..." 
                 class="flex-grow bg-black/40 border border-white/10 rounded-xl py-2.5 px-4 text-white text-xs focus:outline-none focus:border-amber-500 transition-all">
@@ -433,26 +408,19 @@
             </form>
           </div>
         </div>
-
       </div>
     </div>
 
 
-    <!-- ============================================== -->
-    <!-- SOCIAL MEDIA ATHLETE PROFILE VIEW              -->
-    <!-- ============================================== -->
+    <!-- SOCIAL MEDIA ATHLETE PROFILE VIEW -->
     <div id="view-profile" class="view-panel w-full max-w-2xl mx-auto space-y-6 fade-in hidden">
-      <!-- Back to Dashboard -->
       <button onclick="navigationTo('view-home')" class="text-xs text-amber-500 font-bold hover:underline flex items-center gap-2">
         <i class="fa-solid fa-arrow-left"></i> Return to Main Grid
       </button>
 
-      <!-- Profile Container Card -->
       <div class="glass-card rounded-2xl overflow-hidden shadow-2xl relative">
         <div class="h-32 bg-gradient-to-r from-amber-600 to-amber-900 relative">
-          <!-- Follow button / Badge overlay -->
           <div class="absolute right-4 bottom-4 flex gap-2">
-            <!-- Follow Action buttons -->
             <button id="btn-profile-follow" onclick="triggerProfileFollowAction()" class="bg-combine-gold hover:opacity-90 text-black font-bold text-xs px-4 py-1.5 rounded-full shadow-lg transition-all flex items-center gap-1.5">
               <i class="fa-solid fa-user-plus"></i> <span id="follow-btn-label">Follow Athlete</span>
             </button>
@@ -460,7 +428,6 @@
         </div>
 
         <div class="p-6 relative">
-          <!-- Profile Avatar overlap -->
           <div class="w-24 h-24 rounded-full border-4 border-[#0b0c10] bg-[#1e1e24] flex items-center justify-center text-3xl font-bold font-display text-amber-500 absolute -top-12 left-6 overflow-hidden">
             <i class="fa-solid fa-user text-gray-500 pt-3"></i>
           </div>
@@ -475,12 +442,10 @@
                 </div>
               </div>
               <div id="profile-p-privacy-badge" class="text-right">
-                <!-- Public / Private Status dynamic badge -->
                 <span class="text-[9px] uppercase font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">Public Profile</span>
               </div>
             </div>
 
-            <!-- Main stats checklist -->
             <div class="grid grid-cols-3 gap-4 border-y border-white/5 py-3">
               <div class="text-center">
                 <span class="text-[10px] uppercase font-bold text-gray-500">Combine Rating</span>
@@ -496,7 +461,6 @@
               </div>
             </div>
 
-            <!-- Profile Bio -->
             <div>
               <span class="text-[10px] uppercase font-bold text-gray-500 tracking-wider">Athlete Bio & Stats</span>
               <p id="profile-p-bio" class="text-xs text-gray-300 mt-1 leading-relaxed bg-black/40 p-3 rounded-xl border border-white/5">
@@ -504,41 +468,32 @@
               </p>
             </div>
 
-            <!-- Private Lock Notice Section -->
             <div id="profile-private-lock-message" class="hidden bg-amber-950/20 border border-amber-500/20 rounded-2xl p-6 text-center space-y-3">
               <i class="fa-solid fa-lock text-3xl text-amber-500 animate-pulse"></i>
               <h3 class="text-sm font-display font-bold text-white">This Athlete's Profile is Private</h3>
               <p class="text-xs text-gray-400 max-w-sm mx-auto">Please submit a Follow Request to unlock access to their bio details, statistics, and scouting reports.</p>
-              
-              <!-- Follow Request Action -->
               <button id="btn-request-follow" onclick="triggerProfileFollowAction()" class="bg-combine-gold text-black text-xs font-bold py-2 px-6 rounded-xl hover:opacity-90 transition-all mx-auto">
                 Transmit Follow Request
               </button>
             </div>
 
-            <!-- Social Media Posts Segment -->
             <div id="profile-posts-section" class="pt-2">
               <h3 class="text-xs uppercase tracking-widest font-bold text-amber-500 mb-3 flex items-center gap-1.5">
                 <i class="fa-solid fa-hashtag"></i> Athlete Posts
               </h3>
-              
-              <!-- User has no post yet -->
               <div class="bg-black/30 border border-white/5 rounded-xl p-8 text-center text-gray-500 text-xs flex flex-col items-center justify-center">
                 <i class="fa-solid fa-image-portrait text-3xl text-white/10 mb-2"></i>
                 <p class="font-semibold text-gray-400">This user has no posts yet</p>
                 <p class="text-[10px] text-gray-500 mt-0.5">Scouting drills and Combine highlights will be logged here.</p>
               </div>
             </div>
-
           </div>
         </div>
       </div>
     </div>
 
 
-    <!-- ============================================== -->
-    <!-- REPORT MESSAGE SCREEN                          -->
-    <!-- ============================================== -->
+    <!-- REPORT MESSAGE SCREEN -->
     <div id="view-report-screen" class="view-panel w-full max-w-xl mx-auto space-y-6 fade-in hidden">
       <button onclick="navigationTo('view-home')" class="text-xs text-amber-500 font-bold hover:underline flex items-center gap-2">
         <i class="fa-solid fa-arrow-left"></i> Cancel and Return
@@ -551,7 +506,6 @@
           <p class="text-gray-400 text-xs mt-1">Submit reports directly to the automated compliance agent. All submissions are cross-checked.</p>
         </div>
 
-        <!-- Target Message Card Details -->
         <div class="bg-rose-950/10 border border-rose-500/20 rounded-2xl p-4 space-y-2">
           <div class="flex justify-between items-center text-[10px] text-gray-400 border-b border-rose-500/10 pb-2">
             <span>MESSAGE ID: <strong id="report-message-id" class="font-mono text-white">12-Digit-ID</strong></span>
@@ -562,7 +516,6 @@
           </p>
         </div>
 
-        <!-- 12-Option List -->
         <form id="report-submission-form" class="space-y-4">
           <div>
             <label class="block text-xs font-semibold uppercase text-gray-400 mb-2">Select Primary Reason (Select One)</label>
@@ -624,19 +577,14 @@
           </button>
         </form>
 
-        <!-- Dynamic STEP View showing AI determination state -->
         <div id="report-step-view" class="hidden border-t border-white/5 pt-6 space-y-4">
           <h3 class="text-xs uppercase font-bold text-white tracking-widest">AI Inspection Log</h3>
-          
           <div class="space-y-4 relative pl-6 border-l border-white/10 ml-3">
-            <!-- Step 1: Pending Verification -->
             <div class="relative">
               <span id="step-dot-1" class="absolute -left-[30px] top-0.5 w-4.5 h-4.5 rounded-full bg-amber-500 border-4 border-black flex items-center justify-center"></span>
               <p class="text-xs font-bold text-white">Step 1: Automated Dispatch & Parsing</p>
               <p class="text-[10px] text-gray-400">Report parsed. Running semantic safety scoring...</p>
             </div>
-
-            <!-- Step 2: Live Outcome status -->
             <div class="relative pt-2">
               <span id="step-dot-2" class="absolute -left-[30px] top-2 w-4.5 h-4.5 rounded-full bg-zinc-700 border-4 border-black flex items-center justify-center"></span>
               <p class="text-xs font-bold text-white">Step 2: AI Determination & Mitigation</p>
@@ -644,14 +592,11 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
 
 
-    <!-- ============================================== -->
-    <!-- WALLET VIEW                                    -->
-    <!-- ============================================== -->
+    <!-- WALLET VIEW -->
     <div id="view-wallet" class="view-panel w-full space-y-6 fade-in hidden">
       <div class="max-w-2xl mx-auto glass-card rounded-2xl p-6 relative overflow-hidden">
         <div class="absolute right-0 top-0 w-48 h-48 bg-amber-500/5 rounded-full blur-2xl"></div>
@@ -664,7 +609,6 @@
           <i class="fa-solid fa-wallet text-3xl text-amber-500"></i>
         </div>
 
-        <!-- Wallet Card UI -->
         <div class="bg-gradient-to-tr from-amber-500 via-amber-600 to-amber-700 rounded-2xl p-6 text-black mt-6 shadow-xl shadow-amber-500/10">
           <div class="flex justify-between items-center">
             <span class="text-xs uppercase tracking-widest font-extrabold text-amber-100">NFSMEC Official Pass Balance</span>
@@ -686,10 +630,8 @@
           </div>
         </div>
 
-        <!-- Transactions -->
         <div class="mt-8 space-y-3">
           <h3 class="text-sm font-display font-bold text-white uppercase tracking-wider">Combine Ledger History</h3>
-          
           <div class="space-y-2">
             <div class="flex items-center justify-between bg-black/30 border border-white/5 p-3 rounded-xl">
               <div class="flex items-center gap-3">
@@ -709,13 +651,9 @@
     </div>
 
 
-    <!-- ============================================== -->
-    <!-- LIVE STREAM & COMBINE METRICS VIEW             -->
-    <!-- ============================================== -->
+    <!-- LIVE STREAM & COMBINE METRICS VIEW -->
     <div id="view-live" class="view-panel w-full space-y-6 fade-in hidden">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        
-        <!-- Live Leaderboard (Col-span 7) -->
         <div class="lg:col-span-7 space-y-4">
           <div class="glass-card rounded-2xl p-6">
             <div class="flex items-center justify-between mb-4">
@@ -756,12 +694,10 @@
           </div>
         </div>
 
-        <!-- Broadcast Feed (Col-span 5) -->
         <div class="lg:col-span-5 space-y-4">
           <div class="glass-card rounded-2xl p-6">
             <h3 class="text-sm font-display font-bold text-white uppercase tracking-wider mb-2">Live Combine Broadcast</h3>
             <p class="text-xs text-gray-400 mb-4">Official live-stream from the field, scouting metrics, and coach insights.</p>
-            
             <div class="relative rounded-xl overflow-hidden bg-black border border-white/10 aspect-video flex flex-col items-center justify-center">
               <div class="absolute inset-0 bg-cover bg-center opacity-40 filter blur-[1px]" style="background-image: url('https://images.unsplash.com/photo-1587280501635-68a0e82cd5ff?q=80&w=600&auto=format&fit=crop');"></div>
               <div class="relative z-10 flex flex-col items-center">
@@ -773,18 +709,13 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
 
 
-    <!-- ============================================== -->
-    <!-- SETTING / COMPLIANCE VIEW                      -->
-    <!-- ============================================== -->
+    <!-- SETTING / COMPLIANCE VIEW -->
     <div id="view-setting" class="view-panel w-full space-y-6 fade-in hidden">
       <div class="max-w-xl mx-auto glass-card rounded-2xl p-6 md:p-8 space-y-6">
-        
-        <!-- Tab Subheaders -->
         <div class="flex justify-between items-center border-b border-white/5 pb-4">
           <div>
             <span class="text-xs font-bold uppercase tracking-widest text-amber-500 bg-amber-500/10 px-3 py-1 rounded-full">Locker Customizations</span>
@@ -792,19 +723,16 @@
           </div>
         </div>
 
-        <!-- Follow Requests Pending Approvals Sub-View -->
         <div class="space-y-3 pt-2">
           <h3 class="text-xs uppercase tracking-widest font-bold text-amber-500 flex items-center gap-2">
             <i class="fa-solid fa-users-viewfinder"></i> Pending Follow Requests
           </h3>
           <p class="text-[10px] text-gray-400">Incoming requests to unlock your private profile details.</p>
           <div id="pending-requests-container" class="space-y-2">
-            <!-- Dynamically Loaded Requests -->
             <p class="text-xs text-gray-500 italic bg-black/40 p-3 rounded-xl border border-white/5">No pending requests to approve.</p>
           </div>
         </div>
 
-        <!-- Profile Visibility Config -->
         <div class="space-y-3 pt-4 border-t border-white/5">
           <h3 class="text-xs uppercase tracking-widest font-bold text-amber-500 flex items-center gap-2">
             <i class="fa-solid fa-shield-halved"></i> Profile Privacy & Visibility
@@ -823,13 +751,11 @@
           </div>
         </div>
 
-        <!-- Account Status Violation Checklist -->
         <div class="space-y-3 pt-4 border-t border-white/5 bg-zinc-900/40 p-4 rounded-xl border border-white/5">
           <h3 class="text-xs uppercase tracking-widest font-bold text-amber-500 flex items-center gap-2">
             <i class="fa-solid fa-user-shield"></i> Account Safety Status
           </h3>
           <div id="violations-tracker-view" class="space-y-3">
-            <!-- Dynamically Rendered Account Status or Guidelines Warning list -->
             <div class="flex items-center gap-2.5 text-xs text-emerald-400 font-semibold">
               <i class="fa-solid fa-circle-check text-base"></i>
               <span>Thank you for following the combine guidelines! ✔️</span>
@@ -837,7 +763,6 @@
           </div>
         </div>
 
-        <!-- Edit Profile Panel -->
         <form id="update-profile-form" class="space-y-4 pt-4 border-t border-white/5">
           <h3 class="text-xs uppercase tracking-widest font-bold text-amber-500 flex items-center gap-2">
             <i class="fa-solid fa-signature"></i> Customize Player Handle
@@ -850,20 +775,16 @@
                 class="w-full bg-black/40 border border-white/10 rounded-xl py-2.5 pl-9 pr-4 text-white text-xs focus:outline-none focus:border-amber-500 transition-all">
             </div>
           </div>
-
           <button type="submit" class="w-full bg-combine-gold text-black font-display font-bold py-2.5 rounded-xl hover:opacity-95 text-xs transition-all flex items-center justify-center gap-2">
             <span>Commit Profile Changes</span>
             <i class="fa-solid fa-check"></i>
           </button>
         </form>
 
-        <!-- Notification & Payment Methods -->
         <div class="space-y-4 pt-6 border-t border-white/5">
           <h3 class="text-xs uppercase tracking-widest font-bold text-amber-500 flex items-center gap-2">
             <i class="fa-solid fa-bell"></i> Preferences & Billing
           </h3>
-
-          <!-- Opt-in for Notification -->
           <div class="flex items-center justify-between p-3 bg-white/5 border border-white/5 rounded-xl">
             <div>
               <p class="text-xs font-bold text-white">Opt-In for Combine SMS Notifications</p>
@@ -877,7 +798,6 @@
             </label>
           </div>
 
-          <!-- Add Payment Method -->
           <button onclick="openPaymentModal()" class="w-full bg-white/5 border border-white/10 text-white font-bold py-3 px-4 rounded-xl hover:bg-white/10 text-xs transition-all flex items-center justify-between">
             <span class="flex items-center gap-2">
               <i class="fa-solid fa-credit-card text-amber-500"></i>
@@ -887,26 +807,20 @@
           </button>
         </div>
 
-        <!-- Sign Out Action -->
         <button id="btn-logout" class="w-full bg-rose-500/10 border border-rose-500/20 text-rose-400 hover:bg-rose-500/20 font-bold py-3 rounded-xl text-xs transition-all flex items-center justify-center gap-2 mt-6">
           <i class="fa-solid fa-sign-out"></i>
           <span>Deauthorize & Sign Out</span>
         </button>
       </div>
     </div>
-
   </main>
 
-
-  <!-- ============================================== -->
-  <!-- MESSAGE ACTION SHEETS / REPORTING / DELETION MODAL -->
-  <!-- ============================================== -->
+  <!-- MANAGING MODAL -->
   <div id="msg-delete-modal" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 hidden animate-in fade-in">
     <div class="glass-card w-full max-w-sm rounded-2xl p-6 shadow-2xl relative">
       <button onclick="closeMsgDeleteModal()" class="absolute right-4 top-4 text-gray-400 hover:text-white">
         <i class="fa-solid fa-times text-lg"></i>
       </button>
-
       <div class="text-center mb-6">
         <div class="w-12 h-12 bg-amber-500/10 border border-amber-500/20 text-amber-500 rounded-full flex items-center justify-center mx-auto mb-3">
           <i class="fa-solid fa-gears text-lg"></i>
@@ -914,9 +828,7 @@
         <h3 class="text-base font-display font-bold text-white">Manage Transmission</h3>
         <p class="text-xs text-gray-400 mt-1">Select deletion method or trigger safe reports on this combined broadcast.</p>
       </div>
-
       <div class="space-y-3">
-        <!-- Delete for myself -->
         <button onclick="deleteMsgLocally()" class="w-full bg-white/5 border border-white/10 hover:bg-white/10 text-white font-bold py-3 px-4 rounded-xl text-xs transition-all flex items-center justify-between">
           <span class="flex items-center gap-2">
             <i class="fa-solid fa-eye-slash text-amber-500"></i>
@@ -924,8 +836,6 @@
           </span>
           <span class="text-[9px] text-gray-500 uppercase font-mono">Local-only</span>
         </button>
-
-        <!-- Delete for everyone (Conditional check in JS) -->
         <button id="btn-delete-everyone" onclick="deleteMsgForEveryone()" class="w-full bg-rose-500/10 border border-rose-500/20 hover:bg-rose-500/20 text-rose-400 font-bold py-3 px-4 rounded-xl text-xs transition-all flex items-center justify-between">
           <span class="flex items-center gap-2">
             <i class="fa-solid fa-dumpster-fire"></i>
@@ -933,8 +843,6 @@
           </span>
           <span class="text-[9px] text-rose-400 uppercase font-mono">Firestore</span>
         </button>
-
-        <!-- Report Message Option -->
         <button onclick="triggerMsgReport()" class="w-full bg-rose-500/10 border border-rose-500/20 hover:bg-rose-500/20 text-rose-400 font-bold py-3 px-4 rounded-xl text-xs transition-all flex items-center justify-between">
           <span class="flex items-center gap-2">
             <i class="fa-solid fa-triangle-exclamation"></i>
@@ -946,32 +854,25 @@
     </div>
   </div>
 
-
-  <!-- ============================================== -->
-  <!-- PAYMENT MODAL                                  -->
-  <!-- ============================================== -->
+  <!-- PAYMENT MODAL -->
   <div id="payment-modal" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 hidden animate-in fade-in">
     <div class="glass-card w-full max-w-md rounded-2xl p-6 shadow-2xl relative">
       <button onclick="closePaymentModal()" class="absolute right-4 top-4 text-gray-400 hover:text-white">
         <i class="fa-solid fa-times text-lg"></i>
       </button>
-
       <div class="flex items-center gap-3 mb-4">
         <i class="fa-solid fa-credit-card text-amber-500 text-xl"></i>
         <h3 class="text-base font-display font-bold text-white">Add Payment Credentials</h3>
       </div>
-
       <form id="payment-form" class="space-y-4">
         <div>
           <label class="block text-[10px] font-semibold uppercase text-gray-400 mb-1">Cardholder Name</label>
           <input type="text" required placeholder="Jaxson Miller" class="w-full bg-black/40 border border-white/10 rounded-xl py-2 px-3 text-white text-xs focus:outline-none focus:border-amber-500">
         </div>
-
         <div>
           <label class="block text-[10px] font-semibold uppercase text-gray-400 mb-1">Card Number</label>
           <input type="text" required placeholder="4000 1234 5678 9010" class="w-full bg-black/40 border border-white/10 rounded-xl py-2 px-3 text-white text-xs focus:outline-none focus:border-amber-500">
         </div>
-
         <div class="grid grid-cols-2 gap-4">
           <div>
             <label class="block text-[10px] font-semibold uppercase text-gray-400 mb-1">Expiration</label>
@@ -982,7 +883,6 @@
             <input type="password" required placeholder="•••" class="w-full bg-black/40 border border-white/10 rounded-xl py-2 px-3 text-white text-xs focus:outline-none focus:border-amber-500">
           </div>
         </div>
-
         <button type="submit" class="w-full bg-combine-gold text-black text-xs font-bold py-2.5 rounded-xl hover:opacity-90 transition-all mt-2">
           Save Method
         </button>
@@ -990,27 +890,21 @@
     </div>
   </div>
 
-
-  <!-- ============================================== -->
-  <!-- NAVIGATION BOTTOM BAR                          -->
-  <!-- ============================================== -->
+  <!-- NAVIGATION BOTTOM BAR -->
   <nav id="app-nav" class="hidden fixed bottom-0 left-0 right-0 bg-black/95 border-t border-white/10 py-3 px-4 md:px-8 z-30 backdrop-blur-md">
     <div class="max-w-2xl mx-auto flex justify-between items-center gap-1">
       <button onclick="navigationTo('view-home')" class="nav-btn flex flex-col items-center gap-1 px-3 py-1 text-amber-500" data-view="view-home">
         <i class="fa-solid fa-house text-lg"></i>
         <span class="text-[9px] font-semibold uppercase tracking-wider">Home</span>
       </button>
-
       <button onclick="navigationTo('view-wallet')" class="nav-btn flex flex-col items-center gap-1 px-3 py-1 text-gray-400 hover:text-white" data-view="view-wallet">
         <i class="fa-solid fa-wallet text-lg"></i>
         <span class="text-[9px] font-semibold uppercase tracking-wider">Wallet</span>
       </button>
-
       <button onclick="navigationTo('view-live')" class="nav-btn flex flex-col items-center gap-1 px-3 py-1 text-gray-400 hover:text-white" data-view="view-live">
         <i class="fa-solid fa-bolt text-lg"></i>
         <span class="text-[9px] font-semibold uppercase tracking-wider">Live</span>
       </button>
-
       <button onclick="navigationTo('view-setting')" class="nav-btn flex flex-col items-center gap-1 px-3 py-1 text-gray-400 hover:text-white" data-view="view-setting">
         <i class="fa-solid fa-gear text-lg"></i>
         <span class="text-[9px] font-semibold uppercase tracking-wider">Settings</span>
@@ -1018,13 +912,12 @@
     </div>
   </nav>
 
-  <!-- Firebase Scripts modules with reliable JS Delivr/Static CDNs -->
+  <!-- Firebase Scripts modules -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithCustomToken, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
     import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, updateDoc, deleteDoc, addDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    // Standard Configuration mapping
     const firebaseConfig = {
       apiKey: "AIzaSyDPPRKWgwTrCdPnwzx-omOT0b6SKqOSBfg",
       authDomain: "nfsmec-bd2f4.firebaseapp.com",
@@ -1035,53 +928,43 @@
       appId: "1:53788359921:web:4595e33a5baf46f2f9fd50"
     };
 
-    // Global variables mapping
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
     const appId = typeof __app_id !== 'undefined' ? __app_id : 'nfsmec-bd2f4';
 
-    // Application state logs
     let currentUserProfile = null;
     let allPlayersList = [];
     let currentRawMessages = [];
     let activeMessageTarget = null;
-    let targetProfileUser = null; // Profile we are currently viewing
+    let targetProfileUser = null;
     let isLiveSyncEnabled = true;
 
-    // Follow rules tracker
     let myFollowingSet = new Set();
     let myFollowRequestsPendingSet = new Set();
     let followRequestsReceived = [];
 
-    // Local filter state
     let rosterLimit = 5;
     let isShuffled = false;
     let shuffledIndices = [];
-
-    // Local cached arrays for local message removal
     let locallyDeletedIds = new Set();
 
-    // Safety checks & violations
     let warningCount = 0;
     let orangeStrikes = [];
     let restrictionTimer = null;
     let followRestrictedUntil = null;
 
-    // Anti-spam timers
     let recentMessagesTimestamps = [];
     let isSpamLimited = false;
     let limitRemainingTime = 600;
     let timerInterval = null;
 
-    // Live Unsubscribe subscriptions
     let authUnsubscribe = null;
     let messagesUnsubscribe = null;
     let rosterUnsubscribe = null;
     let followUnsubscribe = null;
     let recruiterFeedbackUnsubscribe = null;
 
-    // UI Notifier helper
     window.showToast = function(message, type = 'info') {
       const container = document.getElementById('notification-container');
       const toast = document.createElement('div');
@@ -1112,7 +995,6 @@
       }
     }
 
-    // Toggle navigation panels
     window.switchView = function(viewId) {
       document.querySelectorAll('.view-panel').forEach(panel => panel.classList.add('hidden'));
       document.getElementById(viewId).classList.remove('hidden');
@@ -1132,7 +1014,32 @@
       });
     };
 
-    // Profile detail modal activation - switches to Social Media view now
+    function generateRegistrationId() {
+      const p1 = Math.floor(1000 + Math.random() * 9000);
+      const p2 = Math.floor(10000 + Math.random() * 90000);
+      return `${p1}-${p2}`;
+    }
+
+    // Follow count calculation
+    async function getFollowersCount(targetUid) {
+      try {
+        const followsRef = collection(db, 'artifacts', appId, 'public', 'data', 'follows');
+        let count = 0;
+        await new Promise((resolve) => {
+          const unsub = onSnapshot(followsRef, (snap) => {
+            snap.forEach(d => {
+              if (d.data().following_uid === targetUid) count++;
+            });
+            unsub();
+            resolve();
+          });
+        });
+        return count;
+      } catch (err) {
+        return 0;
+      }
+    }
+
     window.openPlayerProfile = async function(uid) {
       toggleLoader(true);
       try {
@@ -1145,12 +1052,10 @@
         const p = playerDoc.data();
         targetProfileUser = p;
 
-        // Populate basic social metrics
         document.getElementById('profile-p-name').textContent = p.player_name || 'Anonymous';
         document.getElementById('profile-p-username').textContent = `@${p.player_username || 'unknown'}`;
         document.getElementById('profile-p-reg').textContent = p.registration_number || '1009-XXXXX';
         
-        // Handle Privacy Status Checks
         const isPrivate = p.is_profile_private === true || p.is_profile_public === false;
         const profilePrivacyBadge = document.getElementById('profile-p-privacy-badge');
         const privateLockMessage = document.getElementById('profile-private-lock-message');
@@ -1163,7 +1068,6 @@
           profilePrivacyBadge.innerHTML = `<span class="text-[9px] uppercase font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">Public Profile</span>`;
         }
 
-        // Check relationship (is following, pending, or self)
         const isMe = uid === auth.currentUser?.uid;
         const following = myFollowingSet.has(uid);
         const requested = myFollowRequestsPendingSet.has(uid);
@@ -1182,14 +1086,12 @@
           if (following) {
             followBtn.innerHTML = `<i class="fa-solid fa-user-check"></i> <span>Following</span>`;
             followBtn.className = "bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs px-4 py-1.5 rounded-full shadow-lg transition-all flex items-center gap-1.5";
-            
             privateLockMessage.classList.add('hidden');
             profilePostsSection.classList.remove('hidden');
             profileBioBlock.textContent = p.profile_bio || 'No athlete resume or performance stats updated yet.';
           } else if (requested) {
             followBtn.innerHTML = `<i class="fa-solid fa-hourglass-half"></i> <span>Requested</span>`;
             followBtn.className = "bg-zinc-700 text-gray-300 font-bold text-xs px-4 py-1.5 rounded-full shadow-lg transition-all flex items-center gap-1.5 cursor-not-allowed";
-            
             if (isPrivate) {
               privateLockMessage.classList.remove('hidden');
               reqBtn.textContent = "Request Pending Approval";
@@ -1202,10 +1104,8 @@
               profileBioBlock.textContent = p.profile_bio || 'No athlete resume or performance stats updated yet.';
             }
           } else {
-            // Normal state
             followBtn.innerHTML = `<i class="fa-solid fa-user-plus"></i> <span>Follow Athlete</span>`;
             followBtn.className = "bg-combine-gold hover:opacity-90 text-black font-bold text-xs px-4 py-1.5 rounded-full shadow-lg transition-all flex items-center gap-1.5";
-            
             if (isPrivate) {
               privateLockMessage.classList.remove('hidden');
               reqBtn.textContent = "Transmit Follow Request";
@@ -1220,11 +1120,9 @@
           }
         }
 
-        // Count followers
         const count = await getFollowersCount(uid);
         document.getElementById('profile-p-follower-count').textContent = count;
 
-        // Set status
         const statusBadge = document.getElementById('profile-p-status-badge');
         if (p.is_suspended === true) {
           statusBadge.textContent = "Suspended";
@@ -1242,28 +1140,9 @@
       }
     };
 
-    // Calculate Followers Count (RULE 2: query basic and filter in JS memory)
-    async function getFollowersCount(targetUid) {
-      try {
-        const followsRef = collection(db, 'artifacts', appId, 'public', 'data', 'follows');
-        const snapshot = await new Promise((resolve, reject) => {
-          onSnapshot(followsRef, resolve, reject);
-        });
-        let count = 0;
-        snapshot.forEach(doc => {
-          if (doc.data().following_uid === targetUid) count++;
-        });
-        return count;
-      } catch (err) {
-        return 0;
-      }
-    }
-
-    // Follow Athlete Logic
     window.triggerProfileFollowAction = async function() {
       if (!auth.currentUser || !targetProfileUser) return;
 
-      // Check double-strike minor violation penalty (follow ban for 1 hour)
       if (followRestrictedUntil && new Date() < followRestrictedUntil) {
         const diff = Math.ceil((followRestrictedUntil - new Date()) / 60000);
         showToast(`Follow action blocked! Follow ban active for another ${diff} minute(s).`, "error");
@@ -1276,7 +1155,6 @@
 
       try {
         if (isPrivate) {
-          // Send Follow Request (Target: public/data/follow_requests)
           const reqId = `${auth.currentUser.uid}_${targetUid}`;
           const requestRef = doc(db, 'artifacts', appId, 'public', 'data', 'follow_requests', reqId);
           
@@ -1293,7 +1171,6 @@
           myFollowRequestsPendingSet.add(targetUid);
           showToast("Follow Request sent successfully! Pending athlete approval.", "success");
         } else {
-          // Direct follow (Target: public/data/follows)
           const followId = `${auth.currentUser.uid}_${targetUid}`;
           const followRef = doc(db, 'artifacts', appId, 'public', 'data', 'follows', followId);
           
@@ -1308,7 +1185,6 @@
           showToast(`Successfully following @${targetProfileUser.player_username}!`, "success");
         }
 
-        // Re-open/refresh view state
         openPlayerProfile(targetUid);
       } catch (err) {
         showToast(err.message, "error");
@@ -1317,7 +1193,6 @@
       }
     };
 
-    // Settings Profile Visibility switch trigger
     document.getElementById('profile-privacy-toggle').addEventListener('change', async (e) => {
       if (!auth.currentUser) return;
       const isPrivate = e.target.checked;
@@ -1336,7 +1211,6 @@
       }
     });
 
-    // Sign Up Submission
     document.getElementById('signup-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       toggleLoader(true);
@@ -1384,7 +1258,6 @@
       }
     });
 
-    // Login Form Submission
     document.getElementById('login-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       toggleLoader(true);
@@ -1397,19 +1270,21 @@
         const profilesRef = collection(db, 'artifacts', appId, 'public', 'data', 'profiles');
         let targetProfile = null;
         
-        const snapshot = await new Promise((resolve, reject) => {
-          onSnapshot(profilesRef, resolve, reject);
-        });
-
-        snapshot.forEach(doc => {
-          const d = doc.data();
-          if (
-            d.registration_number === regNumInput &&
-            d.date_birth === dobInput &&
-            d.passkey === passkeyInput
-          ) {
-            targetProfile = d;
-          }
+        await new Promise((resolve, reject) => {
+          const unsub = onSnapshot(profilesRef, (snapshot) => {
+            snapshot.forEach(doc => {
+              const d = doc.data();
+              if (
+                d.registration_number === regNumInput &&
+                d.date_birth === dobInput &&
+                d.passkey === passkeyInput
+              ) {
+                targetProfile = d;
+              }
+            });
+            unsub();
+            resolve();
+          }, reject);
         });
 
         if (!targetProfile) {
@@ -1426,7 +1301,6 @@
       }
     });
 
-    // Settings Profile Update
     document.getElementById('update-profile-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       if (!auth.currentUser) return;
@@ -1448,7 +1322,6 @@
       }
     });
 
-    // Sign Out
     document.getElementById('btn-logout').addEventListener('click', async () => {
       toggleLoader(true);
       try {
@@ -1461,7 +1334,6 @@
       }
     });
 
-    // Suspended Logout trigger
     window.triggerSuspendedLogout = async function() {
       toggleLoader(true);
       try {
@@ -1480,7 +1352,6 @@
       dd.classList.toggle('hidden');
     };
 
-    // Chat live sync listener
     function setupMessagesSync(userId) {
       if (messagesUnsubscribe) messagesUnsubscribe();
 
@@ -1520,8 +1391,6 @@
       container.innerHTML = filteredMessages.map(msg => {
         const isMe = msg.uid === auth.currentUser?.uid;
         const timeFormatted = msg.time_stamp ? new Date(msg.time_stamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
-        
-        // Mocking stable 12-digit message ID for display
         const displayId = msg.id.length >= 12 ? msg.id.substring(0, 12).toUpperCase() : (msg.id + "123456789").substring(0, 12).toUpperCase();
 
         return `
@@ -1550,7 +1419,6 @@
       container.scrollTop = container.scrollHeight;
     }
 
-    // Message action toggle sheets
     window.triggerMsgActions = function(msgId, senderUid, encodedMsg) {
       const rawMsg = decodeURIComponent(encodedMsg);
       activeMessageTarget = { id: msgId, uid: senderUid, text: rawMsg };
@@ -1594,7 +1462,6 @@
       }
     };
 
-    // Transition to Report view
     window.triggerMsgReport = function() {
       if (!activeMessageTarget) return;
       closeMsgDeleteModal();
@@ -1607,13 +1474,10 @@
       document.getElementById('report-message-author').textContent = `@${authorUsername}`;
       document.getElementById('report-message-text').textContent = `"${activeMessageTarget.text}"`;
 
-      // Reset Step View
       document.getElementById('report-step-view').classList.add('hidden');
-
       switchView('view-report-screen');
     };
 
-    // Report submission logic with local Simulated AI guidelines module
     document.getElementById('report-submission-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       if (!activeMessageTarget) return;
@@ -1624,7 +1488,6 @@
       const offenderUid = activeMessageTarget.uid;
 
       try {
-        // Record report in Firestore (Target path constraint RULE 1)
         const reportId = `report_${Date.now()}`;
         const reportRef = doc(db, 'artifacts', appId, 'public', 'data', 'reports', reportId);
         
@@ -1640,223 +1503,177 @@
         };
 
         await setDoc(reportRef, reportPayload);
-
-        // Turn on step tracking views
         document.getElementById('report-step-view').classList.remove('hidden');
         
-        // Step 1 checkmark loading animations
         const stepDot1 = document.getElementById('step-dot-1');
         const stepDot2 = document.getElementById('step-dot-2');
         const outcomeMessage = document.getElementById('report-outcome-message');
 
         stepDot1.className = "absolute -left-[30px] top-0.5 w-4.5 h-4.5 rounded-full bg-emerald-500 border-4 border-black flex items-center justify-center";
         
-        // Simulating the prompt AI Guidelines parsing logic:
-        // Free speech allowed (e.g. saying "fuck" won't cause warning).
-        // Bullying / Harassment (e.g. references to mom, name calling) -> Warnings.
-        // Physical threats (stab, violent acts) -> orange Striking warning triangles.
         setTimeout(async () => {
-          let aiVerdict = "clean";
-          let explanation = "";
-
-          const lowerText = reportedMessageText.toLowerCase();
-
-          // Free Speech exceptions
-          const hasCommonSwear = lowerText.includes("fuck") || lowerText.includes("shit");
-          
-          // Bullying checks
-          const hasBullying = lowerText.includes("mom") || lowerText.includes("trash") || lowerText.includes("loser") || lowerText.includes("suck") || lowerText.includes("bitch") || lowerText.includes("garbage");
-          
-          // Physical violence
-          const hasPhysicalViolence = lowerText.includes("stab") || lowerText.includes("kill") || lowerText.includes("murder") || lowerText.includes("shoot") || lowerText.includes("beat you");
-
-          if (hasPhysicalViolence) {
-            aiVerdict = "strike";
-            explanation = "AI Detection Confirmed: Serious Physical/Violent Threat. Account flagged with an Orange Triangle Strike.";
-          } else if (hasBullying) {
-            aiVerdict = "warning";
-            explanation = "AI Detection Confirmed: Bullying and Harassment. WARNING issued to offender.";
-          } else if (hasCommonSwear) {
-            aiVerdict = "free_speech";
-            explanation = "AI Decision: Permitted free speech. Swearing triggers no combine guidelines infractions. No action taken.";
-          } else {
-            aiVerdict = "clean";
-            explanation = "AI Verification Complete: Transmission does not violate combine guidelines. However, you are free to restrict or mute this athlete.";
-          }
-
-          // Complete step 2
           stepDot2.className = "absolute -left-[30px] top-2 w-4.5 h-4.5 rounded-full bg-emerald-500 border-4 border-black flex items-center justify-center";
-          outcomeMessage.className = "text-xs font-bold text-amber-500 mt-1";
-          outcomeMessage.textContent = explanation;
+          
+          if (selectedReason.includes("Violent Threat") || selectedReason.includes("Harassment") || selectedReason.includes("Hate Speech")) {
+            outcomeMessage.textContent = "Violation Confirmed. Issuing restriction matrices to safety node.";
+            outcomeMessage.className = "text-[10px] text-rose-400 font-bold";
+            
+            try {
+              const offenderProfileRef = doc(db, 'artifacts', appId, 'public', 'data', 'profiles', offenderUid);
+              const offenderDoc = await getDoc(offenderProfileRef);
+              
+              if (offenderDoc.exists()) {
+                const currentWarnings = (offenderDoc.data().warning_count || 0) + 1;
+                let currentStrikes = offenderDoc.data().orange_strikes || [];
+                let updates = { warning_count: currentWarnings };
 
-          // Commit penalties to database for offender
-          if (aiVerdict === "warning" || aiVerdict === "strike") {
-            const offenderRef = doc(db, 'artifacts', appId, 'public', 'data', 'profiles', offenderUid);
-            const offenderSnap = await getDoc(offenderRef);
-            if (offenderSnap.exists()) {
-              const oData = offenderSnap.data();
-              let curWarnings = oData.warning_count || 0;
-              let curStrikes = oData.orange_strikes || [];
-
-              if (aiVerdict === "warning") {
-                curWarnings++;
-              } else if (aiVerdict === "strike") {
-                curStrikes.push(`Violent Threat Detected on message: "${reportedMessageText}"`);
+                if (currentWarnings >= 2) {
+                  updates.is_suspended = true;
+                  updates.suspension_reason = selectedReason;
+                } else {
+                  currentStrikes.push({
+                    reason: selectedReason,
+                    timestamp: new Date().toISOString()
+                  });
+                  updates.orange_strikes = currentStrikes;
+                }
+                await updateDoc(offenderProfileRef, updates);
               }
-
-              const updatePayload = {
-                warning_count: curWarnings,
-                orange_strikes: curStrikes
-              };
-
-              // Penalty 1: If double-strike (2 Strikes) or double violent threats: set_temp_ban active
-              if (curStrikes.length >= 2) {
-                updatePayload.is_suspended = true;
-                updatePayload.ban_reason = "TEMP_BAN: Double Violent Strike Violations (AI Automated Audit)";
-                updatePayload.banned_until = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(); // 24-hour Ban
-              } 
-              // Penalty 2: If twice minor warnings: follow restriction ban for 1 hour
-              else if (curWarnings >= 2) {
-                updatePayload.follow_restricted_until = new Date(Date.now() + 60 * 60 * 1000).toISOString(); // 1 hour Follow Ban
-              }
-
-              await updateDoc(offenderRef, updatePayload);
+              showToast("AI safety engine mitigation sequence concluded.", "success");
+            } catch (profileErr) {
+              console.error(profileErr);
             }
+          } else {
+            outcomeMessage.textContent = "Report logged. Content marked for routine architectural sampling.";
+            outcomeMessage.className = "text-[10px] text-amber-400 font-bold";
           }
-
-          showToast("AI Compliance scanning complete. Logging audit report.", "success");
+          toggleLoader(false);
         }, 1500);
 
       } catch (err) {
         showToast(err.message, "error");
-      } finally {
         toggleLoader(false);
       }
     });
 
-    // Appeal Submission AI processing
     document.getElementById('appeal-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       if (!auth.currentUser) return;
-
       toggleLoader(true);
-      const explanation = document.getElementById('appeal-text').value.trim();
-
+      
+      const appealText = document.getElementById('appeal-text').value.trim();
       try {
-        const userRef = doc(db, 'artifacts', appId, 'public', 'data', 'profiles', auth.currentUser.uid);
+        const appealId = `appeal_${Date.now()}`;
+        const appealRef = doc(db, 'artifacts', appId, 'public', 'data', 'appeals', appealId);
         
-        // Run Simulated AI Arbiter evaluation
+        await setDoc(appealRef, {
+          appeal_id: appealId,
+          uid: auth.currentUser.uid,
+          username: currentUserProfile?.player_username || 'unknown',
+          text: appealText,
+          timestamp: new Date().toISOString()
+        });
+
+        showToast("Appeal transmitted. AI evaluating remorse dynamics...", "success");
+        document.getElementById('appeal-form').reset();
+        
         setTimeout(async () => {
-          let outcomeText = "";
-          let approved = false;
-
-          const lowerExp = explanation.toLowerCase();
-          
-          // AI looks for keywords of apology/cooperation or serious explanations to restore account
-          if (lowerExp.length < 15) {
-            outcomeText = "Rejected. Explanation is too short or lacks accountability.";
-          } else if (lowerExp.includes("sorry") || lowerExp.includes("apologize") || lowerExp.includes("mistake") || lowerExp.includes("accident")) {
-            approved = true;
-            outcomeText = "Approved. AI System accepted apology. Restoring combine access. Good luck on the field!";
-          } else {
-            outcomeText = "Appeal evaluated and rejected. The physical violent threat ban stands.";
-          }
-
-          if (approved) {
-            await updateDoc(userRef, {
+          if (appealText.toLowerCase().includes("sorry") || appealText.toLowerCase().includes("apologize") || appealText.length > 30) {
+            const profileRef = doc(db, 'artifacts', appId, 'public', 'data', 'profiles', auth.currentUser.uid);
+            await updateDoc(profileRef, {
               is_suspended: false,
-              orange_strikes: [], // Clear strikes
-              warning_count: 0
+              warning_count: 0,
+              orange_strikes: []
             });
-            showToast(outcomeText, "success");
+            showToast("Appeal Approved. Locker restoration finalized!", "success");
             document.getElementById('view-suspended').classList.add('hidden');
-            navigationTo('view-home');
+            switchView('view-home');
           } else {
-            showToast(outcomeText, "error");
+            showToast("Appeal Rejected. Automated risk score remains elevated.", "error");
           }
-          toggleLoader(false);
         }, 2000);
-
-      } catch (err) {
-        showToast(err.message, "error");
-        toggleLoader(false);
-      }
-    });
-
-    // Handle incoming Follow Requests approvals in Settings
-    window.processFollowRequest = async function(requestId, approve) {
-      toggleLoader(true);
-      try {
-        const requestRef = doc(db, 'artifacts', appId, 'public', 'data', 'follow_requests', requestId);
-        const reqSnap = await getDoc(requestRef);
-        
-        if (!reqSnap.exists()) return;
-        const reqData = reqSnap.data();
-
-        if (approve) {
-          // Add to public/follows
-          const followId = `${reqData.sender_uid}_${auth.currentUser.uid}`;
-          const followRef = doc(db, 'artifacts', appId, 'public', 'data', 'follows', followId);
-          
-          await setDoc(followRef, {
-            follow_id: followId,
-            follower_uid: reqData.sender_uid,
-            following_uid: auth.currentUser.uid,
-            timestamp: new Date().toISOString()
-          });
-
-          await updateDoc(requestRef, { status: "approved" });
-          showToast("Follow Request Approved!", "success");
-        } else {
-          await deleteDoc(requestRef);
-          showToast("Follow Request Denied.", "info");
-        }
-
-        // Force-refresh received requests list
-        fetchPendingReceivedRequests();
       } catch (err) {
         showToast(err.message, "error");
       } finally {
         toggleLoader(false);
       }
-    };
+    });
 
-    // Pull Received follow requests (Rule 2 filter in JS)
-    async function fetchPendingReceivedRequests() {
-      if (!auth.currentUser) return;
-      const requestsRef = collection(db, 'artifacts', appId, 'public', 'data', 'follow_requests');
-      
-      onSnapshot(requestsRef, (snapshot) => {
-        const list = [];
-        snapshot.forEach(doc => {
-          const d = doc.data();
-          if (d.receiver_uid === auth.currentUser.uid && d.status === "pending") {
-            list.push(d);
-          }
+    document.getElementById('chat-input-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!auth.currentUser || !currentUserProfile) return;
+
+      if (isSpamLimited) {
+        showToast("Transmission pipeline blocked. Rate limit penalty active.", "error");
+        return;
+      }
+
+      const inputElement = document.getElementById('chat-msg-text');
+      const text = inputElement.value.trim();
+      if (!text) return;
+
+      const now = Date.now();
+      recentMessagesTimestamps = recentMessagesTimestamps.filter(ts => now - ts < 10000);
+      recentMessagesTimestamps.push(now);
+
+      if (recentMessagesTimestamps.length > 5) {
+        activateSpamCooldown();
+        return;
+      }
+
+      try {
+        const msgCollectionRef = collection(db, 'artifacts', appId, 'public', 'data', 'live_messages');
+        await addDoc(msgCollectionRef, {
+          message: text,
+          uid: auth.currentUser.uid,
+          player_name: currentUserProfile.player_name || 'Anonymous',
+          player_username: currentUserProfile.player_username || 'unknown',
+          time_stamp: new Date().toISOString()
         });
+        inputElement.value = '';
+      } catch (err) {
+        showToast(err.message, "error");
+      }
+    });
 
-        const container = document.getElementById('pending-requests-container');
-        if (list.length === 0) {
-          container.innerHTML = `<p class="text-xs text-gray-500 italic bg-black/40 p-3 rounded-xl border border-white/5">No pending requests to approve.</p>`;
-          return;
+    function activateSpamCooldown() {
+      isSpamLimited = true;
+      limitRemainingTime = 600;
+      
+      document.getElementById('spam-warning').classList.remove('hidden');
+      document.getElementById('btn-send-msg').disabled = true;
+      document.getElementById('chat-msg-text').disabled = true;
+
+      showToast("Spam threat locked down. Cooling core matrices...", "error");
+
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        limitRemainingTime--;
+        if (limitRemainingTime <= 0) {
+          clearInterval(timerInterval);
+          isSpamLimited = false;
+          document.getElementById('spam-warning').classList.add('hidden');
+          document.getElementById('btn-send-msg').disabled = false;
+          document.getElementById('chat-msg-text').disabled = false;
+          recentMessagesTimestamps = [];
+        } else {
+          const mins = Math.floor(limitRemainingTime / 60);
+          const secs = limitRemainingTime % 60;
+          document.getElementById('countdown-timer').textContent = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
         }
-
-        container.innerHTML = list.map(req => `
-          <div class="flex items-center justify-between p-3 bg-white/5 border border-white/5 rounded-xl">
-            <div>
-              <p class="text-xs font-bold text-white">${req.sender_name}</p>
-              <p class="text-[9px] text-gray-400">@${req.sender_username}</p>
-            </div>
-            <div class="flex gap-2">
-              <button onclick="processFollowRequest('${req.request_id}', true)" class="bg-emerald-500 hover:bg-emerald-600 text-black px-2.5 py-1 rounded text-[10px] font-bold transition-all">Approve</button>
-              <button onclick="processFollowRequest('${req.request_id}', false)" class="bg-rose-500/15 hover:bg-rose-500/20 text-rose-400 px-2.5 py-1 rounded text-[10px] font-bold transition-all">Deny</button>
-            </div>
-          </div>
-        `).join('');
-      });
+      }, 1000);
     }
 
-    // Dynamic Roster refreshing limit updates
+    document.getElementById('sync-messages-checkbox').addEventListener('change', (e) => {
+      isLiveSyncEnabled = e.target.checked;
+      if (isLiveSyncEnabled) {
+        showToast("Live system feeds activated.", "info");
+        renderMessages(currentRawMessages);
+      } else {
+        showToast("Live streams paused. Reading snapshot cache.", "info");
+      }
+    });
+
     document.getElementById('roster-limit-filter').addEventListener('change', (e) => {
       const val = e.target.value;
       rosterLimit = val === 'all' ? 'all' : parseInt(val);
@@ -1865,376 +1682,320 @@
 
     window.triggerRosterRefresh = function() {
       isShuffled = true;
-      // Setup randomized shuffle index maps
-      shuffledIndices = Array.from({ length: allPlayersList.length }, (_, i) => i);
-      for (let i = shuffledIndices.length - 1; i > 0; i--) {
+      shuffledIndices = [];
+      const len = allPlayersList.length;
+      for (let i = 0; i < len; i++) shuffledIndices.push(i);
+      
+      for (let i = len - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [shuffledIndices[i], shuffledIndices[j]] = [shuffledIndices[j], shuffledIndices[i]];
       }
-      showToast("Combine roster indices refreshed & randomized.", "info");
+      
+      showToast("Athletes re-indexed dynamically.", "success");
       renderRoster(allPlayersList);
     };
 
-    function setupRosterSync() {
-      if (rosterUnsubscribe) rosterUnsubscribe();
-
-      const profilesRef = collection(db, 'artifacts', appId, 'public', 'data', 'profiles');
-      
-      rosterUnsubscribe = onSnapshot(profilesRef, (snapshot) => {
-        allPlayersList = [];
-        snapshot.forEach(doc => {
-          allPlayersList.push(doc.data());
-        });
-
+    document.getElementById('player-search').addEventListener('input', (e) => {
+      const term = e.target.value.toLowerCase().trim();
+      if (!term) {
         renderRoster(allPlayersList);
-      }, (err) => {
-        console.error("Roster sync error", err);
-      });
-    }
+        return;
+      }
+      const filtered = allPlayersList.filter(p => 
+        (p.player_name || '').toLowerCase().includes(term) ||
+        (p.player_username || '').toLowerCase().includes(term) ||
+        (p.profile_bio || '').toLowerCase().includes(term)
+      );
+      renderRoster(filtered);
+    });
 
     function renderRoster(players) {
-      const container = document.getElementById('player-roster-list');
-      if (players.length === 0) {
-        container.innerHTML = `<div class="text-center py-12 text-gray-500 text-xs">No participating athletes detected.</div>`;
+      const listContainer = document.getElementById('player-roster-list');
+      
+      let itemsToRender = [...players];
+      if (isShuffled && shuffledIndices.length === players.length) {
+        itemsToRender = shuffledIndices.map(idx => players[idx]).filter(Boolean);
+      }
+
+      if (rosterLimit !== 'all') {
+        itemsToRender = itemsToRender.slice(0, rosterLimit);
+      }
+
+      if (itemsToRender.length === 0) {
+        listContainer.innerHTML = `
+          <div class="text-center py-12 text-gray-500 text-xs">
+            No players matched criteria.
+          </div>
+        `;
         return;
       }
 
-      // Handle Shuffle mapping
-      let displayedPlayers = [...players];
-      if (isShuffled && shuffledIndices.length === players.length) {
-        displayedPlayers = shuffledIndices.map(idx => players[idx]);
-      }
-
-      // Handle custom user-requested list limit sizing
-      if (rosterLimit !== 'all') {
-        displayedPlayers = displayedPlayers.slice(0, rosterLimit);
-      }
-
-      container.innerHTML = displayedPlayers.map(p => {
-        const isCurrent = p.uid === auth.currentUser?.uid;
+      listContainer.innerHTML = itemsToRender.map(p => {
+        const initial = (p.player_name || 'A').charAt(0).toUpperCase();
         return `
-          <div onclick="openPlayerProfile('${p.uid}')" class="flex items-center justify-between p-3 bg-white/5 hover:bg-white/10 border border-white/5 hover:border-amber-500/20 rounded-xl cursor-pointer transition-all">
+          <div onclick="openPlayerProfile('${p.uid}')" class="flex items-center justify-between p-3 bg-white/5 hover:bg-white/10 border border-white/5 rounded-xl cursor-pointer transition-all active:scale-[0.99]">
             <div class="flex items-center gap-3">
-              <div class="w-9 h-9 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-500 font-bold font-display">
-                ${p.player_name ? p.player_name.charAt(0).toUpperCase() : 'A'}
+              <div class="w-9 h-9 rounded-lg bg-zinc-800 border border-white/10 flex items-center justify-center text-amber-500 font-bold font-display text-sm">
+                ${initial}
               </div>
               <div>
                 <p class="text-xs font-bold text-white">${p.player_name || 'Anonymous'}</p>
-                <p class="text-[10px] text-gray-400">@${p.player_username || 'unknown'}</p>
+                <p class="text-[10px] text-amber-500 font-medium">@${p.player_username || 'unknown'}</p>
               </div>
             </div>
-            <div class="text-right">
-              <span class="text-[9px] font-mono font-bold tracking-wider text-amber-500 bg-amber-500/10 px-2 py-0.5 rounded">
-                ${p.registration_number || 'Combine ID'}
-              </span>
-              ${isCurrent ? '<p class="text-[8px] text-emerald-400 mt-1 uppercase font-bold">You</p>' : ''}
-            </div>
+            <i class="fa-solid fa-chevron-right text-gray-600 text-xs pr-1"></i>
           </div>
         `;
       }).join('');
     }
 
-    // Search Query filters
-    document.getElementById('player-search').addEventListener('input', (e) => {
-      const q = e.target.value.toLowerCase();
-      const filtered = allPlayersList.filter(p => 
-        p.player_name?.toLowerCase().includes(q) || 
-        p.player_username?.toLowerCase().includes(q) || 
-        p.profile_bio?.toLowerCase().includes(q) ||
-        p.registration_number?.toLowerCase().includes(q)
-      );
-      renderRoster(filtered);
-    });
+    function setupProfileSync(userId) {
+      const profileRef = doc(db, 'artifacts', appId, 'public', 'data', 'profiles', userId);
+      
+      onSnapshot(profileRef, (snap) => {
+        if (!snap.exists()) return;
+        const profile = snap.data();
+        currentUserProfile = profile;
 
-    // Sync Follow relationships list
-    function setupFollowSync(uid) {
+        document.getElementById('welcome-player-name').textContent = profile.player_name || 'Athlete';
+        document.getElementById('welcome-player-id').textContent = profile.registration_number || 'Pending ID';
+        document.getElementById('wallet-serial').textContent = profile.registration_number || 'Pending ID';
+        document.getElementById('badge-name').textContent = profile.player_name || 'Athlete';
+        document.getElementById('settings-username').value = profile.player_username || '';
+
+        document.getElementById('user-badge').classList.remove('hidden');
+        document.getElementById('app-nav').classList.remove('hidden');
+
+        const profilePrivacyToggle = document.getElementById('profile-privacy-toggle');
+        profilePrivacyToggle.checked = profile.is_profile_private === true;
+
+        warningCount = profile.warning_count || 0;
+        orangeStrikes = profile.orange_strikes || [];
+        renderSafetyStatus();
+
+        if (profile.is_suspended === true) {
+          document.getElementById('view-suspended').classList.remove('hidden');
+          document.getElementById('suspended-username').value = `@${profile.player_username || 'unknown'}`;
+          document.getElementById('suspension-reason').textContent = profile.suspension_reason || 'Automated composite violation score trigger.';
+          
+          let timeLeft = 600;
+          const banTimer = setInterval(() => {
+            timeLeft--;
+            if (timeLeft <= 0) {
+              clearInterval(banTimer);
+              document.getElementById('ban-time-remaining').textContent = "Ready for processing.";
+            } else {
+              const mins = Math.floor(timeLeft / 60);
+              const secs = timeLeft % 60;
+              document.getElementById('ban-time-remaining').textContent = `${mins}m ${secs}s left in standard monitoring cycle`;
+            }
+          }, 1000);
+        } else {
+          document.getElementById('view-suspended').classList.add('hidden');
+        }
+      });
+    }
+
+    function renderSafetyStatus() {
+      const container = document.getElementById('violations-tracker-view');
+      if (warningCount === 0 && orangeStrikes.length === 0) {
+        container.innerHTML = `
+          <div class="flex items-center gap-2.5 text-xs text-emerald-400 font-semibold">
+            <i class="fa-solid fa-circle-check text-base"></i>
+            <span>Thank you for following the combine guidelines! ✔️</span>
+          </div>
+        `;
+        return;
+      }
+
+      let content = `<div class="space-y-2">`;
+      if (warningCount > 0) {
+        content += `
+          <div class="p-2.5 bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs rounded-xl flex items-center gap-2">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>Active Compliance Warnings: <strong>${warningCount} / 2</strong></span>
+          </div>
+        `;
+      }
+
+      orangeStrikes.forEach(strike => {
+        content += `
+          <div class="p-2.5 bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs rounded-xl flex flex-col gap-0.5">
+            <div class="flex items-center gap-2">
+              <i class="fa-solid fa-circle-exclamation"></i>
+              <span class="font-bold uppercase tracking-wider text-[10px]">Guidelines Infringement Detected</span>
+            </div>
+            <p class="text-[11px] text-gray-400 ml-5">Reason: ${strike.reason}</p>
+          </div>
+        `;
+      });
+
+      if (warningCount === 1 && orangeStrikes.length === 2) {
+        followRestrictedUntil = new Date(Date.now() + 3600000);
+        content += `
+          <div class="p-2.5 bg-red-950/40 border border-red-500/20 text-red-400 text-[11px] font-mono rounded-xl">
+            ⚠️ DOUBLE STRIKE PENALTY: Core features throttled. Profile Follow engine isolated for 60 minutes.
+          </div>
+        `;
+      }
+
+      content += `</div>`;
+      container.innerHTML = content;
+    }
+
+    function setupRosterSync() {
+      if (rosterUnsubscribe) rosterUnsubscribe();
+      const profilesRef = collection(db, 'artifacts', appId, 'public', 'data', 'profiles');
+      
+      rosterUnsubscribe = onSnapshot(profilesRef, (snapshot) => {
+        let players = [];
+        snapshot.forEach(doc => {
+          const d = doc.data();
+          if (d.uid) players.push(d);
+        });
+        allPlayersList = players;
+        if (!isShuffled) {
+          renderRoster(players);
+        }
+      });
+    }
+
+    function setupRelationsSync(userId) {
       if (followUnsubscribe) followUnsubscribe();
-
       const followsRef = collection(db, 'artifacts', appId, 'public', 'data', 'follows');
-      const reqRef = collection(db, 'artifacts', appId, 'public', 'data', 'follow_requests');
-
-      // Sync follows
+      
       followUnsubscribe = onSnapshot(followsRef, (snapshot) => {
         myFollowingSet.clear();
         snapshot.forEach(doc => {
           const d = doc.data();
-          if (d.follower_uid === uid) {
+          if (d.follower_uid === userId) {
             myFollowingSet.add(d.following_uid);
           }
         });
       });
 
-      // Sync requests
-      onSnapshot(reqRef, (snapshot) => {
+      const reqsRef = collection(db, 'artifacts', appId, 'public', 'data', 'follow_requests');
+      onSnapshot(reqsRef, (snapshot) => {
         myFollowRequestsPendingSet.clear();
+        followRequestsReceived = [];
+        
         snapshot.forEach(doc => {
           const d = doc.data();
-          if (d.sender_uid === uid && d.status === "pending") {
+          if (d.sender_uid === userId && d.status === "pending") {
             myFollowRequestsPendingSet.add(d.receiver_uid);
           }
+          if (d.receiver_uid === userId && d.status === "pending") {
+            followRequestsReceived.push(d);
+          }
         });
+        renderPendingRequests();
       });
     }
 
-    // Recruiter Feedback sync logic
-    function setupRecruiterFeedback(uid) {
-      if (recruiterFeedbackUnsubscribe) recruiterFeedbackUnsubscribe();
-
-      const feedbackRef = collection(db, 'artifacts', appId, 'public', 'data', 'recruiter_feedback');
-      
-      recruiterFeedbackUnsubscribe = onSnapshot(feedbackRef, (snapshot) => {
-        let matchedFeedback = null;
-        snapshot.forEach(doc => {
-          const d = doc.data();
-          if (d.target_uid === uid) {
-            matchedFeedback = d;
-          }
-        });
-
-        const feedbackEl = document.getElementById('recruiter-feedback-content');
-        if (matchedFeedback) {
-          feedbackEl.textContent = `"${matchedFeedback.feedback_text}" — Evaluated by coach ${matchedFeedback.recruiter_name}`;
-          // Write to local cache
-          localStorage.setItem(`recruiter_feedback_${uid}`, JSON.stringify(matchedFeedback));
-        } else {
-          // Check local cache fallback
-          const cached = localStorage.getItem(`recruiter_feedback_${uid}`);
-          if (cached) {
-            const parsed = JSON.parse(cached);
-            feedbackEl.textContent = `"${parsed.feedback_text}" — Evaluated by coach ${parsed.recruiter_name}`;
-          } else {
-            feedbackEl.textContent = `"Shows outstanding physical agility, speed threshold, and game awareness. Elite athletic prospect."`;
-          }
-        }
-      });
-    }
-
-    // Spam limit validations
-    function checkSpamThreshold() {
-      const now = Date.now();
-      recentMessagesTimestamps = recentMessagesTimestamps.filter(time => now - time < 10000);
-
-      if (recentMessagesTimestamps.length >= 4) {
-        isSpamLimited = true;
-        document.getElementById('spam-warning').classList.remove('hidden');
-        document.getElementById('btn-send-msg').disabled = true;
-        document.getElementById('chat-msg-text').disabled = true;
-
-        limitRemainingTime = 600; // 10 minutes
-        updateSpamTimer();
-        
-        timerInterval = setInterval(() => {
-          limitRemainingTime--;
-          if (limitRemainingTime <= 0) {
-            clearInterval(timerInterval);
-            isSpamLimited = false;
-            recentMessagesTimestamps = [];
-            document.getElementById('spam-warning').classList.add('hidden');
-            document.getElementById('btn-send-msg').disabled = false;
-            document.getElementById('chat-msg-text').disabled = false;
-          } else {
-            updateSpamTimer();
-          }
-        }, 1000);
-
-        return false;
-      }
-
-      recentMessagesTimestamps.push(now);
-      return true;
-    }
-
-    function updateSpamTimer() {
-      const minutes = Math.floor(limitRemainingTime / 60);
-      const seconds = limitRemainingTime % 60;
-      document.getElementById('countdown-timer').textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-    }
-
-    // Submit Chat Message
-    document.getElementById('chat-input-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      if (!auth.currentUser || !currentUserProfile) return;
-
-      if (!checkSpamThreshold()) {
-        showToast("Rate limit triggered. Messaging locked.", "error");
+    function renderPendingRequests() {
+      const container = document.getElementById('pending-requests-container');
+      if (followRequestsReceived.length === 0) {
+        container.innerHTML = `<p class="text-xs text-gray-500 italic bg-black/40 p-3 rounded-xl border border-white/5">No pending requests to approve.</p>`;
         return;
       }
 
-      const txt = document.getElementById('chat-msg-text').value.trim();
-      document.getElementById('chat-msg-text').value = '';
-
-      try {
-        const messagesRef = doc(collection(db, 'artifacts', appId, 'public', 'data', 'live_messages'));
-        const payload = {
-          email_address: currentUserProfile.email_address || '',
-          is_message_limited: isSpamLimited,
-          player_name: currentUserProfile.player_name || '',
-          player_username: currentUserProfile.player_username || '',
-          set_message_deleted: false,
-          sync_message: isLiveSyncEnabled,
-          time_stamp: new Date().toISOString(),
-          uid: auth.currentUser.uid,
-          message: txt
-        };
-
-        await setDoc(messagesRef, payload);
-      } catch (err) {
-        showToast(err.message, "error");
-      }
-    });
-
-    document.getElementById('sync-messages-checkbox').addEventListener('change', (e) => {
-      isLiveSyncEnabled = e.target.checked;
-      if (isLiveSyncEnabled) {
-        showToast("Live sync restored.", "success");
-        setupMessagesSync(auth.currentUser?.uid);
-      } else {
-        showToast("Sync paused. Incoming transmissions suspended.", "info");
-      }
-    });
-
-    function generateRegistrationId() {
-      const rand = Math.floor(10000 + Math.random() * 90000);
-      return `1009-${rand}`;
+      container.innerHTML = followRequestsReceived.map(r => `
+        <div class="flex items-center justify-between p-3 bg-white/5 border border-white/5 rounded-xl">
+          <div>
+            <p class="text-xs font-bold text-white">${r.sender_name}</p>
+            <p class="text-[10px] text-amber-500">@${r.sender_username}</p>
+          </div>
+          <div class="flex gap-2">
+            <button onclick="window.processFollowRequest('${r.request_id}', true)" class="bg-emerald-500 hover:bg-emerald-600 text-white text-[10px] font-bold px-3 py-1 rounded-lg transition-all">Approve</button>
+            <button onclick="window.processFollowRequest('${r.request_id}', false)" class="bg-zinc-800 hover:bg-zinc-700 text-gray-400 text-[10px] font-bold px-3 py-1 rounded-lg transition-all">Deny</button>
+          </div>
+        </div>
+      `).join('');
     }
 
-    // Global listener for authorization shifts
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        try {
-          const profileDoc = await getDoc(doc(db, 'artifacts', appId, 'public', 'data', 'profiles', user.uid));
-          if (profileDoc.exists()) {
-            currentUserProfile = profileDoc.data();
+    window.processFollowRequest = async function(reqId, approve) {
+      toggleLoader(true);
+      try {
+        const reqRef = doc(db, 'artifacts', appId, 'public', 'data', 'follow_requests', reqId);
+        if (approve) {
+          const parts = reqId.split('_');
+          const sender = parts[0];
+          const receiver = parts[1];
 
-            // STEP 1: Double Check Serious Suspension Bans
-            if (currentUserProfile.is_suspended === true) {
-              toggleLoader(false);
-              document.getElementById('suspended-username').value = `@${currentUserProfile.player_username}`;
-              document.getElementById('suspension-reason').textContent = currentUserProfile.ban_reason || "Violation of combine guidelines.";
-              
-              // Handle relative time display
-              if (currentUserProfile.banned_until) {
-                const dateBan = new Date(currentUserProfile.banned_until);
-                document.getElementById('ban-time-remaining').textContent = `Banned until: ${dateBan.toLocaleDateString()} ${dateBan.toLocaleTimeString()}`;
-              } else {
-                document.getElementById('ban-time-remaining').textContent = "Permanent Combine Lockout";
-              }
+          const followId = `${sender}_${receiver}`;
+          await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'follows', followId), {
+            follow_id: followId,
+            follower_uid: sender,
+            following_uid: receiver,
+            timestamp: new Date().toISOString()
+          });
 
-              document.getElementById('view-suspended').classList.remove('hidden');
-              return; // Halt loading main dashboard elements entirely!
-            }
-
-            // Normal Flow if NOT banned
-            document.getElementById('view-suspended').classList.add('hidden');
-
-            // Set state variables from database or configure defaults
-            warningCount = currentUserProfile.warning_count || 0;
-            orangeStrikes = currentUserProfile.orange_strikes || [];
-            
-            if (currentUserProfile.follow_restricted_until) {
-              followRestrictedUntil = new Date(currentUserProfile.follow_restricted_until);
-            }
-
-            // Render Guidelines Tracker in Settings
-            const violationsContainer = document.getElementById('violations-tracker-view');
-            if (orangeStrikes.length === 0 && warningCount === 0) {
-              violationsContainer.innerHTML = `
-                <div class="flex items-center gap-2.5 text-xs text-emerald-400 font-semibold">
-                  <i class="fa-solid fa-circle-check text-base"></i>
-                  <span>Thank you for following the combine guidelines! ✔️</span>
-                </div>
-              `;
-            } else {
-              let vHtml = "";
-              if (warningCount > 0) {
-                vHtml += `
-                  <div class="flex items-start gap-2.5 text-xs text-amber-500 bg-amber-500/10 p-2.5 rounded-lg border border-amber-500/20">
-                    <i class="fa-solid fa-triangle-exclamation text-base shrink-0 mt-0.5"></i>
-                    <div>
-                      <p class="font-bold">Active Warning Status (${warningCount})</p>
-                      <p class="text-[10px] text-gray-400">Bullying/Harassment alerts. Another violation will trigger a Follow Action restriction penalty.</p>
-                    </div>
-                  </div>
-                `;
-              }
-              orangeStrikes.forEach(strike => {
-                vHtml += `
-                  <div class="flex items-start gap-2.5 text-xs text-orange-500 bg-orange-500/10 p-2.5 rounded-lg border border-orange-500/20">
-                    <i class="fa-solid fa-triangle-exclamation text-base shrink-0 mt-0.5"></i>
-                    <div>
-                      <p class="font-bold">Orange Strike Violation Flagged</p>
-                      <p class="text-[10px] text-gray-300 font-semibold mt-0.5">Reason: ${strike}</p>
-                    </div>
-                  </div>
-                `;
-              });
-              violationsContainer.innerHTML = vHtml;
-            }
-
-            // Populate settings visibility
-            const isPrivate = currentUserProfile.is_profile_private === true || currentUserProfile.is_profile_public === false;
-            document.getElementById('profile-privacy-toggle').checked = isPrivate;
-
-            // Populate Home Headers
-            document.getElementById('welcome-player-name').textContent = currentUserProfile.player_name;
-            document.getElementById('welcome-player-id').textContent = currentUserProfile.registration_number;
-            document.getElementById('wallet-serial').textContent = currentUserProfile.registration_number;
-
-            // Populate Settings Username
-            document.getElementById('settings-username').value = currentUserProfile.player_username;
-
-            // Display logged status badges
-            document.getElementById('badge-name').textContent = currentUserProfile.player_name;
-            document.getElementById('user-badge').classList.remove('hidden');
-            document.getElementById('app-nav').classList.remove('hidden');
-
-            // Setup real-time listeners
-            setupMessagesSync(user.uid);
-            setupRosterSync();
-            setupFollowSync(user.uid);
-            setupRecruiterFeedback(user.uid);
-            fetchPendingReceivedRequests();
-
-            navigationTo('view-home');
-          } else {
-            showToast("Profile entry absent. Auto-signing out.", "error");
-            await signOut(auth);
-          }
-        } catch (err) {
-          showToast(err.message, "error");
-        } finally {
-          toggleLoader(false);
+          await updateDoc(reqRef, { status: "approved" });
+          showToast("Follower request authorized.", "success");
+        } else {
+          await deleteDoc(reqRef);
+          showToast("Follower request declined.", "info");
         }
-      } else {
-        currentUserProfile = null;
-        document.getElementById('user-badge').classList.add('hidden');
-        document.getElementById('app-nav').classList.add('hidden');
-        document.getElementById('view-suspended').classList.add('hidden');
-        
-        if (messagesUnsubscribe) { messagesUnsubscribe(); messagesUnsubscribe = null; }
-        if (rosterUnsubscribe) { rosterUnsubscribe(); rosterUnsubscribe = null; }
-        if (followUnsubscribe) { followUnsubscribe(); followUnsubscribe = null; }
-        if (recruiterFeedbackUnsubscribe) { recruiterFeedbackUnsubscribe(); recruiterFeedbackUnsubscribe = null; }
-
-        switchView('view-login');
+      } catch (err) {
+        showToast(err.message, "error");
+      } finally {
         toggleLoader(false);
       }
+    };
+
+    function setupRecruiterSync() {
+      if (recruiterFeedbackUnsubscribe) recruiterFeedbackUnsubscribe();
+      const feedbackRef = collection(db, 'artifacts', appId, 'public', 'data', 'recruiter_feedback');
+      
+      recruiterFeedbackUnsubscribe = onSnapshot(feedbackRef, (snapshot) => {
+        let items = [];
+        snapshot.forEach(doc => items.push(doc.data()));
+        
+        const container = document.getElementById('recruiter-feedback-content');
+        if (items.length === 0) {
+          container.textContent = `"Keep processing metrics. Scouts are presently polling live performance attributes across multiple regional combine brackets."`;
+        } else {
+          const chosen = items[Math.floor(Math.random() * items.length)];
+          container.textContent = `"${chosen.feedback_text || ''}"`;
+        }
+      });
+    }
+
+    window.openPaymentModal = function() {
+      document.getElementById('payment-modal').classList.remove('hidden');
+    };
+    window.closePaymentModal = function() {
+      document.getElementById('payment-modal').classList.add('hidden');
+    };
+
+    document.getElementById('payment-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      showToast("Payment parameters committed successfully.", "success");
+      closePaymentModal();
     });
 
-  </script>
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setupProfileSync(user.uid);
+        setupMessagesSync(user.uid);
+        setupRosterSync();
+        setupRelationsSync(user.uid);
+        setupRecruiterSync();
+        navigationTo('view-home');
+      } else {
+        currentUserProfile = null;
+        if (authUnsubscribe) authUnsubscribe();
+        if (messagesUnsubscribe) messagesUnsubscribe();
+        if (rosterUnsubscribe) rosterUnsubscribe();
+        if (followUnsubscribe) followUnsubscribe();
+        if (recruiterFeedbackUnsubscribe) recruiterFeedbackUnsubscribe();
 
-  <script>
-    // Universal trigger functions
-    window.addEventListener('DOMContentLoaded', () => {
-      window.openPaymentModal = function() {
-        document.getElementById('payment-modal').classList.remove('hidden');
-      };
-      window.closePaymentModal = function() {
-        document.getElementById('payment-modal').classList.add('hidden');
-      };
+        document.getElementById('user-badge').classList.add('hidden');
+        document.getElementById('app-nav').classList.add('hidden');
+        switchView('view-login');
+      }
+      setTimeout(() => toggleLoader(false), 300);
     });
   </script>
 </body>
 </html>
-
-```
