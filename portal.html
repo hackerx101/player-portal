@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NFSMEC - Middle Elite Combine Sports Portal</title>
+  <title>National Future Stars Middle Elite Combine Sports Portal</title>
   
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -90,7 +90,7 @@
         </button>
         <div id="suspended-dropdown" class="absolute right-0 mt-2 w-48 bg-zinc-950 border border-rose-500/20 rounded-xl shadow-2xl hidden py-1">
           <button onclick="triggerSuspendedLogout()" class="w-full text-left px-4 py-2 text-xs text-rose-400 hover:bg-rose-500/10 font-bold flex items-center gap-2">
-            <i class="fa-solid fa-sign-out-alt"></i> Sign Out from Locker
+            <i class="fa-solid fa-sign-out-alt"></i> Log Out
           </button>
         </div>
       </div>
@@ -102,7 +102,7 @@
         <div class="w-16 h-16 bg-rose-500/10 border border-rose-500/30 text-rose-500 rounded-full flex items-center justify-center mx-auto mb-4">
           <i class="fa-solid fa-ban text-2xl"></i>
         </div>
-        <h2 class="text-2xl font-display font-extrabold text-white">Combine Status: Suspended</h2>
+        <h2 class="text-2xl font-display font-extrabold text-white"> Status: Suspended</h2>
         <p class="text-rose-400 text-xs mt-1 font-mono uppercase tracking-wider" id="suspension-status-label">TEMP_BAN ACTIVE</p>
       </div>
 
@@ -119,22 +119,22 @@
         <div>
           <span class="text-[9px] uppercase text-gray-500 block">Primary Reason / AI Assessment</span>
           <p id="suspension-reason" class="text-xs text-rose-300 font-semibold bg-rose-950/40 p-2.5 rounded-lg border border-rose-500/10 mt-1">
-            Violent Threat / Threat of physical harm reported and confirmed by automated filters.
+            Your account has been suspended. This is because your account, or activity on it, doesn't follow our Community Guidelines on account standards You won't be able to log into this account and no other players  will be able to see it."
           </p>
         </div>
       </div>
 
       <!-- Appeal Form -->
       <form id="appeal-form" class="bg-zinc-900 border border-white/5 rounded-2xl p-5 space-y-3">
-        <h3 class="text-xs font-bold text-white uppercase tracking-wider">Submit Appeal to AI Arbiter</h3>
-        <p class="text-[10px] text-gray-400">Our automated combine supervisor processes appeals instantly based on remorse, threat seriousness, and previous history.</p>
+        <h3 class="text-xs font-bold text-white uppercase tracking-wider">Submit Appeal </h3>
+        <p class="text-[10px] text-gray-400">Our automated review team processes appeals instantly based on account status and previous history.</p>
         <div>
-          <label class="block text-[9px] uppercase text-gray-400 mb-1">Explain your side of the situation:</label>
-          <textarea id="appeal-text" required rows="3" placeholder="Please clarify why your account should be restored..." 
+          <label class="block text-[9px] uppercase text-gray-400 mb-1">Tell us more:</label>
+          <textarea id="appeal-text" required rows="3" placeholder="Please clarify what went wrong wby your account was mistakenly suspended" 
             class="w-full bg-black border border-white/10 rounded-xl p-3 text-white text-xs focus:outline-none focus:border-rose-500 transition-all resize-none"></textarea>
         </div>
         <button type="submit" class="w-full bg-rose-500 hover:bg-rose-600 text-white font-display font-bold py-2.5 rounded-xl text-xs transition-all flex items-center justify-center gap-2">
-          <span>Transmit Appeal</span>
+          <span>Submit Appeal</span>
           <i class="fa-solid fa-paper-plane"></i>
         </button>
       </form>
@@ -169,8 +169,8 @@
     <div id="view-signup" class="view-panel w-full max-w-lg mx-auto glass-card rounded-2xl p-6 md:p-8 shadow-2xl fade-in hidden">
       <div class="text-center mb-6">
         <span class="text-xs font-bold uppercase tracking-widest text-amber-500 bg-amber-500/10 px-3 py-1 rounded-full">Athlete Registration</span>
-        <h2 class="text-2xl font-display font-bold text-white mt-3">Join Combine Roster</h2>
-        <p class="text-gray-400 text-sm mt-1">Create your professional profile and receive an automated 10-digit ID.</p>
+        <h2 class="text-2xl font-display font-bold text-white mt-3">Join Combine </h2>
+        <p class="text-gray-400 text-sm mt-1">Create your professional profile </p>
       </div>
 
       <form id="signup-form" class="space-y-4">
@@ -298,7 +298,7 @@
               <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
               NFSMEC Middle Elite Arena
             </div>
-            <h2 class="text-2xl font-display font-extrabold text-white mt-1">
+            <h2 class="text-2xl font-display font-extrabold text-blue-300 mt-1">
               Welcome, <span id="welcome-player-name" class="text-combine-gold">Athlete</span>!
             </h2>
             <p class="text-xs text-gray-400 mt-1">Your ID: <span id="welcome-player-id" class="font-mono text-white tracking-wider">Loading...</span></p>
@@ -414,8 +414,8 @@
 
     <!-- SOCIAL MEDIA ATHLETE PROFILE VIEW -->
     <div id="view-profile" class="view-panel w-full max-w-2xl mx-auto space-y-6 fade-in hidden">
-      <button onclick="navigationTo('view-home')" class="text-xs text-amber-500 font-bold hover:underline flex items-center gap-2">
-        <i class="fa-solid fa-arrow-left"></i> Return to Main Grid
+      <button onclick="navigationTo('view-home')" class="text-xs text-blue-300 font-bold hover:underline flex items-center gap-2">
+        <i class="fa-solid fa-arrow-left"></i> Return to Main Page
       </button>
 
       <div class="glass-card rounded-2xl overflow-hidden shadow-2xl relative">
@@ -473,7 +473,7 @@
               <h3 class="text-sm font-display font-bold text-white">This Athlete's Profile is Private</h3>
               <p class="text-xs text-gray-400 max-w-sm mx-auto">Please submit a Follow Request to unlock access to their bio details, statistics, and scouting reports.</p>
               <button id="btn-request-follow" onclick="triggerProfileFollowAction()" class="bg-combine-gold text-black text-xs font-bold py-2 px-6 rounded-xl hover:opacity-90 transition-all mx-auto">
-                Transmit Follow Request
+                Send Follow Request
               </button>
             </div>
 
@@ -501,8 +501,8 @@
 
       <div class="glass-card rounded-2xl p-6 md:p-8 space-y-6">
         <div>
-          <span class="text-xs font-bold uppercase tracking-widest text-rose-500 bg-rose-500/10 px-3 py-1 rounded-full">Automated Content Arbiter</span>
-          <h2 class="text-2xl font-display font-bold text-white mt-3">Report Transmission Violation</h2>
+          <span class="text-xs font-bold uppercase tracking-widest text-rose-500 bg-rose-500/10 px-3 py-1 rounded-full">Automated Content Report</span>
+          <h2 class="text-2xl font-display font-bold text-white mt-3">Report  Violation</h2>
           <p class="text-gray-400 text-xs mt-1">Submit reports directly to the automated compliance agent. All submissions are cross-checked.</p>
         </div>
 
@@ -572,7 +572,7 @@
           </div>
 
           <button type="submit" class="w-full bg-rose-500 text-white font-display font-bold py-3 rounded-xl text-xs transition-all flex items-center justify-center gap-2">
-            <span>Commit Report to AI System</span>
+            <span>Submit Report</span>
             <i class="fa-solid fa-shield"></i>
           </button>
         </form>
@@ -582,8 +582,8 @@
           <div class="space-y-4 relative pl-6 border-l border-white/10 ml-3">
             <div class="relative">
               <span id="step-dot-1" class="absolute -left-[30px] top-0.5 w-4.5 h-4.5 rounded-full bg-amber-500 border-4 border-black flex items-center justify-center"></span>
-              <p class="text-xs font-bold text-white">Step 1: Automated Dispatch & Parsing</p>
-              <p class="text-[10px] text-gray-400">Report parsed. Running semantic safety scoring...</p>
+              <p class="text-xs font-bold text-white">Step 1: Report Succesfully Submit</p>
+              <p class="text-[10px] text-gray-400">Report Sent Running safety check</p>
             </div>
             <div class="relative pt-2">
               <span id="step-dot-2" class="absolute -left-[30px] top-2 w-4.5 h-4.5 rounded-full bg-zinc-700 border-4 border-black flex items-center justify-center"></span>
@@ -615,7 +615,7 @@
             <i class="fa-solid fa-circle-check text-xl text-amber-100"></i>
           </div>
           <div class="mt-4">
-            <h3 class="text-4xl font-display font-black tracking-tight">$350.<span class="text-2xl">00</span></h3>
+            <h3 class="text-4xl font-display font-black tracking-tight">$0.00.<span class="text-2xl">00</span></h3>
             <p class="text-[10px] uppercase font-bold tracking-wider text-amber-950 mt-1">NFS Athletic Allocation Grant</p>
           </div>
           <div class="flex justify-between items-end mt-8 pt-4 border-t border-amber-400/30">
@@ -669,8 +669,8 @@
                 <div class="flex items-center gap-3">
                   <span class="text-xs font-bold text-amber-500 font-mono">#01</span>
                   <div>
-                    <p class="text-xs font-bold text-white text-left">Bryson "Rocket" Carter</p>
-                    <p class="text-[9px] text-gray-400 text-left">40YD: 4.41s | Vertical: 41.5 in</p>
+                    <p class="text-xs font-bold text-white text-left">Information Unavailable</p>
+                    <p class="text-[9px] text-gray-400 text-left">An Error Occured</p>
                   </div>
                 </div>
                 <div class="text-right">
@@ -682,8 +682,8 @@
                 <div class="flex items-center gap-3">
                   <span class="text-xs font-bold text-gray-400 font-mono">#02</span>
                   <div>
-                    <p class="text-xs font-bold text-white text-left">Kameron Hill</p>
-                    <p class="text-[9px] text-gray-400 text-left">40YD: 4.49s | Vertical: 39.0 in</p>
+                    <p class="text-xs font-bold text-white text-left">Erroe</p>
+                    <p class="text-[9px] text-gray-400 text-left">We are working on it</p>
                   </div>
                 </div>
                 <div class="text-right">
@@ -753,19 +753,19 @@
 
         <div class="space-y-3 pt-4 border-t border-white/5 bg-zinc-900/40 p-4 rounded-xl border border-white/5">
           <h3 class="text-xs uppercase tracking-widest font-bold text-amber-500 flex items-center gap-2">
-            <i class="fa-solid fa-user-shield"></i> Account Safety Status
+            <i class="fa-solid fa-user-shield"></i> Account Status
           </h3>
           <div id="violations-tracker-view" class="space-y-3">
             <div class="flex items-center gap-2.5 text-xs text-emerald-400 font-semibold">
               <i class="fa-solid fa-circle-check text-base"></i>
-              <span>Thank you for following the combine guidelines! ✔️</span>
+              <span>Thank you for following our community guidelines! ✔️</span>
             </div>
           </div>
         </div>
 
         <form id="update-profile-form" class="space-y-4 pt-4 border-t border-white/5">
-          <h3 class="text-xs uppercase tracking-widest font-bold text-amber-500 flex items-center gap-2">
-            <i class="fa-solid fa-signature"></i> Customize Player Handle
+          <h3 class="text-xs uppercase tracking-widest font-bold text-blue-300 flex items-center gap-2">
+            <i class="fa-solid fa-signature"></i> Customize Player Name
           </h3>
           <div>
             <label class="block text-xs font-semibold text-gray-400 mb-1">Update Player Username</label>
@@ -775,8 +775,8 @@
                 class="w-full bg-black/40 border border-white/10 rounded-xl py-2.5 pl-9 pr-4 text-white text-xs focus:outline-none focus:border-amber-500 transition-all">
             </div>
           </div>
-          <button type="submit" class="w-full bg-combine-gold text-black font-display font-bold py-2.5 rounded-xl hover:opacity-95 text-xs transition-all flex items-center justify-center gap-2">
-            <span>Commit Profile Changes</span>
+          <button type="submit" class="w-full bg-combine-gold text-blue-300 font-display font-bold py-2.5 rounded-xl hover:opacity-95 text-xs transition-all flex items-center justify-center gap-2">
+            <span>Save </span>
             <i class="fa-solid fa-check"></i>
           </button>
         </form>
@@ -809,7 +809,7 @@
 
         <button id="btn-logout" class="w-full bg-rose-500/10 border border-rose-500/20 text-rose-400 hover:bg-rose-500/20 font-bold py-3 rounded-xl text-xs transition-all flex items-center justify-center gap-2 mt-6">
           <i class="fa-solid fa-sign-out"></i>
-          <span>Deauthorize & Sign Out</span>
+          <span> Sign Out</span>
         </button>
       </div>
     </div>
@@ -846,7 +846,7 @@
         <button onclick="triggerMsgReport()" class="w-full bg-rose-500/10 border border-rose-500/20 hover:bg-rose-500/20 text-rose-400 font-bold py-3 px-4 rounded-xl text-xs transition-all flex items-center justify-between">
           <span class="flex items-center gap-2">
             <i class="fa-solid fa-triangle-exclamation"></i>
-            Report Message to AI Mod
+            Report Message 
           </span>
           <span class="text-[9px] text-rose-400 uppercase font-mono">Guidelines</span>
         </button>
@@ -1128,7 +1128,7 @@
           statusBadge.textContent = "Suspended";
           statusBadge.className = "text-sm font-bold text-rose-500 mt-0.5";
         } else {
-          statusBadge.textContent = "Active Good Standing";
+          statusBadge.textContent = "Account is in good standing";
           statusBadge.className = "text-sm font-bold text-emerald-400 mt-0.5";
         }
 
@@ -1145,7 +1145,7 @@
 
       if (followRestrictedUntil && new Date() < followRestrictedUntil) {
         const diff = Math.ceil((followRestrictedUntil - new Date()) / 60000);
-        showToast(`Follow action blocked! Follow ban active for another ${diff} minute(s).`, "error");
+        showToast(`Try Again Later: We restrict certain activity to protect our community  ban active for another ${diff} minute(s).`, "error");
         return;
       }
 
@@ -1292,7 +1292,7 @@
         }
 
         await signInWithEmailAndPassword(auth, targetProfile.email_address, passkeyInput);
-        showToast("Access Granted. Syncing locker...", "success");
+        showToast("Logging in", "success");
         document.getElementById('login-form').reset();
       } catch (err) {
         showToast(err.message, "error");
@@ -1314,7 +1314,7 @@
           username: newUsername,
           player_username: newUsername
         });
-        showToast("Locker handle updated!", "success");
+        showToast("handle updated!", "success");
       } catch (err) {
         showToast(err.message, "error");
       } finally {
@@ -1326,7 +1326,7 @@
       toggleLoader(true);
       try {
         await signOut(auth);
-        showToast("Athlete signed out.", "success");
+        showToast("Signed out.", "success");
       } catch (err) {
         showToast(err.message, "error");
       } finally {
@@ -1339,7 +1339,7 @@
       try {
         await signOut(auth);
         document.getElementById('view-suspended').classList.add('hidden');
-        showToast("Suspended Locker signed out.", "success");
+        showToast("Account Suspended - You are being signed out.", "success");
       } catch (err) {
         showToast(err.message, "error");
       } finally {
@@ -1382,7 +1382,7 @@
         container.innerHTML = `
           <div class="flex flex-col items-center justify-center py-24 text-gray-500 text-xs text-center px-4">
             <i class="fa-solid fa-comments text-2xl mb-2 text-white/10"></i>
-            No active transmissions in Global Arena.
+            No active Messages Yet
           </div>
         `;
         return;
@@ -1397,7 +1397,7 @@
           <div class="flex flex-col ${isMe ? 'items-end' : 'items-start'} animate-in fade-in">
             <div onclick="window.triggerMsgActions('${msg.id}', '${msg.uid}', \`${encodeURIComponent(msg.message)}\`)" 
               class="max-w-[85%] rounded-2xl px-4 py-2.5 cursor-pointer hover:ring-2 hover:ring-amber-500/40 active:scale-[0.98] transition-all ${
-                isMe ? 'bg-amber-500 text-black rounded-tr-none' : 'bg-white/10 text-white rounded-tl-none border border-white/5'
+                isMe ? 'text-blue-300 text-black rounded-tr-none' : 'bg-white/10 text-white rounded-tl-none border border-white/5'
               }">
               <div class="flex items-center gap-1.5 mb-1 text-[9px] font-bold ${isMe ? 'text-black/70' : 'text-amber-500'}">
                 <span>${msg.player_name}</span>
@@ -1442,7 +1442,7 @@
     window.deleteMsgLocally = function() {
       if (!activeMessageTarget) return;
       locallyDeletedIds.add(activeMessageTarget.id);
-      showToast("Message removed locally from your view.", "info");
+      showToast("Message removed succesfully", "info");
       renderMessages(currentRawMessages);
       closeMsgDeleteModal();
     };
@@ -1515,7 +1515,7 @@
           stepDot2.className = "absolute -left-[30px] top-2 w-4.5 h-4.5 rounded-full bg-emerald-500 border-4 border-black flex items-center justify-center";
           
           if (selectedReason.includes("Violent Threat") || selectedReason.includes("Harassment") || selectedReason.includes("Hate Speech")) {
-            outcomeMessage.textContent = "Violation Confirmed. Issuing restriction matrices to safety node.";
+            outcomeMessage.textContent = "Thank you for reporting this post. We’ve removed it from our platform because it goes against our Sports Community Standards  ";
             outcomeMessage.className = "text-[10px] text-rose-400 font-bold";
             
             try {
@@ -1544,7 +1544,7 @@
               console.error(profileErr);
             }
           } else {
-            outcomeMessage.textContent = "Report logged. Content marked for routine architectural sampling.";
+            outcomeMessage.textContent = "Report logged. Our review team will investigate and update you with a decision.";
             outcomeMessage.className = "text-[10px] text-amber-400 font-bold";
           }
           toggleLoader(false);
@@ -1574,22 +1574,27 @@
           timestamp: new Date().toISOString()
         });
 
-        showToast("Appeal transmitted. AI evaluating remorse dynamics...", "success");
+        showToast(" You submitted an appeal on [Date]" 
+
+
+"It usually takes us just over a day to review your information. Check back here. 
+Your account is not visible to players  and you can't use it." 
+", "success");
         document.getElementById('appeal-form').reset();
         
         setTimeout(async () => {
-          if (appealText.toLowerCase().includes("sorry") || appealText.toLowerCase().includes("apologize") || appealText.length > 30) {
+          if (appealText.toLowerCase().includes("sorry") || appealText.toLowerCase().includes("hacked") || appealText.length > 20) {
             const profileRef = doc(db, 'artifacts', appId, 'public', 'data', 'profiles', auth.currentUser.uid);
             await updateDoc(profileRef, {
               is_suspended: false,
-              warning_count: 0,
+              warning_count: 1,
               orange_strikes: []
             });
-            showToast("Appeal Approved. Locker restoration finalized!", "success");
+            showToast("Thanks for taking the time to request a review. We've reviewed your account and found that the activity on it does follow our Sports Community Standards", "success");
             document.getElementById('view-suspended').classList.add('hidden');
             switchView('view-home');
           } else {
-            showToast("Appeal Rejected. Automated risk score remains elevated.", "error");
+            showToast("Your account has been permanently disabled because it didn't follow our Sports Community Standards", "error");
           }
         }, 2000);
       } catch (err) {
@@ -1931,7 +1936,7 @@
           });
 
           await updateDoc(reqRef, { status: "approved" });
-          showToast("Follower request authorized.", "success");
+          showToast("Follower request accept.", "success");
         } else {
           await deleteDoc(reqRef);
           showToast("Follower request declined.", "info");
@@ -1970,7 +1975,7 @@
 
     document.getElementById('payment-form').addEventListener('submit', (e) => {
       e.preventDefault();
-      showToast("Payment parameters committed successfully.", "success");
+      showToast("Payment committed successfully.", "success");
       closePaymentModal();
     });
 
