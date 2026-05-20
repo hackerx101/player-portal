@@ -139,27 +139,43 @@
   </div>
 </div>
 
-
-      <!-- Appeal Form -->
-      <form id="appeal-form" class="bg-zinc-900 border border-white/5 rounded-2xl p-5 space-y-3">
-        <h3 class="text-xs font-bold text-white uppercase tracking-wider">Submit Appeal to AI Arbiter</h3>
-        <p class="text-[10px] text-gray-400">Our automated combine supervisor processes appeals instantly based on remorse, threat seriousness, and previous history.</p>
-        <div>
-          <label class="block text-[9px] uppercase text-gray-400 mb-1">Explain your side of the situation:</label>
-          <textarea id="appeal-text" required rows="3" placeholder="Please clarify why your account should be restored..." 
-            class="w-full bg-black border border-white/10 rounded-xl p-3 text-white text-xs focus:outline-none focus:border-rose-500 transition-all resize-none"></textarea>
-        </div>
-        <button type="submit" class="w-full bg-rose-500 hover:bg-rose-600 text-white font-display font-bold py-2.5 rounded-xl text-xs transition-all flex items-center justify-center gap-2">
-          <span>Transmit Appeal</span>
-          <i class="fa-solid fa-paper-plane"></i>
-        </button>
-      </form>
+<!-- Appeal Form -->
+<form id="appeal-form" class="bg-blue-950/30 border border-blue-800 rounded-2xl p-6 space-y-4">
+  <h3 class="text-sm font-bold text-white uppercase tracking-wider">Submit Appeal</h3>
+  <p class="text-xs text-blue-200">Our automated arbitration system reviews appeals based on provided context and account history. Please provide accurate details for a faster response.</p>
+  
+  <div class="space-y-3">
+    <div>
+      <label class="block text-[10px] uppercase font-bold text-blue-400 mb-1">Email Address</label>
+      <input type="email" required placeholder="name@example.com" 
+        class="w-full bg-blue-950 border border-blue-800 rounded-xl p-3 text-white text-sm focus:outline-none focus:border-yellow-600 transition-all">
+    </div>
+    
+    <div>
+      <label class="block text-[10px] uppercase font-bold text-blue-400 mb-1">Account Username</label>
+      <input type="text" required placeholder="@username" 
+        class="w-full bg-blue-950 border border-blue-800 rounded-xl p-3 text-white text-sm focus:outline-none focus:border-yellow-600 transition-all">
     </div>
 
-    <div class="text-center py-4 border-t border-rose-500/10">
-      <p class="text-[10px] text-gray-500">NFSMEC Elite Committee Automated Safety Protocols • Ver 4.0</p>
+    <div>
+      <label class="block text-[10px] uppercase font-bold text-blue-400 mb-1">Why should your account be restored?</label>
+      <textarea id="appeal-text" required rows="4" placeholder="Briefly explain the situation and why you believe this decision should be reconsidered..." 
+        class="w-full bg-blue-950 border border-blue-800 rounded-xl p-3 text-white text-sm focus:outline-none focus:border-yellow-600 transition-all resize-none"></textarea>
     </div>
   </div>
+
+  <button type="submit" class="w-full bg-yellow-600 hover:bg-yellow-500 text-white font-bold py-3 rounded-xl text-sm transition-all flex items-center justify-center gap-2 shadow-lg shadow-yellow-900/20">
+    <span>Submit Appeal</span>
+    <i class="fa-solid fa-paper-plane"></i>
+  </button>
+</form>
+
+<div class="text-center py-6">
+  <p class="text-[10px] text-blue-500 uppercase tracking-widest font-semibold">
+    Security Protocols • Automated Arbiter Ver 4.0
+  </p>
+</div>
+
 
   <!-- Header Section -->
   <header class="w-full bg-black/85 border-b border-white/5 py-4 px-6 flex items-center justify-between sticky top-0 z-30 backdrop-blur-md">
