@@ -78,51 +78,67 @@
   <!-- Banned/Suspended Overlay Screen -->
   <div id="view-suspended" class="fixed inset-0 bg-[#0d0202] z-40 flex flex-col justify-between hidden p-6 overflow-y-auto">
     <!-- Header with Logout option -->
-    <div class="flex justify-between items-center border-b border-rose-500/10 pb-4">
-      <div class="flex items-center gap-2">
-        <i class="fa-solid fa-triangle-exclamation text-rose-500 text-xl animate-pulse"></i>
-        <h1 class="text-white font-display font-bold uppercase tracking-wider text-sm">Account Suspended</h1>
+<div class="flex justify-between items-center border-b border-blue-900/30 pb-4 mb-8">
+  <div class="flex items-center gap-2">
+    <div class="w-8 h-8 rounded-full bg-blue-950/50 flex items-center justify-center border border-yellow-600/30">
+      <i class="fa-solid fa-lock text-yellow-500 text-sm"></i>
+    </div>
+    <h1 class="text-white font-semibold tracking-tight">Account Status</h1>
+  </div>
+  <div class="relative">
+    <button onclick="toggleSuspendedMenu()" class="text-blue-200 hover:text-white transition-colors p-2">
+      <i class="fa-solid fa-ellipsis"></i>
+    </button>
+    <div id="suspended-dropdown" class="absolute right-0 mt-2 w-48 bg-blue-950 border border-blue-800 rounded-lg shadow-xl hidden py-1 z-50">
+      <button onclick="triggerSuspendedLogout()" class="w-full text-left px-4 py-2 text-sm text-yellow-500 hover:bg-blue-900 flex items-center gap-2 transition-colors">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Suspension Content & AI Appeal -->
+<div class="max-w-lg mx-auto w-full space-y-8">
+  <div class="text-center">
+    <div class="w-20 h-20 bg-blue-950/50 border border-yellow-600/30 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-inner">
+      <i class="fa-solid fa-triangle-exclamation text-3xl text-yellow-500"></i>
+    </div>
+    <h2 class="text-3xl font-bold text-white mb-2">Account Restricted</h2>
+    <p class="text-blue-200 max-w-sm mx-auto">We've identified activity that violates our community standards, resulting in a temporary account suspension.</p>
+  </div>
+
+  <div class="bg-blue-950/30 border border-blue-800 rounded-2xl p-6 space-y-6">
+    <div class="space-y-4">
+      <div>
+        <label class="text-[10px] uppercase font-bold text-blue-400 tracking-wider">Restricted Handle</label>
+        <div class="mt-1 text-white font-medium bg-blue-950 p-3 rounded-lg border border-blue-800">@username</div>
       </div>
-      <div class="relative">
-        <button onclick="toggleSuspendedMenu()" class="text-gray-400 hover:text-white bg-white/5 px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-2">
-          <span>Options</span>
-          <i class="fa-solid fa-bars"></i>
-        </button>
-        <div id="suspended-dropdown" class="absolute right-0 mt-2 w-48 bg-zinc-950 border border-rose-500/20 rounded-xl shadow-2xl hidden py-1">
-          <button onclick="triggerSuspendedLogout()" class="w-full text-left px-4 py-2 text-xs text-rose-400 hover:bg-rose-500/10 font-bold flex items-center gap-2">
-            <i class="fa-solid fa-sign-out-alt"></i> Sign Out from Locker
-          </button>
+      
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="text-[10px] uppercase font-bold text-blue-400 tracking-wider">Status</label>
+          <div class="mt-1 text-yellow-500 font-semibold text-sm">Suspended</div>
+        </div>
+        <div>
+          <label class="text-[10px] uppercase font-bold text-blue-400 tracking-wider">Expires In</label>
+          <div id="ban-time-remaining" class="mt-1 text-white font-semibold text-sm">Calculating...</div>
         </div>
       </div>
     </div>
 
-    <!-- Suspension Content & AI Appeal -->
-    <div class="max-w-md mx-auto my-auto w-full space-y-6 py-8">
-      <div class="text-center">
-        <div class="w-16 h-16 bg-rose-500/10 border border-rose-500/30 text-rose-500 rounded-full flex items-center justify-center mx-auto mb-4">
-          <i class="fa-solid fa-ban text-2xl"></i>
-        </div>
-        <h2 class="text-2xl font-display font-extrabold text-white">Combine Status: Suspended</h2>
-        <p class="text-rose-400 text-xs mt-1 font-mono uppercase tracking-wider" id="suspension-status-label">TEMP_BAN ACTIVE</p>
+    <div class="pt-4 border-t border-blue-900">
+      <label class="text-[10px] uppercase font-bold text-blue-400 tracking-wider">Reason for Restriction</label>
+      <div id="suspension-reason" class="mt-2 text-sm text-blue-100 bg-blue-950 p-4 rounded-xl border border-blue-800 leading-relaxed">
+        Your account has been suspended. This is because your account, or activity on it, doesn't follow our Community Guidelines on account Standard. You won't be able to log into this account and no one else will be able to see it.
       </div>
+    </div>
+    
+    <button class="w-full py-3 bg-yellow-600 text-white font-bold rounded-xl hover:bg-yellow-500 transition-all text-sm shadow-lg shadow-yellow-900/20">
+      Request Review
+    </button>
+  </div>
+</div>
 
-      <div class="bg-rose-950/20 border border-rose-500/20 rounded-2xl p-5 space-y-3">
-        <h3 class="text-xs font-bold text-white uppercase tracking-wider border-b border-rose-500/10 pb-2">Violation File Details</h3>
-        <div>
-          <span class="text-[9px] uppercase text-gray-500 block">Restricted Athlete Username</span>
-          <input type="text" id="suspended-username" readonly class="w-full bg-black/40 border border-white/5 rounded-lg py-1.5 px-3 text-gray-400 text-xs font-mono focus:outline-none" value="@username">
-        </div>
-        <div>
-          <span class="text-[9px] uppercase text-gray-500 block">Ban Duration Remaining</span>
-          <p class="text-xs text-white font-bold" id="ban-time-remaining">Pending system refresh...</p>
-        </div>
-        <div>
-          <span class="text-[9px] uppercase text-gray-500 block">Primary Reason / AI Assessment</span>
-          <p id="suspension-reason" class="text-xs text-rose-300 font-semibold bg-rose-950/40 p-2.5 rounded-lg border border-rose-500/10 mt-1">
-            Violent Threat / Threat of physical harm reported and confirmed by automated filters.
-          </p>
-        </div>
-      </div>
 
       <!-- Appeal Form -->
       <form id="appeal-form" class="bg-zinc-900 border border-white/5 rounded-2xl p-5 space-y-3">
