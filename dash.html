@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NFSMEC - Middle Elite Combine Sports Portal</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <style>
+    body { font-family: 'Outfit', sans-serif; background-color: #0b0c10; color: #f5f5f7; margin: 0; }
+    .font-display { font-family: 'Space Grotesk', sans-serif; }
+    .bg-combine-blue { background: linear-gradient(135deg, #1a73e8 0%, #1557b0 100%); }
+    .glass-card { background: rgba(22, 22, 26, 0.8); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
+    .view-panel { display: none; }
+    .view-panel.active { display: block !important; }
+    #global-loader { position: fixed; inset: 0; background: #07080c; z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.5s; }
+  </style>
+</head>
+<body>
+
+  <!-- INFINITE SPINNER FIX: Hard hidden by JS if timeout occurs -->
+  <div id="global-loader">
+    <div class="w-16 h-16 rounded-full border-4 border-blue-500/10 border-t-blue-500 animate-spin"></div>
+    <p class="mt-4 text-blue-500 font-display font-bold tracking-widest text-[10px] uppercase">Connecting to Artifact DB...</p>
+  </div>
+
+  <!-- BAN SCREEN -->
+  <div id="view-suspended" class="fixed inset-0 bg-[#0d0202] z-[9000] hidden flex flex-col items-center justify-center p-8 text-center">
+    <i class="fa-solid fa-ban text-rose-500 text-5xl mb-4"></i>
+    <h2 class="text-2xl font-bold mb-4">Access Permanently Disabled</h2>
+    <p id="ban-reason" class="text-rose-300 text-sm bg-rose-950/30 p-6 rounded-2xl border border-rose-500/20 max-w-md"></p>
+    <div class="mt-6 text-left w-full max-w-md bg-white/5 p-4 rounded-xl">
+        <p id="ban-user" class="text-xs font-bold text-blue-500"></p>
+        <p id="ban-email" class="text-[10px] text-gray-500"></p>
+    </div>
+    <form id="appeal-form" class="mt-4 w-full max-w-md space-y-3">
+        <textarea id="app-text" placeholder="Describe what went wrong..." class="w-full bg-black border border-white/10 rounded-xl p-4 text-white text-xs h-24 outline-none focus:border-blue-500"></textarea>
+        <button type="submit" class="w-full bg-blue-600 py-4 rounded-xl font-bold">Request AI Review</button>
+    </form>
+    <button onclick="logout()" class="mt-6 text-gray-500 text-xs underline">Sign Out</button>
+  </div>
+
+  <!-- HEADER -->
+  <header id="main-header" class="hidden w-full bg-black/80 border-b border-white/5 py-4 px-6 flex items-center justify-between sticky top-0 z-50 backdrop-blur-md">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 bg-combine-blue rounded-xl flex items-center justify-center">
+        <i class="fa-solid fa-star text-white"></i>
+      </div>
+      <h1 class="font-display font-bold text-white tracking-tighter">NFSMEC</h1>
+    </div>
+    <button onclick="navigationTo('view-setting')" class="bg-blue-600 text-[10px] px-4 py-2 rounded-full font-bold">ACCOUNT CENTRE</button>
+  </header>
+
+  <main class="flex-grow w-full max-w-5xl mx-auto px-4 py-8 mb-24">
+
+    <!-- LOGIN -->
+    <div id="view-login" class="view-panel active w-full max-w-md mx-auto glass-card rounded-[2rem] p-8">
+      <h2 class="text-2xl font-display font-bold text-center mb-8">Athlete Login</h2>
+      <div class="space-y-4">
+        <input type="text" id="log-reg" placeholder="Registration ID (10095...)" class="w-full bg-black border border-white/10 rounded-2xl p-4 text-white outline-none focus:border-blue-600">
+        <input type="date" id="log-dob" class="w-full bg-black border border-white/10 rounded-2xl p-4 text-white outline-none">
+        <input type="password" id="log-pass" placeholder="Password" class="w-full bg-black border border-white/10 rounded-2xl p-4 text-white outline-none">
+        <button onclick="handleLogin()" class="w-full bg-blue-600 py-4 rounded-2xl font-bold">Authorize Entry</button>
+        <button onclick="switchView('view-signup')" class="w-full text-center text-xs text-blue-500 mt-4">Create New Star Account</button>
+      </div>
+    </div>
+
+    <!-- SIGNUP -->
+    <div id="view-signup" class="view-panel w-full max-w-md mx-auto glass-card rounded-[2rem] p-8">
+        <h2 class="text-xl font-display font-bold mb-6 text-center">Join Combine</h2>
+        <div class="space-y-3">
+            <input type="text" id="sig-name" placeholder="Full Player Name" class="w-full bg-black border border-white/10 rounded-xl p-3 text-sm">
+            <input type="text" id="sig-user" placeholder="Username" class="w-full bg-black border border-white/10 rounded-xl p-3 text-sm">
+            <input type="email" id="sig-email" placeholder="Email" class="w-full bg-black border border-white/10 rounded-xl p-3 text-sm">
+            <input type="date" id="sig-dob" class="w-full bg-black border border-white/10 rounded-xl p-3 text-sm">
+            <input type="password" id="sig-pass" placeholder="Password" class="w-full bg-black border border-white/10 rounded-xl p-3 text-sm">
+            <textarea id="sig-bio" placeholder="Bio / Stats" class="w-full bg-black border border-white/10 rounded-xl p-3 text-sm h-20"></textarea>
+            <button onclick="handleSignUp()" class="w-full bg-blue-600 py-4 rounded-xl font-bold mt-2">Generate ID & Enroll</button>
+            <button onclick="switchView('view-login')" class="w-full text-center text-xs text-gray-500">Back to Login</button>
+        </div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div id="view-home" class="view-panel w-full space-y-6">
+        <div class="glass-card rounded-[2rem] p-6 border-l-4 border-blue-600">
+            <p id="geo-text" class="text-[9px] text-blue-500 font-bold uppercase mb-1">Detecting Region...</p>
+            <h2 class="text-3xl font-display font-black">Welcome, <span id="dash-name">Athlete</span></h2>
+            <p class="text-xs text-gray-500 font-mono" id="dash-id"></p>
+        </div>
+        <div class="glass-card rounded-[2rem] p-6 min-h-[400px] flex flex-col">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest">Global Athlete Roster</h3>
+                <input type="text" id="roster-search" placeholder="Search..." class="bg-white/5 border border-white/10 rounded-lg px-3 py-1 text-[10px]">
+            </div>
+            <div id="roster-list" class="space-y-2 overflow-y-auto"></div>
+        </div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div id="view-setting" class="view-panel w-full max-w-xl mx-auto space-y-4">
+        <div class="glass-card rounded-[2rem] p-8 space-y-6">
+            <h3 class="text-xl font-bold">Locker Customizations</h3>
+            <div class="space-y-4 pt-4 border-t border-white/5">
+                <div class="bg-white/5 p-4 rounded-xl">
+                    <p class="text-[10px] text-blue-500 font-bold mb-2">PERSONAL DETAILS</p>
+                    <div class="flex justify-between text-sm mb-4"><span>Update Handle</span><span class="text-blue-500">Edit</span></div>
+                    <div class="flex justify-between text-sm"><span>Privacy Mode</span><span class="text-blue-500">Public</span></div>
+                </div>
+                <div class="bg-white/5 p-4 rounded-xl">
+                    <p class="text-[10px] text-blue-500 font-bold mb-2">EXTERNAL ACCOUNT LINKS</p>
+                    <div class="flex justify-between text-xs mb-3"><span>ISTARTU MAIN</span><button onclick="alert('Unavailable')" class="text-blue-500 font-bold">Link</button></div>
+                    <div class="flex justify-between text-xs mb-3"><span>FSMEC PAY</span><button onclick="alert('Unavailable')" class="text-blue-500 font-bold">Link</button></div>
+                    <div class="flex justify-between text-xs"><span>Garexcell</span><button onclick="alert('Unavailable')" class="text-blue-600 font-bold">Link</button></div>
+                </div>
+                <button onclick="downloadPDF()" class="w-full bg-white/5 py-3 rounded-xl text-xs border border-white/10 flex justify-between px-4">Download Registration Certificate <i class="fa-solid fa-file-pdf text-blue-500"></i></button>
+                <button onclick="logout()" class="w-full bg-rose-500/10 text-rose-500 py-4 rounded-2xl font-bold">Sign Out</button>
+            </div>
+        </div>
+    </div>
+
+  </main>
+
+  <nav id="app-nav" class="hidden fixed bottom-0 left-0 right-0 bg-black/95 border-t border-white/10 py-4 px-8 z-40 backdrop-blur-md flex justify-between">
+    <button onclick="navigationTo('view-home')" class="text-blue-500 flex flex-col items-center"><i class="fa-solid fa-house"></i><span class="text-[8px] mt-1">HOME</span></button>
+    <button onclick="navigationTo('view-wallet')" class="text-gray-500 flex flex-col items-center"><i class="fa-solid fa-wallet"></i><span class="text-[8px] mt-1">WALLET</span></button>
+    <button onclick="navigationTo('view-live')" class="text-gray-500 flex flex-col items-center"><i class="fa-solid fa-bolt"></i><span class="text-[8px] mt-1">LIVE</span></button>
+    <button onclick="navigationTo('view-setting')" class="text-gray-500 flex flex-col items-center"><i class="fa-solid fa-gear"></i><span class="text-[8px] mt-1">SETTINGS</span></button>
+  </nav>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc, collection, getDocs, query, where, onSnapshot } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+    const GEMINI_KEY = "AIzaSyDG7hC6MJR2x12BKnFaNpbkERTs6CNI7iE";
+    const firebaseConfig = {
+      apiKey: "AIzaSyDPPRKWgwTrCdPnwzx-omOT0b6SKqOSBfg",
+      authDomain: "nfsmec-bd2f4.firebaseapp.com",
+      projectId: "nfsmec-bd2f4",
+      storageBucket: "nfsmec-bd2f4.firebasestorage.app",
+      messagingSenderId: "53788359921",
+      appId: "1:53788359921:web:4595e33a5baf46f2f9fd50"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    
+    // --- PATHING CONSTANT FOR ARTIFACT DB ---
+    const ARTIFACT_PATH = ["artifacts", "nfsmec-bd2f4", "public", "data", "profiles"];
+
+    const loader = document.getElementById('global-loader');
+
+    // FAIL-SAFE: If spinner stays for 4 seconds, kill it.
+    setTimeout(() => { loader.style.display = 'none'; }, 4000);
+
+    window.switchView = (id) => {
+        document.querySelectorAll('.view-panel').forEach(v => v.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+    };
+    window.navigationTo = (id) => window.switchView(id);
+
+    async function askGemini(prompt, sys) {
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`;
+        try {
+            const r = await fetch(url, { method: "POST", body: JSON.stringify({ contents: [{ parts: [{ text: `System: ${sys}. User: ${prompt}` }] }] }) });
+            const d = await r.json();
+            return d.candidates[0].content.parts[0].text;
+        } catch(e) { return "AI Service offline."; }
+    }
+
+    // --- AUTH LOGIC ---
+    window.handleSignUp = async () => {
+        const email = document.getElementById('sig-email').value;
+        const pass = document.getElementById('sig-pass').value;
+        const reg = "10095" + Math.floor(10000 + Math.random() * 89999);
+        
+        try {
+            const res = await createUserWithEmailAndPassword(auth, email, pass);
+            // Write to Artifact Path
+            await setDoc(doc(db, ...ARTIFACT_PATH, res.user.uid), {
+                player_name: document.getElementById('sig-name').value,
+                player_username: document.getElementById('sig-user').value,
+                registration_number: reg, email: email,
+                date_birth: document.getElementById('sig-dob').value,
+                profile_bio: document.getElementById('sig-bio').value,
+                uid: res.user.uid, is_suspended: false, is_perm_ban: false,
+                is_player: true, is_profile_public: true
+            });
+            alert("Registered! Your ID: " + reg);
+        } catch(e) { alert(e.message); }
+    };
+
+    window.handleLogin =
