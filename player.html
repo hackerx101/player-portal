@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NFSMEC - Middle Elite Combine Sports Portal</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <style>
+    body { font-family: 'Outfit', sans-serif; background-color: #0b0c10; color: #f5f5f7; margin: 0; }
+    .font-display { font-family: 'Space Grotesk', sans-serif; }
+    .bg-combine-blue { background: linear-gradient(135deg, #1a73e8 0%, #1557b0 100%); }
+    .glass-card { background: rgba(22, 22, 26, 0.8); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
+    
+    /* Layout helper */
+    .view-panel { display: none; }
+    .view-panel.active { display: block !important; }
+    
+    /* Loader overlay */
+    #global-loader {
+      position: fixed; inset: 0; background: #07080c; z-index: 9999;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      transition: opacity 0.5s ease, visibility 0.5s;
+    }
+    .loader-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+  </style>
+</head>
+<body>
+
+  <!-- LOADER (Fail-safe included in Script) -->
+  <div id="global-loader">
+    <div class="w-16 h-16 rounded-full border-4 border-blue-500/10 border-t-blue-500 animate-spin"></div>
+    <p class="mt-4 text-blue-500 font-display font-bold tracking-widest text-[10px] uppercase">Connecting to Combine...</p>
+  </div>
+
+  <!-- BAN SCREEN -->
+  <div id="view-suspended" class="fixed inset-0 bg-[#0d0202] z-[100] hidden flex flex-col items-center justify-center p-8 text-center">
+    <i class="fa-solid fa-ban text-rose-500 text-5xl mb-4"></i>
+    <h2 class="text-2xl font-bold mb-4">Access Permanently Disabled</h2>
+    <p id="ban-reason" class="text-rose-300 text-sm bg-rose-950/30 p-6 rounded-2xl border border-rose-500/20 max-w-md"></p>
+    <button onclick="location.reload()" class="mt-8 text-gray-500 underline text-xs">Back to Login</button>
+  </div>
+
+  <!-- HEADER -->
+  <header id="main-header" class="hidden w-full bg-black/80 border-b border-white/5 py-4 px-6 flex items-center justify-between sticky top-0 z-50 backdrop-blur-md">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 bg-combine-blue rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30">
+        <i class="fa-solid fa-star text-white"></i>
+      </div>
+      <h1 class="font-display font-bold text-white tracking-tighter">NFSMEC</h1>
+    </div>
+    <div class="flex items-center gap-2">
+        <span id="nav-player-name" class="text-xs text-gray-400 italic"></span>
+        <button onclick="switchView('view-setting')" class="bg-blue-600 text-[10px] px-4 py-2 rounded-full font-bold">SETTINGS</button>
+    </div>
+  </header>
+
+  <main class="flex-grow w-full max-w-5xl mx-auto px-4 py-8 mb-24">
+
+    <!-- LOGIN -->
+    <div id="view-login" class="view-panel active w-full max-w-md mx-auto glass-card rounded-[2rem] p-8">
+      <div class="text-center mb-8">
+        <h2 class="text-2xl font-display font-bold">Athlete Login</h2>
+        <p class="text-gray-500 text-xs mt-1">Enter combine credentials</p>
+      </div>
+      <div class="space-y-4">
+        <input type="text" id="log-reg" placeholder="Reg ID (10095...)" class="w-full bg-black border border-white/10 rounded-2xl p-4 text-white outline-none focus:border-blue-600">
+        <input type="date" id="log-dob" class="w-full bg-black border border-white/10 rounded-2xl p-4 text-white outline-none">
+        <input type="password" id="log-pass" placeholder="Password" class="w-full bg-black border border-white/10 rounded-2xl p-4 text-white outline-none">
+        <button id="btn-login" class="w-full bg-blue-600 py-4 rounded-2xl font-bold shadow-lg shadow-blue-600/20">Authorize Entry</button>
+        <button onclick="switchView('view-signup')" class="w-full text-center text-xs text-blue-500 mt-4">New Athlete? Create Profile</button>
+      </div>
+    </div>
+
+    <!-- SIGNUP -->
+    <div id="view-signup" class="view-panel w-full max-w-md mx-auto glass-card rounded-[2rem] p-8">
+        <h2 class="text-xl font-display font-bold mb-6 text-center">Athlete Registration</h2>
+        <div class="space-y-3">
+            <input type="text" id="sig-name" placeholder="Full Name" class="w-full bg-black border border-white/10 rounded-xl p-3 text-sm">
+            <input type="text" id="sig-user" placeholder="Username" class="w-full bg-black border border-white/10 rounded-xl p-3 text-sm">
+            <input type="email" id="sig-email" placeholder="Email" class="w-full bg-black border border-white/10 rounded-xl p-3 text-sm">
+            <input type="date" id="sig-dob" class="w-full bg-black border border-white/10 rounded-xl p-3 text-sm">
+            <input type="password" id="sig-pass" placeholder="Password" class="w-full bg-black border border-white/10 rounded-xl p-3 text-sm">
+            <textarea id="sig-bio" placeholder="Athlete Bio / Stats" class="w-full bg-black border border-white/10 rounded-xl p-3 text-sm h-20"></textarea>
+            <button id="btn-signup" class="w-full bg-blue-600 py-4 rounded-xl font-bold mt-2">Generate Profile ID</button>
+            <button onclick="switchView('view-login')" class="w-full text-center text-xs text-gray-500">Back to Login</button>
+        </div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div id="view-home" class="view-panel w-full space-y-6">
+        <div class="glass-card rounded-[2rem] p-6 border-l-4 border-blue-600">
+            <p class="text-[10px] text-blue-500 font-bold uppercase tracking-widest">Active Star Status</p>
+            <h2 class="text-3xl font-display font-black" id="dash-welcome-name">Athlete</h2>
+            <p class="text-xs text-gray-500 font-mono" id="dash-reg-id"></p>
+        </div>
+        <div class="glass-card rounded-[2rem] p-6 h-[400px] flex flex-col">
+            <h3 class="text-xs font-bold text-gray-400 uppercase mb-4 tracking-widest">Global Roster</h3>
+            <div id="roster-list" class="space-y-2 overflow-y-auto"></div>
+        </div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div id="view-setting" class="view-panel w-full max-w-lg mx-auto space-y-4">
+        <div class="glass-card rounded-[2rem] p-8 space-y-6">
+            <h3 class="text-xl font-bold">Locker Settings</h3>
+            <div class="space-y-4 border-t border-white/5 pt-4">
+                <div class="flex justify-between items-center text-sm"><span>External: ISTARTU MAIN</span><span class="text-blue-500 font-bold">Link</span></div>
+                <div class="flex justify-between items-center text-sm"><span>External: FSMEC PAY</span><span class="text-blue-500 font-bold">Link</span></div>
+                <button onclick="downloadPDF()" class="w-full bg-white/5 py-3 rounded-xl text-xs border border-white/10">Download Registration PDF</button>
+                <button id="btn-logout" class="w-full bg-rose-500/10 text-rose-500 py-4 rounded-2xl font-bold">Sign Out from Portal</button>
+            </div>
+        </div>
+    </div>
+
+  </main>
+
+  <nav id="app-nav" class="hidden fixed bottom-0 left-0 right-0 bg-black/95 border-t border-white/10 py-4 px-8 z-40 backdrop-blur-md flex justify-between">
+    <button onclick="navigationTo('view-home')" class="text-blue-500"><i class="fa-solid fa-house"></i></button>
+    <button onclick="navigationTo('view-wallet')" class="text-gray-400"><i class="fa-solid fa-wallet"></i></button>
+    <button onclick="navigationTo('view-live')" class="text-gray-400"><i class="fa-solid fa-bolt"></i></button>
+    <button onclick="navigationTo('view-setting')" class="text-gray-400"><i class="fa-solid fa-gear"></i></button>
+  </nav>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+    // CONFIG
+    const GEMINI_KEY = "AIzaSyDG7hC6MJR2x12BKnFaNpbkERTs6CNI7iE";
+    const firebaseConfig = {
+      apiKey: "AIzaSyDPPRKWgwTrCdPnwzx-omOT0b6SKqOSBfg",
+      authDomain: "nfsmec-bd2f4.firebaseapp.com",
+      projectId: "nfsmec-bd2f4",
+      storageBucket: "nfsmec-bd2f4.firebasestorage.app",
+      messagingSenderId: "53788359921",
+      appId: "1:53788359921:web:4595e33a5baf46f2f9fd50"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const loader = document.getElementById('global-loader');
+
+    // --- FAIL-SAFE: REMOVE LOADER AFTER 3 SECONDS NO MATTER WHAT ---
+    setTimeout(() => { loader.classList.add('loader-hidden'); }, 3000);
+
+    window.switchView = (id) => {
+        document.querySelectorAll('.view-panel').forEach(v => v.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+    };
+    window.navigationTo = (id) => window.switchView(id);
+
+    // --- AUTH LISTENERS ---
+    onAuthStateChanged(auth, async (user) => {
+        if(user) {
+            const d = await getDoc(doc(db, "players", user.uid));
+            if(d.exists()) {
+                const profile = d.data();
+                if(profile.is_suspended || profile.is_perm_ban) {
+                    showBan(profile);
+                } else {
+                    document.getElementById('main-header').classList.remove('hidden');
+                    document.getElementById('app-nav').classList.remove('hidden');
+                    document.getElementById('dash-welcome-name').innerText = profile.player_name;
+                    document.getElementById('dash-reg-id').innerText = profile.registration_number;
+                    document.getElementById('nav-player-name').innerText = profile.player_name;
+                    switchView('view-home');
+                    loadRoster();
+                }
+            }
+        } else {
+            document.getElementById('main-header').classList.add('hidden');
+            document.getElementById('app-nav').classList.add('hidden');
+            switchView('view-login');
+        }
+        loader.classList.add('loader-hidden');
+    });
+
+    function showBan(p) {
+        document.getElementById('view-suspended').classList.remove('hidden');
+        document.getElementById('ban-reason').innerText = p.is_perm_ban ? 
+            "Your account has been permanently disabled because it didn't follow our Sport Community Guidelines." : 
+            "Temporary restriction active.";
+    }
+
+    // --- ACTIONS ---
+    document.getElementById('btn-login').onclick = async () => {
+        const reg = document.getElementById('log-reg').value;
+        const dob = document.getElementById('log-dob').value;
+        const pass = document.getElementById('log-pass').value;
+
+        const q = query(collection(db, "players"), where("registration_number", "==", reg), where("date_birth", "==", dob));
+        const snap = await getDocs(q);
+        if(!snap.empty) {
+            const userDoc = snap.docs[0].data();
+            signInWithEmailAndPassword(auth, userDoc.email, pass).catch(e => alert("Password error"));
+        } else { alert("ID or Date of Birth not recognized."); }
+    };
+
+    document.getElementById('btn-signup').onclick = async () => {
+        const email = document.getElementById('sig-email').value;
+        const pass = document.getElementById('sig-pass').value;
+        const reg = "10095" + Math.floor(10000 + Math.random() * 89999);
+        
+        try {
+            const res = await createUserWithEmailAndPassword(auth, email, pass);
+            await setDoc(doc(db, "players", res.user.uid), {
+                player_name: document.getElementById('sig-name').value,
+                player_username: document.getElementById('sig-user').value,
+                email: email, date_birth: document.getElementById('sig-dob').value,
+                profile_bio: document.getElementById('sig-bio').value,
+                registration_number: reg, uid: res.user.uid,
+                is_suspended: false, is_perm_ban: false
+            });
+            alert("Registration successful! Your ID is " + reg);
+        } catch(e) { alert(e.message); }
+    };
+
+    document.getElementById('btn-logout').onclick = () => signOut(auth);
+
+    async function loadRoster() {
+        const snap = await getDocs(collection(db, "players"));
+        const list = document.getElementById('roster-list');
+        list.innerHTML = "";
+        snap.forEach(d => {
+            const p = d.data();
+            list.innerHTML += `<div class="p-4 bg-white/5 rounded-2xl flex justify-between text-xs border border-white/5">
+                <span>${p.player_name}</span><span class="text-blue-500 font-mono">${p.registration_number}</span>
+            </div>`;
