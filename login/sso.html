@@ -113,7 +113,7 @@
 <body>
 
     <div class="auth-container">
-        <div class="brand">IST&ATU Portal</div>
+        <div class="brand">Login To Portal</div>
         
         <div id="login-box">
             <h2>Log In to Your Account</h2>
@@ -127,7 +127,7 @@
             </div>
             <button class="btn" id="login-btn">Log In</button>
             <div class="error-msg" id="login-error"></div>
-            <p class="toggle-text">Don't have an account? <span id="to-signup">Sign Up</span></p>
+            <p class="toggle-text">Need an account? <span id="to-signup">Sign Up</span></p>
         </div>
 
         <div id="signup-box" class="hidden">
@@ -174,7 +174,7 @@
         // Global State: Redirect logged in users immediately
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                window.location.href = "web/home.html";
+                window.location.href = "web/home";
             }
         });
 
