@@ -3,53 +3,205 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Out of Bounds</title>
+    <title>Out of Bounds | 404 Error</title>
     <style>
-        :root {
-            --primary: #ff4500; /* Sporty Orange */
-            --bg: #0f172a;      /* Deep Navy */
-            --text: #f8fafc;
-        }
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+        /* Base Styles */
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            color: #1e293b;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Header Navigation (Matches main site) */
+        header {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #1e3a8a;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        /* 404 Layout */
+        .error-container {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem 2rem;
             text-align: center;
         }
-        .container { max-width: 500px; padding: 2rem; }
-        .icon { font-size: 5rem; margin-bottom: 1rem; }
-        h1 { font-size: 4rem; color: var(--primary); margin: 0; }
-        p { font-size: 1.2rem; color: #94a3b8; margin-bottom: 2rem; }
-        .btn {
-            background-color: var(--primary);
-            color: white;
-            padding: 12px 25px;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: bold;
-            display: inline-block;
-        }
-        .search-box {
-            margin-top: 20px;
+
+        .error-content {
+            max-width: 600px;
             width: 100%;
-            padding: 10px;
-            border-radius: 5px;
-            border: none;
+        }
+
+        /* Whistle/Penalty Flag Graphic Asset Container */
+        .penalty-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            animation: whistle-blow 0.5s ease-in-out infinite alternate;
+        }
+
+        .error-code {
+            font-size: 7rem;
+            font-weight: 900;
+            line-height: 1;
+            color: #ef4444; /* Penalty red */
+            letter-spacing: -2px;
+            margin-bottom: 1rem;
+        }
+
+        .status-tag {
+            display: inline-block;
+            background-color: #fef2f2;
+            color: #ef4444;
+            font-weight: 700;
+            font-size: 0.85rem;
+            padding: 0.35rem 1.25rem;
+            border-radius: 100px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            border: 1px solid #fee2e2;
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 1.25rem;
+            letter-spacing: -0.5px;
+        }
+
+        .message {
+            font-size: 1.15rem;
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+        }
+
+        /* Action Buttons */
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 0.85rem 2rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background-color: #2563eb;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        }
+
+        .btn-primary:hover {
+            background-color: #1d4ed8;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background-color: #f1f5f9;
+            color: #475569;
+            border: 1px solid #e2e8f0;
+        }
+
+        .btn-secondary:hover {
+            background-color: #e2e8f0;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #0f172a;
+            color: #94a3b8;
+            padding: 2rem 1rem;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        /* Subtle whistle vibration effect */
+        @keyframes whistle-blow {
+            0% { transform: rotate(-3deg); }
+            100% { transform: rotate(3deg); }
+        }
+
+        @media (max-width: 640px) {
+            .error-code { font-size: 5rem; }
+            h1 { font-size: 2rem; }
+            .button-group { flex-direction: column; }
+            .btn { width: 100%; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="icon">⚽️↪️🏀</div>
-        <h1>Oops the ball landed on the wrong page</h1>
-        <p><strong>Whistle blown!</strong> You've wandered out of bounds. The page you're looking for isn't on the pitch.</p>
-        <a href="index.html" class="btn">Return to Pitch</a>
-      
-    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo">IST&ATU</a>
+        </div>
+    </header>
+
+    <!-- 404 Main Message -->
+    <main class="error-container">
+        <div class="error-content">
+            <div class="penalty-icon">🚩</div>
+            <div class="error-code">404</div>
+            <span class="status-tag">Whistle Blown: Out of Bounds</span>
+            
+            <h1>You've stepped off the field.</h1>
+            <p class="message">
+                The play is dead! The page you are looking for might have been traded, called for a false start, or simply doesn't exist in our current playbook. 
+            </p>
+
+            <div class="button-group">
+                <!-- Redirects user back to main portal index -->
+                <a href="index.html" class="btn btn-primary">Return to the Huddle</a>
+                <!-- Uses browser history to go to previous functional screen -->
+                <a href="#" onclick="history.back(); return false;" class="btn btn-secondary">Previous Play</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>International Sports Transformation and Athletic Training Unit</p>
+    </footer>
+
 </body>
 </html>
