@@ -174,7 +174,7 @@
         // Global State: Redirect logged in users immediately
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                res.redirect('/home/web');
+            window.location.href = "home/web";
             }
         });
 
