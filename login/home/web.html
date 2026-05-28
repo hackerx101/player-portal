@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Player Portal</title>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            color: #1e293b;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 70px; /* Space for bottom bar on mobile */
+        }
+
+        /* Top Navigation Header */
+        header {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            position: sticky;
+            top: 0;
+            z-index: 99;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .left-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            font-size: 1.75rem;
+            cursor: pointer;
+            color: #1e293b;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #1e3a8a;
+            text-decoration: none;
+        }
+
+        /* Sliding Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 280px;
+            height: 100%;
+            background-color: #ffffff;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transition: left 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            padding: 2rem 1.5rem;
+        }
+
+        .sidebar.open {
+            left: 0;
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 999;
+            display: none;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+
+        .sidebar-profile {
+            text-align: center;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #2563eb;
+            margin-bottom: 1rem;
+        }
+
+        .sidebar-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #0f172a;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1rem;
+            color: #475569;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .sidebar-item:hover {
+            background-color: #eff6ff;
+            color: #2563eb;
+        }
+
+        /* Main Workspace Content Layout */
+        main {
+            flex-grow: 1;
+            max-width: 800px;
+            width: 100%;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .welcome-hero {
+            margin-bottom: 2.5rem;
+        }
+
+        .welcome-hero h1 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .welcome-hero span {
+            color: #2563eb;
+        }
+
+        /* List View: Coach Feedback System */
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1e3a8a;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .feedback-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .feedback-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.25rem;
+            background-color: #ffffff;
+            transition: box-shadow 0.2s;
+        }
+
+        .feedback-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .coach-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .coach-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .coach-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #cbd5e1;
+        }
+
+        .coach-name {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #0f172a;
+        }
+
+        .coach-team {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        .feedback-tag {
+            background-color: #f0fdf4;
+            color: #16a34a;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.25rem 0.75rem;
+            border-radius: 100px;
+            text-transform: uppercase;
+        }
+
+        .feedback-msg {
+            color: #475569;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Bottom Fixed Tab Bar Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 65px;
+            background-color: #ffffff;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 99;
+        }
+
+        .nav-tab {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #64748b;
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 600;
+            gap: 4px;
+            cursor: pointer;
+        }
+
+        .nav-tab i {
+            font-size: 1.5rem;
+        }
+
+        .nav-tab.active {
+            color: #2563eb;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar-overlay" id="overlay"></div>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-profile">
+            <img id="sb-avatar" src="https://api.dicebear.com/7.x/adventurer/svg?seed=Sport" alt="Profile" class="sidebar-avatar">
+            <div class="sidebar-name" id="sb-display-name">Loading Profile...</div>
+        </div>
+        <nav style="flex-grow: 1;">
+            <ul class="sidebar-menu">
+                <li><a href="#" class="sidebar-item"><i class='bx bx-user-circle'></i> Edit Profile</a></li>
+                <li><a href="setting.html" class="sidebar-item"><i class='bx bx-cog'></i> Account Settings</a></li>
+                <li><a href="#" class="sidebar-item"><i class='bx bx-info-circle'></i> About Me</a></li>
+            </ul>
+        </nav>
+        <a href="#" id="sb-logout" class="sidebar-item" style="color: #ef4444;"><i class='bx bx-log-out'></i> Logout</a>
+    </aside>
+
+    <header>
+        <div class="header-container">
+            <div class="left-header">
+                <button class="menu-btn" id="open-menu-btn"><i class='bx bx-menu'></i></button>
+                <a href="#" class="logo">ISTARTU</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="welcome-hero">
+            <h1>Welcome, <span id="welcome-name">Athlete</span></h1>
+            <p style="color: #64748b; margin-top: 0.25rem;">Here is your performance feedback from professional evaluators.</p>
+        </div>
+
+        <section>
+            <div class="section-title">
+                <i class='bx bx-comment-detail'></i> Coach Feedback & Messages
+            </div>
+            
+            <div class="feedback-list" id="feedback-list-view">
+                </div>
+        </section>
+    </main>
+
+    <nav class="bottom-nav">
+        <a href="#" class="nav-tab active"><i class='bx bx-home-alt-2'></i>Home</a>
+        <a href="#" class="nav-tab"><i class='bx bx-gift'></i>Offers</a>
+        <a href="#" class="nav-tab"><i class='bx bx-bell'></i>Notifications</a>
+        <a href="setting.html" class="nav-tab" id="bottom-setting-btn"><i class='bx bx-cog'></i>Settings</a>
+    </nav>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDPPRKWgwTrCdPnwzx-omOT0b6SKqOSBfg",
+            authDomain: "nfsmec-bd2f4.firebaseapp.com",
+            projectId: "nfsmec-bd2f4",
+            storageBucket: "nfsmec-bd2f4.appspot.com",
+            messagingSenderId: "367332219757",
+            appId: "1:367332219757:web:7573f75cb79da15779ecae",
+            measurementId: "G-99NLZ9N6Z7",
+            databaseURL: "https://nfsmec-bd2f4-default-rtdb.firebaseio.com"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+
+        // Security Route Guard & Field Extraction Pipeline
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                window.location.href = "../index.html"; // Redirect to signup if not authenticated
+            } else {
+                // Fetch details from the Realtime Database using the schema path
+                const userDbRef = ref(db);
+                get(child(userDbRef, `users/${user.uid}`)).then((snapshot) => {
+                    if (snapshot.exists()) {
+                        const data = snapshot.val();
+                        
+                        // Extracting the username/player_name fields defined in your schema architecture
+                        const displayName = data.player_name || data.username || "Athlete Account";
+                        
+                        document.getElementById('welcome-name').innerText = displayName;
+                        document.getElementById('sb-display-name').innerText = displayName;
+                    } else {
+                        // Fallback tracking logic 
+                        document.getElementById('welcome-name').innerText = user.displayName || "Athlete";
+                        document.getElementById('sb-display-name').innerText = user.displayName || "Athlete";
+                    }
+                }).catch((error) => {
+                    console.error("Database connection fault: ", error);
+                });
+            }
+        });
+
+        // ==========================================
+        // DATABASE PLACEHOLDER ENGINE: EDITABLE SECTION
+        // ==========================================
+        // Modify or replace this array structure with real data or a snapshot map from Firebase
+        const coachFeedbackPlaceholder = [
+            {
+                coachName: "Coach Marcus Vance",
+                team: "Elite Texas Football Academy",
+                tag: "Evaluation",
+                message: "Excellent speed down the sideline during the combine drills. Focus on tightening up your visual breaks on cut routes."
+            },
+            {
+                coachName: "Scout Sarah Jenkins",
+                team: "National Recruiting Unit",
+                tag: "Direct Message",
+                message: "We reviewed your film. Are you available for an introductory alignment interview on your training regimen this week?"
+            }
+        ];
+
+        // Component Rendering Pipeline
+        const listView = document.getElementById('feedback-list-view');
+        listView.innerHTML = ''; // Clear runtime templates
+
+        coachFeedbackPlaceholder.forEach(item => {
+            const element = document.createElement('div');
+            element.className = 'feedback-card';
+            element.innerHTML = `
+                <div class="coach-meta">
+                    <div class="coach-info">
+                        <div class="coach-img"></div>
+                        <div>
+                            <div class="coach-name">${item.coachName}</div>
+                            <div class="coach-team">${item.team}</div>
+                        </div>
+                    </div>
+                    <span class="feedback-tag">${item.tag}</span>
+                </div>
+                <p class="feedback-msg">"${item.message}"</p>
+            `;
+            listView.appendChild(element);
+        });
+        // ==========================================
+
+        // Signout implementation via profile drawer 
+        document.getElementById('sb-logout').addEventListener('click', () => {
+            signOut(auth);
+        });
+    </script>
+
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const openBtn = document.getElementById('open-menu-btn');
+        const settingBtn = document.getElementById('bottom-setting-btn');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('active');
+        }
+
+        openBtn.addEventListener('click', toggleSidebar);
+        overlay.addEventListener('click', toggleSidebar);
+
+        // Routing redirects for settings buttons
+        document.getElementById('bottom-setting-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = 'setting.html';
+        });
+    </script>
+</body>
+</html>
